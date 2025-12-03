@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Acropolis Analytics RI – Projects & Services</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="container">
+        <nav class="nav">
+          <div class="logo">
+            <span class="logo-title">Acropolis Analytics RI</span>
+            <span class="logo-sub">Research Institute • Epidemiologic Intelligence</span>
+          </div>
+          <div class="nav-links">
+            <a href="index.html">Welcome</a>
+            <a href="about.html">About</a>
+            <a href="services.html" aria-current="page">Projects &amp; Services</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="container">
+          <h1>Research projects &amp; services</h1>
+          <p>
+            We support public health agencies, research teams, and clinical partners with targeted analytic work,
+            from one-off questions to multi-year modeling backbones.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="card">
+            <h3>Data harmonization &amp; denominators</h3>
+            <p>
+              Align survey, surveillance, and population data so your comparisons are valid and defensible.
+            </p>
+            <ul>
+              <li>BRFSS, YRBSS, census/ACS, and registry linkages</li>
+              <li>County- and sub-state-level denominators and small-area estimates</li>
+              <li>Documentation of variable definitions and assumptions</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Modeling &amp; risk stratification</h3>
+            <p>
+              Build models that answer policy-relevant questions while respecting uncertainty and bias.
+            </p>
+            <ul>
+              <li>Survey-weighted regression and predictive risk scores</li>
+              <li>Trend and cluster analysis across jurisdictions</li>
+              <li>Scenario modeling for planning and grant applications</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Translation &amp; grant support</h3>
+            <p>
+              Convert complex methods into materials that stakeholders and reviewers can quickly understand.
+            </p>
+            <ul>
+              <li>Figures, tables, and summary briefs for leadership</li>
+              <li>Methods and analytic sections for grant proposals</li>
+              <li>Reproducible code notebooks and technical appendices</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Emerging PAEON lines of work</h3>
+            <p>
+              Acropolis Analytics RI is developing the Population-Adjusted Epidemiology Outcomes Network (PAEON)
+              with modular “Labors” focused on:
+            </p>
+            <ul>
+              <li>Border-region chronic disease, infectious disease, and crime burden</li>
+              <li>Cognitive decline and caregiver strain projections</li>
+              <li>Youth risk behaviors and physical activity clustering</li>
+            </ul>
+            <p>
+              These lines can be adapted into collaborative grant proposals or custom analytic projects.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        © <span id="year"></span> Acropolis Analytics Research Institute, LLC. All rights reserved.
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
