@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Acropolis Analytics RI – Data & Graphics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="container">
+        <nav class="nav">
+          <div class="logo">
+            <span class="logo-title">Acropolis Analytics RI</span>
+            <span class="logo-sub">Research Institute • Epidemiologic Intelligence</span>
+          </div>
+          <div class="nav-links">
+            <a href="index.html">Welcome</a>
+            <a href="about.html">About</a>
+            <a href="projects.html">Projects</a>
+            <a href="services.html">Services</a>
+            <a href="data-graphics.html" aria-current="page">Data &amp; Graphics</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="container">
+          <h1>Data &amp; graphics library</h1>
+          <p>
+            This page will host selected static data extracts and graphics prepared for partners
+            and collaborators. Access to sensitive or restricted data will continue to follow existing
+            data-use agreements and will not be distributed here.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+
+          <div class="card">
+            <h3>Public-facing resources (coming soon)</h3>
+            <p>
+              As projects mature, this section will include:
+            </p>
+            <ul>
+              <li>PDF briefs summarizing key findings</li>
+              <li>High-resolution figures suitable for reports and presentations</li>
+              <li>De-identified, public-use data extracts where appropriate</li>
+            </ul>
+            <p>
+              If you are a current partner and need a specific figure or table reposted here,
+              please <a href="contact.html">send a request</a> referencing the project name and date.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Example structure for future uploads</h3>
+            <p>
+              Internally, files will be organized by project. For example:
+            </p>
+            <ul>
+              <li><strong>PAEON I – PAX:</strong> border-region chronic disease and crime mapping</li>
+              <li><strong>PAEON VII – HYGEIA:</strong> youth physical activity and screen-time clusters</li>
+              <li><strong>ADRD / cognitive decline:</strong> small-area estimates and trend figures</li>
+            </ul>
+            <p>
+              Each entry will list available resources (e.g., “brief PDF”, “figure set”, “CSV extract”) with
+              clear notes on version and date.
+            </p>
+          </div>
+
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        © <span id="year"></span> Acropolis Analytics Research Institute, LLC. All rights reserved.
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
