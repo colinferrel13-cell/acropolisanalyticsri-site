@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Acropolis Analytics RI – About</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="container">
+        <nav class="nav">
+          <div class="logo">
+            <span class="logo-title">Acropolis Analytics RI</span>
+            <span class="logo-sub">Research Institute • Epidemiologic Intelligence</span>
+          </div>
+          <div class="nav-links">
+            <a href="index.html">Welcome</a>
+            <a href="about.html" aria-current="page">About</a>
+            <a href="services.html">Projects &amp; Services</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="container">
+          <h1>About Acropolis Analytics RI</h1>
+          <p>
+            Acropolis Analytics Research Institute is a single-member research LLC focused on
+            population-adjusted epidemiology, data harmonization, and decision-ready public health analytics.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="card">
+            <h3>Approach</h3>
+            <p>
+              We combine classical epidemiologic methods with modern computation and careful attention to denominators.
+              Our work emphasizes reproducible code, transparent assumptions, and clear documentation so that results
+              can withstand scrutiny and be reused across projects.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Founder</h3>
+            <p>
+              Acropolis Analytics RI was founded by <strong>Colin Ferrel, MPH</strong>, an epidemiologist
+              with experience in:
+            </p>
+            <ul>
+              <li>State-level Alzheimer’s &amp; related dementias (ADRD) surveillance</li>
+              <li>Analyzing chronic disease risk and physical activity patterns using BRFSS and YRBSS</li>
+              <li>Designing multi-dataset projects that bridge public health practice and academic research</li>
+              <li>Supporting grant development with methods, power considerations, and analytic plans</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        © <span id="year"></span> Acropolis Analytics Research Institute, LLC. All rights reserved.
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
