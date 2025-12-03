@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Acropolis Analytics RI – Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Acropolis Analytics Research Institute — population-adjusted epidemiology and public health analytics." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="container">
+        <nav class="nav">
+          <div class="logo">
+            <span class="logo-title">Acropolis Analytics RI</span>
+            <span class="logo-sub">Research Institute • Epidemiologic Intelligence</span>
+          </div>
+          <div class="nav-links">
+            <a href="index.html" aria-current="page">Welcome</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Projects &amp; Services</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero-intro">
+        <div class="container">
+          <div>
+            <div class="hero-kicker">Population-Adjusted Epidemiology</div>
+            <h1 class="hero-title">Turning messy health data into decision-ready intelligence.</h1>
+            <p class="hero-subtitle">
+              Acropolis Analytics Research Institute partners with states, health systems, and researchers
+              to build reproducible models that clarify chronic disease, cognitive decline, and border health risk.
+            </p>
+            <div class="hero-actions">
+              <a href="services.html" class="btn-primary">See projects &amp; services</a>
+              <a href="contact.html" class="btn-ghost">Request a conversation</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <h2>What we focus on</h2>
+          <p>
+            Acropolis Analytics RI is a micro-institute focused on rigorous, transparent epidemiologic analysis.
+            We specialize in harmonizing survey, surveillance, and population data so that trends and risks are
+            directly comparable across time and geography.
+          </p>
+
+          <div class="card">
+            <h3>Key domains</h3>
+            <ul>
+              <li>Chronic disease &amp; cardiometabolic burden</li>
+              <li>Cognitive decline and dementia surveillance</li>
+              <li>Youth risk behaviors and physical activity</li>
+              <li>Border health and cross-national comparisons</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        © <span id="year"></span> Acropolis Analytics Research Institute, LLC. All rights reserved.
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
