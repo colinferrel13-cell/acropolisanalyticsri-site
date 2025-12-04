@@ -66,6 +66,7 @@
               method="POST"
               action="YOUR_FORMSPREE_ENDPOINT_HERE"
             >
+              <!-- Row 1: Name + Title / Role -->
               <div class="contact-row-inline">
                 <div>
                   <label for="name">
@@ -81,6 +82,21 @@
                 </div>
 
                 <div>
+                  <label for="title">
+                    Title / Role
+                  </label>
+                  <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    placeholder="Epidemiologist, Director, Analyst, etc."
+                  />
+                </div>
+              </div>
+
+              <!-- Row 2: Organization + Email -->
+              <div class="contact-row-inline">
+                <div>
                   <label for="organization">
                     Organization
                   </label>
@@ -91,9 +107,7 @@
                     autocomplete="organization"
                   />
                 </div>
-              </div>
 
-              <div class="contact-row-inline">
                 <div>
                   <label for="email">
                     Email <span class="required">*</span>
@@ -106,20 +120,22 @@
                     autocomplete="email"
                   />
                 </div>
-
-                <div>
-                  <label for="topic">
-                    Topic
-                  </label>
-                  <input
-                    type="text"
-                    id="topic"
-                    name="topic"
-                    placeholder="Data request, collaboration, survey, etc."
-                  />
-                </div>
               </div>
 
+              <!-- Topic (single column) -->
+              <div>
+                <label for="topic">
+                  Topic
+                </label>
+                <input
+                  type="text"
+                  id="topic"
+                  name="topic"
+                  placeholder="Data request, collaboration, survey, etc."
+                />
+              </div>
+
+              <!-- Message -->
               <div>
                 <label for="message">
                   Message <span class="required">*</span>
