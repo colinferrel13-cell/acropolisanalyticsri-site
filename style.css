@@ -397,6 +397,13 @@ textarea:focus {
   font-size: 0.9rem;
 }
 
+/* gold divider between PAEON labors */
+.substudy + .substudy {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-accent);
+}
+
 /* ===== FOOTER ===== */
 
 footer {
