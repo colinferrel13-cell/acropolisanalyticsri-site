@@ -1,18 +1,25 @@
+/* ================================
+   THEME & TOKENS
+   ================================ */
+
 :root {
-  --color-bg: #020617;          /* deep navy background */
-  --color-surface: #0b1120;     /* slightly lighter navy for cards/sections */
-  --color-primary: #e5e7eb;     /* main heading color (light gray) */
-  --color-primary-soft: #f9fafb;/* lighter accent for big titles */
-  --color-accent: #facc6b;      /* warm gold accent (buttons, highlights, tagline) */
-  --color-text: #e5e7eb;        /* main body text */
-  --color-muted: #9ca3af;       /* muted gray text */
+  --color-bg: #020617;           /* deep navy background */
+  --color-surface: #0b1120;      /* slightly lighter navy for cards/sections */
+  --color-primary: #e5e7eb;      /* main heading/body light gray */
+  --color-primary-soft: #f9fafb; /* lightest “white-ish” heading color */
+  --color-accent: #facc6b;       /* warm gold accent (buttons, highlights, tagline) */
+  --color-text: #e5e7eb;         /* main body text */
+  --color-muted: #9ca3af;        /* muted gray text */
+
   --shadow-soft: 0 18px 45px rgba(0,0,0,0.6);
   --radius-lg: 18px;
   --radius-sm: 10px;
-  --spacing-section: 3rem;
+  --spacing-section: 4.5rem;     /* vertical spacing between sections */
 }
 
-/* ===== BASE ===== */
+/* ================================
+   BASE
+   ================================ */
 
 * {
   box-sizing: border-box;
@@ -54,7 +61,9 @@ img {
   padding: 0 1.5rem;
 }
 
-/* ===== HEADER & NAVBAR ===== */
+/* ================================
+   HEADER & NAVBAR
+   ================================ */
 
 header {
   background: rgba(2, 6, 23, 0.96);
@@ -84,7 +93,8 @@ header {
 
 .logo-sub {
   font-size: 0.8rem;
-  color: var(--color-accent); /* gold tagline */
+  /* tagline in gold */
+  color: var(--color-accent);
 }
 
 .nav-links {
@@ -116,14 +126,23 @@ header {
   width: 100%;
 }
 
-/* ===== GENERIC PAGE LAYOUT ===== */
+/* ================================
+   MAIN & PAGE LAYOUT
+   ================================ */
 
 main {
   flex: 1;
+
+  /* Hoplite helmet watermark background */
+  background-image: url('helmet-gold.png'); /* adjust path if needed */
+  background-repeat: no-repeat;
+  background-position: right 3rem bottom 2rem;
+  background-size: 380px auto;
+  background-attachment: fixed;
 }
 
 .page-hero {
-  padding: 2.5rem 0 1.5rem;
+  padding: 3.25rem 0 2.25rem;
 }
 
 .page-hero h1 {
@@ -144,7 +163,7 @@ main {
 
 .section h2 {
   font-size: 1.4rem;
-  margin: 0 0 0.75rem;
+  margin: 0 0 1.4rem;
   color: var(--color-primary-soft);
 }
 
@@ -152,7 +171,9 @@ main {
   margin: 0 0 0.75rem;
 }
 
-/* ===== CARDS ===== */
+/* ================================
+   CARDS
+   ================================ */
 
 .card {
   background: var(--color-surface);
@@ -160,7 +181,7 @@ main {
   padding: 1.25rem 1.3rem;
   box-shadow: var(--shadow-soft);
   border: 1px solid rgba(148, 163, 184, 0.25);
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.75rem;
 }
 
 .card h3 {
@@ -177,7 +198,9 @@ main {
   color: var(--color-muted);
 }
 
-/* ===== HERO (HOME PAGE) ===== */
+/* ================================
+   HERO (HOME PAGE)
+   ================================ */
 
 .hero-intro {
   display: grid;
@@ -206,6 +229,7 @@ main {
   font-size: 0.98rem;
   color: var(--color-muted);
   margin-bottom: 1.5rem;
+  max-width: 36rem; /* shorter lines for readability */
 }
 
 .hero-actions {
@@ -215,7 +239,9 @@ main {
   margin-bottom: 0.5rem;
 }
 
-/* ===== BUTTONS ===== */
+/* ================================
+   BUTTONS
+   ================================ */
 
 .btn-primary,
 .btn-ghost {
@@ -228,10 +254,11 @@ main {
   font-weight: 600;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: transform 0.1s ease,
-              box-shadow 0.15s ease,
-              background 0.15s ease,
-              border-color 0.15s ease;
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
 }
 
 /* Gold primary button */
@@ -260,7 +287,9 @@ main {
   background: rgba(148, 163, 184, 0.12);
 }
 
-/* ===== CONTACT FORM ===== */
+/* ================================
+   CONTACT FORM
+   ================================ */
 
 .contact-card {
   max-width: 640px;
@@ -285,11 +314,6 @@ label {
   margin-bottom: 0.15rem;
 }
 
-.required {
-  color: var(--color-accent); /* gold asterisk */
-  font-weight: 600;
-}
-
 input[type="text"],
 input[type="email"],
 textarea {
@@ -301,9 +325,10 @@ textarea {
   border: 1px solid rgba(148, 163, 184, 0.5);
   font-family: inherit;
   font-size: 0.95rem;
-  transition: border-color 0.15s ease,
-              box-shadow 0.15s ease,
-              background 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
 }
 
 textarea {
@@ -320,7 +345,7 @@ input:focus,
 textarea:focus {
   outline: none;
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.6);
+  box-shadow: 0 0 0 1px rgba(250, 204, 107, 0.6);
   background: #020617;
 }
 
@@ -329,7 +354,14 @@ textarea:focus {
   color: var(--color-muted);
 }
 
-/* ===== FOUNDER SECTION ===== */
+/* gold asterisk for required fields */
+.required {
+  color: var(--color-accent);
+}
+
+/* ================================
+   FOUNDER SECTION
+   ================================ */
 
 .founder-layout {
   display: flex;
@@ -357,7 +389,9 @@ textarea:focus {
   flex: 1 1 260px;
 }
 
-/* ===== PAEON SUBSTUDIES ===== */
+/* ================================
+   PAEON SUBSTUDIES
+   ================================ */
 
 .substudies {
   margin-top: 1rem;
@@ -385,10 +419,17 @@ textarea:focus {
 
 .substudy {
   margin-top: 0.75rem;
-  padding: 0.7rem 0.75rem;
+  padding: 0.7rem 0.75rem 0.8rem;
   border-radius: 10px;
   background: rgba(15, 23, 42, 0.8); /* slightly darker mini-card */
   border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+/* gold separator between substudies */
+.substudy + .substudy {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-accent);
 }
 
 .substudy h5 {
@@ -402,14 +443,9 @@ textarea:focus {
   font-size: 0.9rem;
 }
 
-/* gold divider between PAEON labors */
-.substudy + .substudy {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--color-accent);
-}
-
-/* ===== FOOTER ===== */
+/* ================================
+   FOOTER
+   ================================ */
 
 footer {
   padding: 1.5rem 0 2rem;
@@ -420,7 +456,9 @@ footer {
   background: rgba(2, 6, 23, 0.96);
 }
 
-/* ===== RESPONSIVE ===== */
+/* ================================
+   RESPONSIVE
+   ================================ */
 
 @media (max-width: 800px) {
   .hero-intro {
@@ -449,6 +487,11 @@ footer {
   .contact-row-inline {
     grid-template-columns: 1fr;
   }
+
+  main {
+    background-size: 260px auto;
+    background-position: right 1.5rem bottom 1.5rem;
+  }
 }
 
 @media (max-width: 600px) {
@@ -457,6 +500,6 @@ footer {
   }
 
   .page-hero {
-    padding-top: 1.8rem;
+    padding-top: 2.3rem;
   }
 }
