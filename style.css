@@ -134,10 +134,12 @@ main {
   flex: 1;
 
   /* Hoplite helmet watermark background */
-  background-image: url('helmet-gold.png'); /* adjust path if needed */
+  background-image: url('helmet-gold.png');
   background-repeat: no-repeat;
-  background-position: right 3rem bottom 2rem;
-  background-size: 380px auto;
+
+  /* Bigger and more centered */
+  background-position: center 55%;                /* slightly below true center */
+  background-size: min(70vw, 800px) auto;         /* up to ~800px wide, scales with viewport */
   background-attachment: fixed;
 }
 
