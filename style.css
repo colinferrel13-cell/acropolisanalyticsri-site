@@ -57,7 +57,7 @@ img {
 /* ===== HEADER & NAVBAR ===== */
 
 header {
-  background: rgba(2, 6, 23, 0.96); /* deep navy with blur */
+  background: rgba(2, 6, 23, 0.96);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(148, 163, 184, 0.25);
 }
@@ -237,14 +237,14 @@ main {
 /* Gold primary button */
 .btn-primary {
   background: var(--color-accent);
-  color: #020617; /* dark text on gold */
+  color: #020617;
   box-shadow: var(--shadow-soft);
   text-decoration: none;
 }
 
 .btn-primary:hover {
   transform: translateY(-1px);
-  background: #fbbf24; /* slightly deeper gold */
+  background: #fbbf24;
   box-shadow: 0 18px 40px rgba(0,0,0,0.7);
 }
 
@@ -291,7 +291,7 @@ textarea {
   width: 100%;
   padding: 0.55rem 0.6rem;
   border-radius: 8px;
-  background: #020617; /* dark field background */
+  background: #020617;
   color: var(--color-text);
   border: 1px solid rgba(148, 163, 184, 0.5);
   font-family: inherit;
@@ -324,6 +324,34 @@ textarea:focus {
   color: var(--color-muted);
 }
 
+/* ===== FOUNDER SECTION ===== */
+
+.founder-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.founder-photo-wrap {
+  flex: 0 0 200px; /* photo column */
+}
+
+.founder-photo {
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  object-fit: cover;
+}
+
+.founder-text {
+  flex: 1 1 260px;
+}
+
 /* ===== FOOTER ===== */
 
 footer {
@@ -343,9 +371,32 @@ footer {
   }
 }
 
+@media (max-width: 700px) {
+  .founder-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .founder-photo-wrap {
+    flex-basis: auto;
+  }
+
+  .founder-photo {
+    max-width: 200px;
+  }
+
+  .founder-text {
+    width: 100%;
+  }
+
+  .contact-row-inline {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 600px) {
   .nav-links {
-    display: none; /* simple: hide links on very small screens */
+    display: none; /* simple mobile behavior */
   }
 
   .page-hero {
