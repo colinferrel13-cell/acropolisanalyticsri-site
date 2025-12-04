@@ -3,7 +3,7 @@
   --color-surface: #0b1120;     /* slightly lighter navy for cards/sections */
   --color-primary: #e5e7eb;     /* main heading color (light gray) */
   --color-primary-soft: #f9fafb;/* lighter accent for big titles */
-  --color-accent: #facc6b;      /* warm gold accent (buttons, highlights) */
+  --color-accent: #facc6b;      /* warm gold accent (buttons, highlights, tagline) */
   --color-text: #e5e7eb;        /* main body text */
   --color-muted: #9ca3af;       /* muted gray text */
   --shadow-soft: 0 18px 45px rgba(0,0,0,0.6);
@@ -84,7 +84,7 @@ header {
 
 .logo-sub {
   font-size: 0.8rem;
-  color: var(--color-muted);
+  color: var(--color-accent); /* gold tagline */
 }
 
 .nav-links {
@@ -283,6 +283,11 @@ label {
   color: var(--color-muted);
   display: block;
   margin-bottom: 0.15rem;
+}
+
+.required {
+  color: var(--color-accent); /* gold asterisk */
+  font-weight: 600;
 }
 
 input[type="text"],
