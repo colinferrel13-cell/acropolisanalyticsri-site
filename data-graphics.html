@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="Data releases and aggregated outputs from projects at Acropolis Analytics Research Institute."
+    content="Data library for aggregated releases and reference outputs from Acropolis Analytics Research Institute projects."
   />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
@@ -37,9 +37,10 @@
         <div class="container">
           <h1>Data</h1>
           <p>
-            This page will host public, de-identified data releases and selected outputs from
-            Acropolis Analytics Research Institute projects, starting with PAEON and related
-            caregiver and facility-level work.
+            Acropolis Analytics Research Institute maintains this data library as a structured home
+            for aggregated, de-identified outputs across projects and years. Over time, this will
+            include tabular datasets, geospatial layers, maps, and figures that partners can reuse
+            in their own analysis and planning.
           </p>
         </div>
       </section>
@@ -47,57 +48,90 @@
       <section class="section">
         <div class="container">
 
-          <!-- Data overview -->
+          <!-- How the library is organized -->
           <div class="card">
-            <h3>Overview</h3>
+            <h3>How This Library Is Organized</h3>
             <p>
-              The goal of this section is to make key results and reference tables broadly
-              available without exposing individual-level records. Over time, this will
-              include county-level summary datasets, crosswalks, and visual outputs that
-              partners can reuse in their own planning and reporting.
+              As the number of projects and releases grows, this section will be organized along
+              a few simple axes:
             </p>
+            <ul>
+              <li><strong>By project or program</strong> (for example, PAEON, caregiver surveys, facility-level studies)</li>
+              <li><strong>By topic</strong> (for example, chronic disease, screening, access, caregiver burden, or future domains)</li>
+              <li><strong>By year or time window</strong> (single years, multi-year ranges, or baseline vs. follow-up)</li>
+              <li><strong>By format</strong> (summary tables, geospatial map layers, graphs and figures)</li>
+            </ul>
             <p>
-              All data posted here will be aggregated, de-identified, and accompanied by
-              brief documentation describing sources, methods, and version history.
+              The goal is to make it possible for someone who was not involved in the original
+              work to find the right dataset, understand what it represents, and use it safely.
             </p>
           </div>
 
-          <!-- PAEON data -->
+          <!-- Project index / placeholder -->
           <div class="card">
-            <h3>PAEON-Derived Data (In Development)</h3>
+            <h3>Project Index (In Development)</h3>
             <p>
-              As the Population-Adjusted Epidemiology Outcomes Network (PAEON) matures,
-              selected outputs will be published here as static reference files.
+              As public releases become available, this section will list datasets and graphics
+              grouped by project, with links to download files and read brief documentation.
             </p>
             <ul>
-              <li>County-level summary tables for chronic disease, screening, and access indicators</li>
-              <li>Border-region extracts from PAEON I &mdash; PAX (U.S.–Mexico corridor)</li>
-              <li>Modeled burden and risk summaries from AORTA, PANCREA, PNEUMA, MNEME, and ONKOS</li>
+              <li>
+                <strong>PAEON</strong> &mdash; Population-Adjusted Epidemiology Outcomes Network,
+                providing county-level summaries and risk surfaces derived from harmonized population,
+                survey, and surveillance data.
+              </li>
+              <li>
+                <strong>Caregiver &amp; facility-level projects</strong> &mdash; aggregated results
+                from Alzheimer’s disease and related dementias (ADRD) caregiver surveys and similar
+                instruments deployed in facilities and programs.
+              </li>
+              <li>
+                <strong>Other applied projects</strong> &mdash; future work in additional domains
+                (for example, environmental or agricultural data) that uses the same structured
+                approach to integration and modeling.
+              </li>
+            </ul>
+            <p>
+              For now, these entries are placeholders; as releases are finalized, each project will
+              gain its own subsection with specific files, years, and notes.
+            </p>
+          </div>
+
+          <!-- PAEON data (future structure) -->
+          <div class="card">
+            <h3>PAEON-Derived Data (Planned Structure)</h3>
+            <p>
+              For PAEON, the data library is expected to host stable, reusable summaries rather
+              than every intermediate modeling artifact. A typical release might include:
+            </p>
+            <ul>
+              <li>County-level summary tables for selected indicators (for example, prevalence, rates, or screening coverage)</li>
+              <li>Border-region extracts for specific corridors or comparison groups</li>
+              <li>Modeled burden and risk summaries for selected years or year ranges</li>
               <li>Basic crosswalks and code lists to support downstream analyses</li>
             </ul>
             <p>
-              Initial releases are expected to focus on stable, widely used indicators and
-              simple tabular formats (for example, CSV files) that can be ingested by most
-              statistical and GIS tools.
+              When the first PAEON releases are ready, they will appear here with download links
+              and short “methods notes” that explain sources, inclusion criteria, and modeling
+              choices at a high level.
             </p>
           </div>
 
-          <!-- ADRD caregiver / facility-level outputs -->
+          <!-- Facility / caregiver outputs (future structure) -->
           <div class="card">
-            <h3>Caregiver &amp; Facility-Level Outputs (Planned)</h3>
+            <h3>Caregiver &amp; Facility-Level Outputs</h3>
             <p>
-              For ADRD caregiver and facility-level projects, Acropolis Analytics Research
-              Institute plans to publish aggregated, de-identified summaries that illustrate
-              patterns in caregiver burden and related outcomes.
+              For caregiver surveys and facility-level projects, the focus will be on de-identified,
+              aggregated results that illustrate patterns and trends without exposing individual records.
             </p>
             <ul>
-              <li>Summary tables of caregiver characteristics, time and task burden, and reported stress</li>
-              <li>Facility-level or regional aggregates where sample sizes permit safe reporting</li>
-              <li>Selected figures and graphics used in partner reports</li>
+              <li>Summary tables describing caregiver characteristics and burden metrics</li>
+              <li>Facility-level or regional aggregates where sample sizes support safe reporting</li>
+              <li>Selected graphs and maps used in partner reports, made available as image files</li>
             </ul>
             <p>
-              Facility-specific or partner-specific datasets will only be shared under
-              appropriate agreements and will not appear here in raw form.
+              Facility-specific datasets and internal reports will remain under their respective
+              agreements and will not be posted in raw form to this public library.
             </p>
           </div>
 
@@ -105,13 +139,13 @@
           <div class="card">
             <h3>Formats &amp; Documentation</h3>
             <p>
-              Each data release will include enough context for another analyst to understand
-              what they are looking at and how it was created.
+              Regardless of project, each public data release will come with enough context to be
+              interpretable on its own.
             </p>
             <ul>
               <li>Machine-readable files (for example, CSV or similar tabular formats)</li>
-              <li>Short data dictionaries describing variables, units, and any key recodes</li>
-              <li>Methods notes summarizing sources, inclusion criteria, and modeling approaches</li>
+              <li>Short data dictionaries describing variables, units, and key recodes</li>
+              <li>Methods notes summarizing data sources and high-level modeling approaches</li>
               <li>Version labels and release dates so users can track updates over time</li>
             </ul>
           </div>
@@ -120,10 +154,10 @@
           <div class="card">
             <h3>Access &amp; Custom Work</h3>
             <p>
-              The public data listed here is intended for broad use in planning, research,
-              and communication. If you are interested in custom extracts, facility-specific
-              reports, or additional modeling built on these datasets, Acropolis Analytics
-              Research Institute can often support that work as a separate engagement.
+              The public data listed here is intended for broad use in planning, research, and
+              communication. If you are interested in custom extracts, project-specific analyses,
+              or additional modeling built on these datasets, Acropolis Analytics Research Institute
+              can often support that work as a separate engagement.
             </p>
             <p>
               To discuss access, collaboration, or planned future releases, please
