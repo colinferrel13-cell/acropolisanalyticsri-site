@@ -1,262 +1,348 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Acropolis Analytics Research Institute – Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta
-    name="description"
-    content="Acropolis Analytics Research Institute uses computation and modeling to connect population data, facility surveys, and applied research questions to real-world decisions in science, policy, and practice."
-  />
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acropolis Analytics Research Institute | Public-Health Analytics</title>
+  <meta name="description" content="Acropolis Analytics Research Institute turns complex population, survey, and program data into defensible models, maps, reports, and decisions.">
+  <meta name="theme-color" content="#050814">
+  <link rel="canonical" href="https://acropolisanalyticsri.com/">
+  <link rel="icon" href="helmet-gold.png" type="image/png">
+  <link rel="stylesheet" href="style.css">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Acropolis Analytics Research Institute">
+  <meta property="og:title" content="Acropolis Analytics Research Institute">
+  <meta property="og:description" content="Public-health analytics built for decisions.">
+  <meta property="og:url" content="https://acropolisanalyticsri.com/">
+  <meta property="og:image" content="https://acropolisanalyticsri.com/og.png">
+  <meta property="og:image:width" content="1732">
+  <meta property="og:image:height" content="908">
+  <meta property="og:image:alt" content="Acropolis Analytics Research Institute, Science, Medicine and Humanity">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ResearchOrganization",
+    "name": "Acropolis Analytics Research Institute",
+    "alternateName": "Acropolis Analytics Research Institute, LLC",
+    "url": "https://acropolisanalyticsri.com/",
+    "email": "info@acropolisanalyticsri.com",
+    "description": "An independent research and analytics institute focused on translating population, survey, and program data into decision-ready evidence.",
+    "founder": {
+      "@type": "Person",
+      "name": "Colin Ferrel",
+      "honorificSuffix": "MPH"
+    }
+  }
+  </script>
+  <script src="site.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
   <div class="page">
-    <!-- HEADER -->
-    <header>
+    <header class="site-header">
       <div class="container">
-        <nav class="nav">
-          <div class="logo">
-            <span class="logo-title">Acropolis Analytics Research Institute</span>
-            <span class="logo-sub">Science, Medicine &amp; Humanity</span>
-          </div>
-          <div class="nav-links">
+        <nav class="nav" aria-label="Primary navigation">
+          <a class="brand" href="index.html" aria-label="Acropolis Analytics Research Institute home">
+            <img class="brand-mark" src="helmet-gold.png" alt="" width="34" height="44">
+            <span class="brand-copy">
+              <span class="brand-title">Acropolis Analytics Research Institute</span>
+              <span class="brand-subtitle">Science, Medicine &amp; Humanity</span>
+            </span>
+          </a>
+          <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
+            <span class="sr-only">Open navigation</span>
+            <span class="nav-toggle-lines" aria-hidden="true"></span>
+          </button>
+          <div class="nav-links" id="primary-navigation">
             <a href="index.html" aria-current="page">Home</a>
             <a href="about.html">About</a>
-            <a href="projects.html">Projects</a>
+            <a href="projects.html">Research</a>
+            <a href="participate.html">Participate</a>
             <a href="services.html">Services</a>
             <a href="data.html">Data</a>
             <a href="reports.html">Reports</a>
-            <a href="contact.html">Contact</a>
+            <a class="nav-cta" href="contact.html">Contact</a>
           </div>
         </nav>
       </div>
     </header>
 
-    <main>
-      <!-- HERO -->
-      <section class="page-hero">
-        <div class="container">
-          <div class="hero-intro">
-            <!-- Left: main intro -->
-            <div>
-              <div class="hero-kicker">Applied Analytics &amp; Modeling</div>
-              <h1 class="hero-title">
-                Carrying Evidence from Data into Decisions.
-              </h1>
-              <p class="hero-subtitle">
-                Acropolis Analytics Research Institute offers computation- and
-                modeling-based support that connects Population-Scale Data,
-                Facility-Level Surveys, and Applied Research Questions to
-                real-world decisions in Science, Policy, and Practice.
-              </p>
+    <main id="main-content" tabindex="-1">
+      <section class="home-hero">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <span class="eyebrow">Applied epidemiology &amp; modeling</span>
+            <h1>Public-health analytics built for decisions.</h1>
+            <p class="lede">
+              Acropolis helps research teams, public-health agencies, and care organizations
+              turn complex population and survey data into defensible models, maps, reports,
+              and next steps.
+            </p>
+            <div class="actions">
+              <a class="button button-primary" href="projects.html">Explore the research</a>
+              <a class="button button-secondary" href="contact.html">Discuss a project</a>
+            </div>
+            <ul class="trust-list" aria-label="Working principles">
+              <li>Epidemiology-led</li>
+              <li>Reproducible by design</li>
+              <li>Clear about uncertainty</li>
+            </ul>
+          </div>
 
-              <div class="hero-actions">
-                <a href="projects.html" class="btn-primary">Explore Projects</a>
-                <a href="contact.html" class="btn-ghost">Start a Conversation</a>
+          <aside class="research-window" aria-labelledby="featured-program-title">
+            <div class="window-label">Research program in development</div>
+            <h2 id="featured-program-title">PAEON</h2>
+            <p>
+              The Population-Adjusted Epidemiology Outcomes Network is a reusable
+              county-level backbone for studying health burden, risk, access, and context
+              across places and over time.
+            </p>
+            <dl class="window-meta">
+              <div>
+                <dt>Scale</dt>
+                <dd>County and regional</dd>
               </div>
+              <div>
+                <dt>Domains</dt>
+                <dd>Chronic and infectious disease</dd>
+              </div>
+              <div>
+                <dt>Design</dt>
+                <dd>Reusable data backbone</dd>
+              </div>
+              <div>
+                <dt>Outputs</dt>
+                <dd>Maps, models, and briefs</dd>
+              </div>
+            </dl>
+            <a class="text-link" href="projects.html#paeon">View the program</a>
+          </aside>
+        </div>
+      </section>
 
-              <p class="helper-text">
-                Current work focuses on chronic disease burden, screening and access,
-                caregiver experience, and structured data backbones that can be
-                reused for future analyses.
-              </p>
+      <section class="section" aria-labelledby="capabilities-title">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Core capabilities</span>
+              <h2 id="capabilities-title">From difficult data to usable evidence.</h2>
             </div>
+            <p>
+              Work is designed around the decision a partner needs to make, with
+              documentation and reusable structures that continue to be useful after a
+              single analysis ends.
+            </p>
+          </div>
 
-            <!-- Right: quick capabilities card -->
-            <div class="card">
-              <h3>Core Capabilities</h3>
+          <div class="grid grid-3">
+            <article class="card">
+              <span class="card-number">01</span>
+              <h3>Data integration</h3>
               <p>
-                Acropolis Analytics Research Institute focuses on a few things
-                done carefully and transparently:
+                Harmonize surveillance, survey, census, vital-statistics, and program
+                data across definitions, geographies, and years.
               </p>
-              <ul>
-                <li>Population &amp; Survey Data Integration (BRFSS, YRBSS, Census/ACS, Vital Statistics)</li>
-                <li>Modeling, Risk Surfaces &amp; Scenario Work for planning and Policy Questions</li>
-                <li>Caregiver and Facility-Level Analytics for ADRD and related domains</li>
-                <li>Reporting, Visualization &amp; Grant Support for Agencies and Research Teams</li>
+            </article>
+            <article class="card">
+              <span class="card-number">02</span>
+              <h3>Modeling &amp; surveillance</h3>
+              <p>
+                Develop burden estimates, risk summaries, trends, and scenarios while
+                keeping bias, survey design, and uncertainty visible.
+              </p>
+            </article>
+            <article class="card">
+              <span class="card-number">03</span>
+              <h3>Translation &amp; reporting</h3>
+              <p>
+                Convert technical work into maps, figures, briefs, and reports that
+                leaders, reviewers, and community partners can use.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-muted" aria-labelledby="featured-work-title">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Featured work</span>
+              <h2 id="featured-work-title">Research platforms with room to grow.</h2>
+            </div>
+            <p>
+              The current portfolio connects population-scale surveillance with
+              facility- and caregiver-level questions.
+            </p>
+          </div>
+
+          <div class="grid grid-2">
+            <article class="card featured-card">
+              <span class="status">In development</span>
+              <h3>Population-Adjusted Epidemiology Outcomes Network</h3>
+              <p>
+                A shared analytic backbone for comparing disease burden, risk,
+                structural context, and access across U.S. counties and border regions.
+              </p>
+              <ul class="tag-list" aria-label="PAEON topics">
+                <li>Population health</li>
+                <li>Small-area analysis</li>
+                <li>Risk surfaces</li>
               </ul>
-              <p class="helper-text">
-                For more detail, see the <a href="services.html">Services</a> and
-                <a href="projects.html">Projects</a> pages.
+              <a class="text-link" href="projects.html#paeon">Explore PAEON</a>
+            </article>
+
+            <article class="card featured-card">
+              <span class="status">In development</span>
+              <h3>ADRD caregiver experience &amp; burden</h3>
+              <p>
+                A repeatable public survey and reporting approach for understanding
+                caregiver strain, unmet needs, and opportunities for support over time.
               </p>
+              <ul class="tag-list" aria-label="Caregiver project topics">
+                <li>Survey design</li>
+                <li>Caregiver burden</li>
+                <li>Program reporting</li>
+              </ul>
+              <a class="text-link" href="surveys/adrd-caregiver/">View the planned survey</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="participation-home-title">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Public participation</span>
+              <h2 id="participation-home-title">A durable home for surveys and community research.</h2>
+            </div>
+            <p>
+              The new participation hub separates public study information from
+              collaborator-facing research and makes each project's status clear.
+            </p>
+          </div>
+
+          <div class="split-panel">
+            <div>
+              <h3>Know before you participate</h3>
+              <p>
+                Each study page will explain who may participate, what the project asks,
+                how information is handled, and whether recruitment is open.
+              </p>
+              <a class="text-link" href="participate.html">Visit the participation hub</a>
+            </div>
+            <div>
+              <h3>Built for repeatable projects</h3>
+              <p>
+                Stable project pages can support future QR codes, annual survey cycles,
+                study updates, reviewed findings, and approved public downloads without
+                changing the address participants use.
+              </p>
+              <a class="text-link" href="data.html">Read the release standard</a>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- WHAT WE DO -->
-      <section class="section">
+      <section class="section" aria-labelledby="ways-to-work-title">
         <div class="container">
-          <h2>What We Do</h2>
-
-          <!-- High-level philosophy -->
-          <div class="card">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Two connected missions</span>
+              <h2 id="ways-to-work-title">Academic inquiry and applied partnership.</h2>
+            </div>
             <p>
-              Acropolis Analytics Research Institute is built around a simple idea:
-              large, messy data only becomes useful when it is structured, documented,
-              and tied to specific decisions.
-            </p>
-            <p>
-              The Institute develops Computation- and Modeling-Based Projects that
-              sit at the intersection of Data, Methods, and Practice rather than
-              treating analysis as a one-off task.
+              Acropolis is being built to support an evolving research portfolio while
+              providing carefully scoped analytic services to organizations.
             </p>
           </div>
 
-          <!-- Concrete actions -->
-          <div class="card">
-            <p>
-              In practical terms, that means work that:
-            </p>
-            <ul>
-              <li>
-                Harmonizes Population Data, Surveys, and Surveillance into stable Analytic
-                Backbones across years and jurisdictions.
-              </li>
-              <li>
-                Builds Models and Risk Summaries that respect Survey Design, Bias, and
-                Uncertainty instead of hiding them.
-              </li>
-              <li>
-                Translates results into Reports, Maps, and Briefs that non-technical
-                audiences can use in day-to-day work.
-              </li>
-            </ul>
-            <p>
-              Work can range from one-time Analytic Consults to multi-year Modeling
-              Partnerships, depending on the needs of the Agency or Research Team.
-            </p>
+          <div class="split-panel">
+            <div>
+              <h3>For research collaborators</h3>
+              <p>
+                Develop shared methods, co-designed studies, reproducible data systems,
+                manuscripts, and grant-ready analytic plans.
+              </p>
+              <a class="text-link" href="projects.html">Review current research</a>
+            </div>
+            <div>
+              <h3>For organizations</h3>
+              <p>
+                Scope a one-time analysis, recurring reporting workflow, survey project,
+                or longer-term modeling partnership.
+              </p>
+              <a class="text-link" href="services.html">Review services</a>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- CURRENT FOCUS: PAEON & RELATED WORK -->
-      <section class="section">
-        <div class="container">
-          <h2>Current Focus Areas</h2>
-
-          <!-- PAEON overview -->
-          <div class="card">
-            <h3>PAEON &mdash; Population-Adjusted Epidemiology Outcomes Network</h3>
-            <p>
-              PAEON is a growing Modeling Backbone that harmonizes Denominators and
-              Outcomes across major U.S. datasets to support County-Level and
-              Border-Region Surveillance. It is designed so that once a core structure
-              is built, multiple disease areas and questions can be layered on top.
-            </p>
-            <p>
-              Early Labors within PAEON include:
-            </p>
-            <ul>
-              <li>
-                <strong>PAEON I &mdash; PAX</strong>: Mapping Demographics, Chronic Disease,
-                Infectious Disease, and Crime across the La Paz Border Corridor.
-              </li>
-              <li>
-                <strong>PAEON II &mdash; AORTA</strong>: National Cardiovascular Disease
-                Risk &amp; Burden Surveillance, integrating Behavioral, Metabolic, and
-                Structural Covariates.
-              </li>
-              <li>
-                <strong>PAEON III &mdash; PANCREA</strong>: National Diabetes Burden &amp;
-                Metabolic Risk Surveillance, tracking clusters of Metabolic Risk Factors
-                and Outcomes.
-              </li>
-              <li>
-                <strong>PAEON IV &mdash; PNEUMA</strong>: National Chronic Respiratory
-                Disease Burden &amp; Risk Surveillance, with attention to COPD and Asthma.
-              </li>
-              <li>
-                <strong>PAEON V &mdash; MNEME</strong>: National Cognitive Decline &amp;
-                Caregiver Burden Surveillance, describing patterns of Dementia-like burden
-                and Caregiver Strain.
-              </li>
-              <li>
-                <strong>PAEON VI &mdash; ONKOS</strong>: National Cancer Screening &amp;
-                Oncologic Risk Surveillance, focusing on Screening Uptake, Access Inequality,
-                and Risk Strata.
-              </li>
-            </ul>
-            <p>
-              As PAEON matures, selected County-Level Summaries, Border Extracts, and Risk
-              Surfaces will be posted in the <a href="data.html">Data</a> section, with
-              Methods Notes and Crosswalks to support reuse by partners.
-            </p>
-            <p class="helper-text">
-              A more detailed description of each Labor is available on the
-              <a href="projects.html">Projects</a> page.
-            </p>
+      <section class="section section-muted" aria-labelledby="founder-title">
+        <div class="container profile">
+          <div class="profile-photo">
+            <img src="founder-colin-ferrel.jpg" alt="Colin Ferrel, MPH, founder of Acropolis Analytics Research Institute" width="600" height="903">
+            <div class="profile-caption">Colin Ferrel, MPH &middot; Founder</div>
           </div>
-
-          <!-- Caregiver & facility work -->
-          <div class="card">
-            <h3>Caregiver &amp; Facility-Level Work</h3>
+          <div class="profile-copy">
+            <span class="eyebrow">About the institute</span>
+            <h2 id="founder-title">Built at the intersection of epidemiology and translational science.</h2>
             <p>
-              Acropolis Analytics Research Institute also supports projects that focus
-              on Caregivers and Facilities, including Alzheimer’s Disease and Related
-              Dementias (ADRD) Caregiver Surveys and similar Instruments.
+              Acropolis Analytics Research Institute was founded by Colin Ferrel, MPH,
+              an epidemiologist and nanomedicine researcher whose work spans infectious
+              disease, chronic disease surveillance, caregiver health, and modular
+              biomedical technologies.
             </p>
-            <ul>
-              <li>Design, refinement, and analysis of Caregiver and Facility Surveys</li>
-              <li>Aggregated Results to support Program Design and Resource Advocacy</li>
-              <li>
-                Planned Public Summaries in both the <a href="data.html">Data</a> and
-                <a href="reports.html">Reports</a> sections as releases become available
-              </li>
-            </ul>
+            <p>
+              The institute's guiding idea is simple: rigorous science should travel
+              beyond an analysis and become evidence that improves medicine, policy, and
+              measurable outcomes.
+            </p>
+            <a class="text-link" href="about.html">Read the institute story</a>
           </div>
         </div>
       </section>
 
-      <!-- HOW TO WORK WITH US -->
       <section class="section">
         <div class="container">
-          <h2>Working With Acropolis Analytics Research Institute</h2>
-
-          <!-- How engagements start -->
-          <div class="card">
+          <div class="cta-panel">
+            <span class="eyebrow">Start with the question</span>
+            <h2>Have a research, data, or reporting problem to scope?</h2>
             <p>
-              Most collaborations begin with a short Scoping Conversation to clarify:
+              Share the decision you are trying to support, the data you have, and the
+              audience the work needs to reach.
             </p>
-            <ul>
-              <li>The Decision, Policy, or Grant Question you are trying to answer</li>
-              <li>Which Datasets are available and what constraints apply to their use</li>
-              <li>Timelines, Deliverables, and how Code and Outputs will be shared or maintained</li>
-            </ul>
-            <p>
-              From there, the Institute can help identify whether you need a one-time
-              Analysis, a recurring Reporting Structure, or a deeper Modeling Backbone
-              like PAEON.
-            </p>
-          </div>
-
-          <!-- Next steps / navigation -->
-          <div class="card">
-            <p>
-              To start that process, you can:
-            </p>
-            <ul>
-              <li>Review the <a href="services.html">Services</a> offered and see if they match your needs</li>
-              <li>Look at planned outputs in the <a href="data.html">Data</a> and <a href="reports.html">Reports</a> sections</li>
-              <li>Submit a short Inquiry through the <a href="contact.html">Contact</a> form</li>
-            </ul>
+            <div class="actions">
+              <a class="button button-primary" href="contact.html">Start a conversation</a>
+            </div>
           </div>
         </div>
       </section>
     </main>
 
-    <!-- FOOTER -->
-    <footer>
-      <div class="container">
-        © <span id="year"></span> Acropolis Analytics Research Institute, LLC. All rights reserved.
+    <footer class="site-footer">
+      <div class="container footer-main">
+        <div>
+          <div class="footer-title">Acropolis Analytics Research Institute</div>
+          <p class="footer-subtitle">Science, Medicine &amp; Humanity</p>
+        </div>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="projects.html">Research</a>
+          <a href="participate.html">Participate</a>
+          <a href="services.html">Services</a>
+          <a href="data.html">Data</a>
+          <a href="reports.html">Reports</a>
+          <a href="contact.html">Contact</a>
+          <a href="privacy.html">Privacy</a>
+        </nav>
+      </div>
+      <div class="container footer-legal">
+        &copy; <span data-current-year></span> Acropolis Analytics Research Institute, LLC.
+        Independent research and analytics. All rights reserved.
       </div>
     </footer>
   </div>
-
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>
