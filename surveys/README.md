@@ -10,7 +10,9 @@ links and QR codes.
 - **Open** — eligible visitors can reach the active questionnaire.
 - **Paused** — an active project has temporarily stopped accepting responses.
 - **Closed** — response collection has ended.
-- **Results available** — reviewed findings or approved public data are posted.
+
+Track **Outputs available** separately from recruitment status and link reviewed
+findings or approved public data from `outputs.html`.
 
 Never describe a project as open until its active questionnaire, participant
 information, consent or acknowledgment, privacy language, contact route, and
