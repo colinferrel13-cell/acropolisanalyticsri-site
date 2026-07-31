@@ -177,6 +177,7 @@ textarea {
   width: 34px;
   height: 44px;
   flex: 0 0 auto;
+  filter: brightness(1.22) drop-shadow(0 0 10px rgba(244, 200, 97, 0.16));
   object-fit: contain;
 }
 
@@ -375,11 +376,112 @@ ol:last-child {
 }
 
 .section {
+  position: relative;
   padding-block: clamp(4.5rem, 8vw, 7.5rem);
 }
 
 .section + .section {
   border-top: 1px solid rgba(169, 178, 195, 0.1);
+}
+
+main > .section + .section::before {
+  position: absolute;
+  z-index: 4;
+  top: 0.7rem;
+  left: 50%;
+  width: 2.8rem;
+  height: 2.8rem;
+  transform: translateX(-50%);
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background:
+    url("assets/brand/laurel-accent.webp") center / 72% auto no-repeat,
+    var(--bg);
+  box-shadow: 0 0 0 0.55rem var(--bg), 0 10px 28px rgba(0, 0, 0, 0.3);
+  content: "";
+  pointer-events: none;
+}
+
+main > .section.section-art--shield-column::before {
+  background-image: url("assets/brand/shield-accent.webp");
+  background-size: 62% auto;
+}
+
+main > .section.section-art--helmet-column::before,
+main > .section.section-art--helmet-shield::before {
+  background-image: url("assets/brand/helmet-accent.webp");
+  background-size: 54% auto;
+}
+
+.section-art {
+  --section-art-image: url("assets/brand/column-damaged.webp");
+  --section-art-opacity: 0.28;
+  --section-art-width: clamp(14rem, 21vw, 20rem);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.section-art::after {
+  position: absolute;
+  z-index: -1;
+  top: 1.5rem;
+  right: max(-2rem, calc((100vw - var(--max-width)) / 2 - 5rem));
+  bottom: 1.5rem;
+  width: var(--section-art-width);
+  background-image: var(--section-art-image);
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  content: "";
+  filter: brightness(1.4) saturate(1.08);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 36%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 36%);
+  opacity: var(--section-art-opacity);
+  pointer-events: none;
+}
+
+.section-art > .container {
+  position: relative;
+  z-index: 1;
+}
+
+.section-art--left::after {
+  right: auto;
+  left: max(-2rem, calc((100vw - var(--max-width)) / 2 - 5rem));
+  background-position: left center;
+  -webkit-mask-image: linear-gradient(to left, transparent 0%, #000 36%);
+  mask-image: linear-gradient(to left, transparent 0%, #000 36%);
+}
+
+.section-art--column-cracked {
+  --section-art-image: url("assets/brand/column-cracked.webp");
+  --section-art-width: clamp(12rem, 18vw, 17rem);
+}
+
+.section-art--column-damaged {
+  --section-art-image: url("assets/brand/column-damaged.webp");
+}
+
+.section-art--column-destroyed {
+  --section-art-image: url("assets/brand/column-destroyed.webp");
+  --section-art-opacity: 0.24;
+  --section-art-width: clamp(24rem, 42vw, 40rem);
+}
+
+.section-art--helmet-column {
+  --section-art-image: url("assets/brand/helmet-column.webp");
+  --section-art-width: clamp(15rem, 22vw, 21rem);
+}
+
+.section-art--shield-column {
+  --section-art-image: url("assets/brand/shield-column.webp");
+  --section-art-width: clamp(15rem, 22vw, 21rem);
+}
+
+.section-art--helmet-shield {
+  --section-art-image: url("assets/brand/helmet-shield.webp");
+  --section-art-opacity: 0.3;
+  --section-art-width: clamp(15rem, 23vw, 22rem);
 }
 
 .section-muted {
@@ -401,7 +503,7 @@ ol:last-child {
 
 .page-hero {
   --page-hero-art: url("assets/brand/helmet-shield.webp");
-  --page-hero-art-opacity: 0.3;
+  --page-hero-art-opacity: 0.52;
   --page-hero-art-width: clamp(16rem, 28vw, 25rem);
   position: relative;
   isolation: isolate;
@@ -438,6 +540,7 @@ ol:last-child {
   background-repeat: no-repeat;
   background-size: contain;
   content: "";
+  filter: brightness(1.32) saturate(1.06);
   opacity: var(--page-hero-art-opacity);
   pointer-events: none;
 }
@@ -449,44 +552,44 @@ ol:last-child {
 
 .page-hero--about {
   --page-hero-art: url("assets/brand/helmet-shield.webp");
-  --page-hero-art-opacity: 0.34;
+  --page-hero-art-opacity: 0.6;
   --page-hero-art-width: clamp(15rem, 24vw, 21rem);
 }
 
 .page-hero--research {
   --page-hero-art: url("assets/brand/column-damaged.webp");
-  --page-hero-art-opacity: 0.4;
+  --page-hero-art-opacity: 0.68;
   --page-hero-art-width: clamp(14rem, 22vw, 19rem);
 }
 
 .page-hero--services {
   --page-hero-art: url("assets/brand/shield-column.webp");
-  --page-hero-art-opacity: 0.4;
+  --page-hero-art-opacity: 0.66;
   --page-hero-art-width: clamp(14rem, 23vw, 20rem);
 }
 
 .page-hero--participate,
 .page-hero--survey {
   --page-hero-art: url("assets/brand/helmet-column.webp");
-  --page-hero-art-opacity: 0.4;
+  --page-hero-art-opacity: 0.66;
   --page-hero-art-width: clamp(14rem, 23vw, 20rem);
 }
 
 .page-hero--outputs {
   --page-hero-art: url("assets/brand/column-cracked.webp");
-  --page-hero-art-opacity: 0.38;
+  --page-hero-art-opacity: 0.64;
   --page-hero-art-width: clamp(12rem, 20vw, 17rem);
 }
 
 .page-hero--contact {
   --page-hero-art: url("assets/brand/column-destroyed.webp");
-  --page-hero-art-opacity: 0.36;
+  --page-hero-art-opacity: 0.58;
   --page-hero-art-width: clamp(22rem, 38vw, 35rem);
 }
 
 .page-hero--privacy {
   --page-hero-art: url("assets/brand/column-cracked.webp");
-  --page-hero-art-opacity: 0.34;
+  --page-hero-art-opacity: 0.58;
   --page-hero-art-width: clamp(11rem, 18vw, 15rem);
 }
 
@@ -567,6 +670,7 @@ ol:last-child {
 
 .home-hero {
   position: relative;
+  isolation: isolate;
   overflow: hidden;
   padding-block: clamp(4.5rem, 9vw, 8.5rem);
   border-bottom: 1px solid var(--line);
@@ -574,7 +678,7 @@ ol:last-child {
 
 .home-hero::before {
   position: absolute;
-  z-index: -2;
+  z-index: -1;
   inset: 0;
   background:
     linear-gradient(90deg, var(--bg) 0%, rgba(5, 8, 20, 0.94) 52%, rgba(5, 8, 20, 0.7) 100%),
@@ -584,14 +688,15 @@ ol:last-child {
 
 .home-hero::after {
   position: absolute;
-  z-index: -1;
+  z-index: -2;
   right: max(1.5rem, calc((100vw - var(--max-width)) / 2));
   bottom: -7rem;
   width: clamp(20rem, 33vw, 29rem);
   aspect-ratio: 657 / 1200;
   background: url("assets/brand/helmet-shield.webp") center / contain no-repeat;
   content: "";
-  opacity: 0.42;
+  filter: brightness(1.25) saturate(1.05);
+  opacity: 0.66;
   pointer-events: none;
 }
 
@@ -830,7 +935,8 @@ ol:last-child {
   background-repeat: no-repeat;
   background-size: contain;
   content: "";
-  opacity: 0.12;
+  filter: brightness(1.35) saturate(1.06);
+  opacity: 0.22;
   pointer-events: none;
 }
 
@@ -1063,11 +1169,27 @@ ol:last-child {
 }
 
 .prose h2 {
+  position: relative;
   margin-top: 2.8rem;
+  padding-left: 2.7rem;
 }
 
 .prose h2:first-child {
   margin-top: 0;
+}
+
+.prose h2::before {
+  position: absolute;
+  top: 0.05em;
+  left: 0;
+  width: 1.85rem;
+  height: 1.85rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background:
+    url("assets/brand/laurel-accent.webp") center / 72% auto no-repeat,
+    rgba(2, 4, 13, 0.45);
+  content: "";
 }
 
 .prose h3 {
@@ -1163,6 +1285,25 @@ ol:last-child {
   text-align: center;
 }
 
+.cta-panel::after {
+  position: absolute;
+  z-index: 0;
+  right: -3.5rem;
+  bottom: -6.5rem;
+  width: clamp(13rem, 22vw, 19rem);
+  aspect-ratio: 657 / 1200;
+  background: url("assets/brand/helmet-shield.webp") center / contain no-repeat;
+  content: "";
+  filter: brightness(1.28) saturate(1.05);
+  opacity: 0.26;
+  pointer-events: none;
+}
+
+.cta-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
 .cta-panel h2 {
   max-width: 720px;
   margin-inline: auto;
@@ -1237,7 +1378,8 @@ ol:last-child {
   aspect-ratio: 1000 / 993;
   background: url("assets/brand/column-destroyed.webp") center / contain no-repeat;
   content: "";
-  opacity: 0.11;
+  filter: brightness(1.35) saturate(1.05);
+  opacity: 0.22;
   pointer-events: none;
 }
 
@@ -1329,7 +1471,8 @@ ol:last-child {
   aspect-ratio: 1000 / 993;
   background: url("assets/brand/column-destroyed.webp") center / contain no-repeat;
   content: "";
-  opacity: 0.16;
+  filter: brightness(1.35) saturate(1.05);
+  opacity: 0.28;
 }
 
 .error-code {
@@ -1345,6 +1488,26 @@ ol:last-child {
 /* Responsive */
 
 @media (max-width: 1080px) {
+  .page-hero::after {
+    right: -2rem;
+    opacity: 0.48;
+  }
+
+  .home-hero::after {
+    right: -5rem;
+    opacity: 0.52;
+  }
+
+  .section-art::after {
+    right: -3rem;
+    opacity: 0.22;
+  }
+
+  .section-art--left::after {
+    right: auto;
+    left: -3rem;
+  }
+
   .nav {
     min-height: 76px;
   }
@@ -1407,6 +1570,26 @@ ol:last-child {
 }
 
 @media (max-width: 900px) {
+  .page-hero::after {
+    right: -3rem;
+    opacity: 0.42;
+  }
+
+  .home-hero::after {
+    right: -6rem;
+    opacity: 0.48;
+  }
+
+  .section-art::after {
+    right: -4rem;
+    opacity: 0.2;
+  }
+
+  .section-art--left::after {
+    right: auto;
+    left: -4rem;
+  }
+
   .section-heading {
     grid-template-columns: 1fr;
     gap: 0.2rem;
@@ -1489,19 +1672,43 @@ ol:last-child {
 
   .page-hero::after {
     right: -4.5rem;
-    opacity: 0.2;
+    opacity: 0.34;
   }
 
   .home-hero::after {
     right: -8rem;
     bottom: -4rem;
     width: 25rem;
-    opacity: 0.22;
+    opacity: 0.38;
   }
 
   .art-card::after {
     right: -4rem;
-    opacity: 0.09;
+    opacity: 0.16;
+  }
+
+  .section-art::after {
+    right: -6rem;
+    opacity: 0.17;
+  }
+
+  .section-art--left::after {
+    right: auto;
+    left: -6rem;
+  }
+
+  .cta-panel::after {
+    right: -5rem;
+    bottom: -5rem;
+    width: 16rem;
+    opacity: 0.17;
+  }
+
+  main > .section + .section::before {
+    top: 0.45rem;
+    width: 2.1rem;
+    height: 2.1rem;
+    box-shadow: 0 0 0 0.24rem var(--bg);
   }
 
   .meta-list div {
@@ -1548,6 +1755,13 @@ ol:last-child {
     width: 100%;
   }
 
+  main > .section + .section::before {
+    top: 0.4rem;
+    width: 2rem;
+    height: 2rem;
+    box-shadow: 0 0 0 0.2rem var(--bg);
+  }
+
   .footer-main > div:first-child {
     padding-left: 3.2rem;
   }
@@ -1582,6 +1796,21 @@ ol:last-child {
   .actions,
   .nav-toggle {
     display: none;
+  }
+
+  .page-hero::before,
+  .page-hero::after,
+  .home-hero::before,
+  .home-hero::after,
+  .section-art::after,
+  main > .section + .section::before,
+  .cta-panel::after,
+  .prose h2::before {
+    display: none;
+  }
+
+  .prose h2 {
+    padding-left: 0;
   }
 
   .card,
