@@ -23,6 +23,24 @@ Institute, LLC. It is a dependency-free static site hosted through GitHub Pages.
 The site intentionally uses plain HTML, CSS, and a small amount of JavaScript.
 This keeps GitHub Pages deployment simple and makes the source easy to maintain.
 
+## Brand artwork
+
+Web-ready versions of the institute artwork live in `assets/brand/`. These files
+are cropped, transparent WebP derivatives sized for the website; the full source
+images remain outside the repository.
+
+- `helmet-accent.webp`, `shield-accent.webp`, and `laurel-accent.webp` are for
+  navigation marks, card accents, status markers, and other small placements.
+- `helmet-shield.webp`, `helmet-column.webp`, and `shield-column.webp` are for
+  large compositions and section watermarks.
+- `column-cracked.webp`, `column-damaged.webp`, and
+  `column-destroyed.webp` provide page-specific and footer backgrounds.
+
+Page-hero artwork is assigned through modifier classes such as
+`page-hero--research` and `page-hero--participate` in `style.css`. Decorative
+images should use empty alternative text. If an image conveys information rather
+than atmosphere, add concise alternative text that communicates its purpose.
+
 ## Preview locally
 
 Run a static file server from the repository root:
