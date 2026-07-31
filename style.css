@@ -307,6 +307,80 @@ textarea {
 
 main {
   flex: 1;
+  position: relative;
+  isolation: isolate;
+}
+
+main > section {
+  position: relative;
+  z-index: 1;
+}
+
+.page-ornaments {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.scroll-ornament {
+  --parallax-y: 0px;
+  --ornament-rotation: 0deg;
+  position: absolute;
+  width: clamp(30rem, 49vw, 47rem);
+  height: clamp(40rem, 66vw, 62rem);
+  background-image: var(--ornament-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  filter: brightness(1.48) saturate(1.08);
+  opacity: 0.18;
+  transform: translate3d(0, var(--parallax-y), 0)
+    rotate(var(--ornament-rotation));
+  will-change: transform;
+}
+
+.scroll-ornament--1 {
+  top: 24%;
+  right: clamp(-16rem, -10vw, -8rem);
+  --ornament-rotation: -2.5deg;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 28%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 28%);
+}
+
+.scroll-ornament--2 {
+  top: 66%;
+  left: clamp(-16rem, -10vw, -8rem);
+  --ornament-rotation: 2.5deg;
+  -webkit-mask-image: linear-gradient(to left, transparent 0%, #000 28%);
+  mask-image: linear-gradient(to left, transparent 0%, #000 28%);
+}
+
+.scroll-ornament--column-cracked {
+  --ornament-image: url("assets/brand/column-cracked.webp");
+}
+
+.scroll-ornament--column-damaged {
+  --ornament-image: url("assets/brand/column-damaged.webp");
+}
+
+.scroll-ornament--column-destroyed {
+  --ornament-image: url("assets/brand/column-destroyed.webp");
+  width: clamp(36rem, 58vw, 56rem);
+  height: clamp(30rem, 48vw, 45rem);
+}
+
+.scroll-ornament--helmet-column {
+  --ornament-image: url("assets/brand/helmet-column.webp");
+}
+
+.scroll-ornament--shield-column {
+  --ornament-image: url("assets/brand/shield-column.webp");
+}
+
+.scroll-ornament--helmet-shield {
+  --ornament-image: url("assets/brand/helmet-shield.webp");
 }
 
 h1,
@@ -387,101 +461,29 @@ ol:last-child {
 main > .section + .section::before {
   position: absolute;
   z-index: 4;
-  top: 0.7rem;
+  top: -2.1rem;
   left: 50%;
-  width: 2.8rem;
-  height: 2.8rem;
+  width: 4.2rem;
+  height: 4.2rem;
   transform: translateX(-50%);
   border: 1px solid var(--line-strong);
   border-radius: 50%;
   background:
-    url("assets/brand/laurel-accent.webp") center / 72% auto no-repeat,
+    url("assets/brand/laurel-accent.webp") center / 74% auto no-repeat,
     var(--bg);
-  box-shadow: 0 0 0 0.55rem var(--bg), 0 10px 28px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 0.68rem var(--bg), 0 14px 34px rgba(0, 0, 0, 0.34);
   content: "";
   pointer-events: none;
 }
 
-main > .section.section-art--shield-column::before {
+main > .section.section-muted::before {
   background-image: url("assets/brand/shield-accent.webp");
   background-size: 62% auto;
 }
 
-main > .section.section-art--helmet-column::before,
-main > .section.section-art--helmet-shield::before {
+main > .section:last-of-type::before {
   background-image: url("assets/brand/helmet-accent.webp");
   background-size: 54% auto;
-}
-
-.section-art {
-  --section-art-image: url("assets/brand/column-damaged.webp");
-  --section-art-opacity: 0.28;
-  --section-art-width: clamp(14rem, 21vw, 20rem);
-  isolation: isolate;
-  overflow: hidden;
-}
-
-.section-art::after {
-  position: absolute;
-  z-index: -1;
-  top: 1.5rem;
-  right: max(-2rem, calc((100vw - var(--max-width)) / 2 - 5rem));
-  bottom: 1.5rem;
-  width: var(--section-art-width);
-  background-image: var(--section-art-image);
-  background-position: right center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  content: "";
-  filter: brightness(1.4) saturate(1.08);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 36%);
-  mask-image: linear-gradient(to right, transparent 0%, #000 36%);
-  opacity: var(--section-art-opacity);
-  pointer-events: none;
-}
-
-.section-art > .container {
-  position: relative;
-  z-index: 1;
-}
-
-.section-art--left::after {
-  right: auto;
-  left: max(-2rem, calc((100vw - var(--max-width)) / 2 - 5rem));
-  background-position: left center;
-  -webkit-mask-image: linear-gradient(to left, transparent 0%, #000 36%);
-  mask-image: linear-gradient(to left, transparent 0%, #000 36%);
-}
-
-.section-art--column-cracked {
-  --section-art-image: url("assets/brand/column-cracked.webp");
-  --section-art-width: clamp(12rem, 18vw, 17rem);
-}
-
-.section-art--column-damaged {
-  --section-art-image: url("assets/brand/column-damaged.webp");
-}
-
-.section-art--column-destroyed {
-  --section-art-image: url("assets/brand/column-destroyed.webp");
-  --section-art-opacity: 0.24;
-  --section-art-width: clamp(24rem, 42vw, 40rem);
-}
-
-.section-art--helmet-column {
-  --section-art-image: url("assets/brand/helmet-column.webp");
-  --section-art-width: clamp(15rem, 22vw, 21rem);
-}
-
-.section-art--shield-column {
-  --section-art-image: url("assets/brand/shield-column.webp");
-  --section-art-width: clamp(15rem, 22vw, 21rem);
-}
-
-.section-art--helmet-shield {
-  --section-art-image: url("assets/brand/helmet-shield.webp");
-  --section-art-opacity: 0.3;
-  --section-art-width: clamp(15rem, 23vw, 22rem);
 }
 
 .section-muted {
@@ -1498,14 +1500,22 @@ main > .section.section-art--helmet-shield::before {
     opacity: 0.52;
   }
 
-  .section-art::after {
-    right: -3rem;
-    opacity: 0.22;
+  .scroll-ornament {
+    width: clamp(27rem, 52vw, 40rem);
+    height: clamp(36rem, 70vw, 54rem);
+    opacity: 0.16;
   }
 
-  .section-art--left::after {
-    right: auto;
-    left: -3rem;
+  .scroll-ornament--column-destroyed {
+    width: clamp(32rem, 64vw, 48rem);
+    height: clamp(27rem, 52vw, 39rem);
+  }
+
+  main > .section + .section::before {
+    top: -1.8rem;
+    width: 3.6rem;
+    height: 3.6rem;
+    box-shadow: 0 0 0 0.58rem var(--bg), 0 12px 30px rgba(0, 0, 0, 0.32);
   }
 
   .nav {
@@ -1580,14 +1590,8 @@ main > .section.section-art--helmet-shield::before {
     opacity: 0.48;
   }
 
-  .section-art::after {
-    right: -4rem;
-    opacity: 0.2;
-  }
-
-  .section-art--left::after {
-    right: auto;
-    left: -4rem;
+  .scroll-ornament {
+    opacity: 0.14;
   }
 
   .section-heading {
@@ -1687,14 +1691,24 @@ main > .section.section-art--helmet-shield::before {
     opacity: 0.16;
   }
 
-  .section-art::after {
-    right: -6rem;
-    opacity: 0.17;
+  .scroll-ornament {
+    width: 21rem;
+    height: 29rem;
+    opacity: 0.1;
+    will-change: auto;
   }
 
-  .section-art--left::after {
-    right: auto;
-    left: -6rem;
+  .scroll-ornament--1 {
+    right: -13rem;
+  }
+
+  .scroll-ornament--2 {
+    left: -13rem;
+  }
+
+  .scroll-ornament--column-destroyed {
+    width: 26rem;
+    height: 22rem;
   }
 
   .cta-panel::after {
@@ -1705,10 +1719,10 @@ main > .section.section-art--helmet-shield::before {
   }
 
   main > .section + .section::before {
-    top: 0.45rem;
-    width: 2.1rem;
-    height: 2.1rem;
-    box-shadow: 0 0 0 0.24rem var(--bg);
+    top: -1.5rem;
+    width: 3rem;
+    height: 3rem;
+    box-shadow: 0 0 0 0.46rem var(--bg), 0 10px 24px rgba(0, 0, 0, 0.3);
   }
 
   .meta-list div {
@@ -1756,10 +1770,10 @@ main > .section.section-art--helmet-shield::before {
   }
 
   main > .section + .section::before {
-    top: 0.4rem;
-    width: 2rem;
-    height: 2rem;
-    box-shadow: 0 0 0 0.2rem var(--bg);
+    top: -1.375rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    box-shadow: 0 0 0 0.34rem var(--bg), 0 6px 14px rgba(0, 0, 0, 0.26);
   }
 
   .footer-main > div:first-child {
@@ -1783,6 +1797,10 @@ main > .section.section-art--helmet-shield::before {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
+
+  .scroll-ornament {
+    will-change: auto;
+  }
 }
 
 @media print {
@@ -1802,7 +1820,7 @@ main > .section.section-art--helmet-shield::before {
   .page-hero::after,
   .home-hero::before,
   .home-hero::after,
-  .section-art::after,
+  .page-ornaments,
   main > .section + .section::before,
   .cta-panel::after,
   .prose h2::before {
