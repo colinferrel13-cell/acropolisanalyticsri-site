@@ -41,6 +41,12 @@ Page-hero artwork is assigned through modifier classes such as
 images should use empty alternative text. If an image conveys information rather
 than atmosphere, add concise alternative text that communicates its purpose.
 
+Long-form sections can use the shared `section-art` class with one artwork
+modifier, such as `section-art--column-damaged`, `section-art--helmet-column`,
+or `section-art--shield-column`. Add `section-art--left` to move the artwork to
+the opposite edge. Adjacent content sections receive a small crest divider
+automatically, and call-to-action panels use the combined helmet-and-shield mark.
+
 ## Preview locally
 
 Run a static file server from the repository root:
