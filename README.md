@@ -17,7 +17,7 @@ Institute, LLC. It is a dependency-free static site hosted through GitHub Pages.
 - `privacy.html` — website privacy notice
 - `404.html` — custom GitHub Pages error page
 - `style.css` — shared design system and responsive behavior
-- `site.js` — mobile navigation and current-year behavior
+- `site.js` — mobile navigation, current-year, and scroll-ornament behavior
 - `robots.txt` and `sitemap.xml` — search-engine discovery
 
 The site intentionally uses plain HTML, CSS, and a small amount of JavaScript.
@@ -41,11 +41,14 @@ Page-hero artwork is assigned through modifier classes such as
 images should use empty alternative text. If an image conveys information rather
 than atmosphere, add concise alternative text that communicates its purpose.
 
-Long-form sections can use the shared `section-art` class with one artwork
-modifier, such as `section-art--column-damaged`, `section-art--helmet-column`,
-or `section-art--shield-column`. Add `section-art--left` to move the artwork to
-the opposite edge. Adjacent content sections receive a small crest divider
-automatically, and call-to-action panels use the combined helmet-and-shield mark.
+Each long-form page selects two oversized background ornaments on its `<body>`
+with `data-ornament-one` and `data-ornament-two`. Supported values are
+`column-cracked`, `column-damaged`, `column-destroyed`, `helmet-column`,
+`shield-column`, and `helmet-shield`. The shared script places them at separate
+points down the page and gives them a restrained scroll-linked movement; visitors
+who prefer reduced motion receive the same composition without movement.
+Adjacent content sections receive a larger crest divider automatically, and
+call-to-action panels use the combined helmet-and-shield mark.
 
 ## Preview locally
 
