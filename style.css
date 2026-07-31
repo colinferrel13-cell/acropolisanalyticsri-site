@@ -608,6 +608,14 @@ ol:last-child {
   content: "";
 }
 
+.window-label-planned {
+  color: var(--gold-bright);
+}
+
+.window-label-planned::before {
+  box-shadow: 0 0 0 4px rgba(244, 200, 97, 0.12);
+}
+
 .research-window h2 {
   margin-bottom: 0.75rem;
   font-size: 1.55rem;
@@ -706,7 +714,7 @@ ol:last-child {
 }
 
 .status {
-  display: inline-flex;
+  display: flex;
   width: fit-content;
   margin-bottom: 1rem;
   padding: 0.28rem 0.62rem;
@@ -1199,8 +1207,46 @@ ol:last-child {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .grid-3 > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    width: min(100%, calc((100% - 1rem) / 2));
+    justify-self: center;
+  }
+}
+
+@media (max-width: 900px) {
+  .section-heading {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+    align-items: start;
+  }
+
+  .split-panel,
+  .profile,
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .split-panel > div + div {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .profile-photo {
+    max-width: 390px;
+  }
+
   .process {
     grid-template-columns: 1fr;
+  }
+
+  .footer-main {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .footer-links {
+    justify-content: flex-start;
   }
 }
 
@@ -1227,27 +1273,26 @@ ol:last-child {
     font-size: clamp(2.3rem, 12vw, 3.6rem);
   }
 
-  .section-heading {
-    grid-template-columns: 1fr;
-    gap: 0.2rem;
-    align-items: start;
+  .section {
+    padding-block: 3.5rem;
+  }
+
+  .page-hero {
+    padding-block: 3.4rem;
+  }
+
+  .home-hero {
+    padding-block: 3.75rem;
   }
 
   .grid-2,
-  .grid-3,
-  .split-panel,
-  .profile,
-  .contact-layout {
+  .grid-3 {
     grid-template-columns: 1fr;
   }
 
-  .split-panel > div + div {
-    border-top: 1px solid var(--line);
-    border-left: 0;
-  }
-
-  .profile-photo {
-    max-width: 390px;
+  .grid-3 > :last-child:nth-child(odd) {
+    grid-column: auto;
+    width: 100%;
   }
 
   .page-hero::after {
@@ -1269,18 +1314,17 @@ ol:last-child {
   .study-banner {
     grid-template-columns: 1fr;
   }
-
-  .footer-main {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .footer-links {
-    justify-content: flex-start;
-  }
 }
 
 @media (max-width: 480px) {
+  .nav {
+    gap: 0.75rem;
+  }
+
+  .brand {
+    gap: 0.55rem;
+  }
+
   .brand-copy {
     max-width: 13.8rem;
   }

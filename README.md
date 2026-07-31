@@ -11,8 +11,8 @@ Institute, LLC. It is a dependency-free static site hosted through GitHub Pages.
 - `participate.html` — public research participation hub and recruitment status
 - `surveys/` — stable participant-facing project pages and survey workflow notes
 - `services.html` — applied analytics capabilities and engagement process
-- `data.html` — public data library and release standards
-- `reports.html` — reports, presentations, and publications library
+- `outputs.html` — combined data, reports, publications, and methods library
+- `data.html` and `reports.html` — compatibility redirects to `outputs.html`
 - `contact.html` — email-based inquiry route
 - `privacy.html` — website privacy notice
 - `404.html` — custom GitHub Pages error page
@@ -42,11 +42,12 @@ server more closely matches GitHub Pages and is recommended before publishing.
 2. Copy an existing project or workstream `<article class="card">`.
 3. Update the heading, description, tags, and status.
 4. If the project has a dedicated public release, add a corresponding entry to
-   `data.html` or `reports.html`.
+   `outputs.html`.
 5. Add the new page to `sitemap.xml` if it receives its own HTML file.
 
-Use status language conservatively. Prefer clear terms such as `In development`,
-`Methods development`, `Analysis underway`, `Preprint`, or `Published`.
+Use status language conservatively. Gold labels mean planned, in development, or
+roadmap work; green is reserved for active recruitment or an active public
+release; neutral labels should be used for paused or closed work.
 
 ## Add a public participation project
 
@@ -65,15 +66,16 @@ To add a project:
 1. Copy the structure of `surveys/adrd-caregiver/index.html` into a new,
    descriptive study directory.
 2. Add a status card to `participate.html`.
-3. State whether recruitment is in development, open, paused, closed, or has
-   results available. Never imply that a study is accepting responses until its
+3. State whether recruitment is in development, open, paused, or closed. Track
+   reviewed outputs separately so an available report is not mistaken for open
+   recruitment. Never imply that a study is accepting responses until its
    collection system is active and tested.
 4. Include eligibility, expected time, consent and privacy information, contact
    details, data handling, retention, repeat-participation controls, and public
    reporting plans before activation.
 5. Add the stable public URL to `sitemap.xml`.
 6. When approved findings are released, link them from the project page and from
-   `data.html` or `reports.html`.
+   `outputs.html`.
 
 See `surveys/README.md` for lifecycle and repository-boundary guidance. Never
 commit raw survey responses, repeat-participation verification records,
@@ -94,7 +96,7 @@ downloads/
       methods.pdf
 ```
 
-Add a release card to `data.html` with:
+Add a release card to `outputs.html` with:
 
 - project and release title
 - version and release date
@@ -110,7 +112,7 @@ restricted records, credentials, or partner-confidential data to this repository
 
 ## Add a report or publication
 
-Add a new item to `reports.html` with:
+Add a new item to `outputs.html` with:
 
 - full citation
 - document type and status
@@ -151,7 +153,7 @@ domain itself changes.
 - All navigation links work on desktop and mobile.
 - Each page has one `h1` and a logical heading order.
 - New images have useful alternative text unless they are decorative.
-- Data and reports include status, attribution, limitations, and permissions.
+- Public outputs include status, attribution, limitations, and permissions.
 - Participation pages use accurate recruitment labels and do not expose an
   unfinished form, survey endpoint, or misleading submit control.
 - No placeholders, credentials, confidential records, or restricted data remain.
