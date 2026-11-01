@@ -9,10 +9,10 @@
   <meta name="description" content="Prepare an approved Acropolis publication for review in the website repository.">
   <link rel="icon" href="/assets/brand/helmet-accent.webp" type="image/webp">
   <link rel="stylesheet" href="style.css?v=20260731-3">
-  <link rel="stylesheet" href="assets/publisher.css">
+  <link rel="stylesheet" href="assets/publisher.css?v=topic-groups-1">
   <script src="site.js?v=20260731-1" defer></script>
-  <script src="assets/library-schema.js" defer></script>
-  <script src="assets/publisher.js" defer></script>
+  <script src="assets/library-schema.js?v=topic-groups-1" defer></script>
+  <script src="assets/publisher.js?v=topic-groups-1" defer></script>
   <link rel="stylesheet" href="/assets/read.css?v=1">
 </head>
 <body>
@@ -61,7 +61,7 @@
               <legend>1. Describe the release</legend>
               <p>Fields are required unless marked optional. The title, summary, authors and release date will be visible to readers.</p>
               <div class="publisher-grid">
-                <label>Collection
+                <label>Resource type
                   <select id="entry-type">
                     <option value="factsheet">Factsheet</option>
                     <option value="report">Full report</option>
@@ -73,12 +73,22 @@
               <label>Title <input id="entry-title" required maxlength="220"></label>
               <label>Authors or issuing organization <input id="entry-authors" required maxlength="450"></label>
               <label>Short summary <textarea id="entry-summary" rows="3" required maxlength="1400"></textarea></label>
-              <label>Primary topic <select id="entry-topic" required><option value="">Choose the subject of this work</option></select></label>
+              <fieldset class="collection-field"><legend>Collections (optional)</legend>
+                <p id="collections-hint" class="field-hint">A release can appear in Public Service Announcements, Agriculture, or both. Select a disease or health topic as well only if the work covers it. Find the permanent links and downloadable QR codes in the <a href="/topics/">topic and collection directory</a>.</p>
+                <div id="entry-collections" class="publisher-checks" aria-describedby="collections-hint"></div>
+              </fieldset>
+              <label>Primary topic <select id="entry-topic" required aria-describedby="topic-hint"><option value="">No topic selected</option></select></label>
+              <p class="field-hint" id="topic-hint">Choose a primary topic, unless this release belongs only to a collection.</p>
               <details>
                 <summary>Additional topics (optional)</summary>
                 <p>Tag subjects the release actually covers. Use companion links below for general lessons that explain your method.</p>
                 <div id="entry-extra-topics" class="publisher-checks"></div>
               </details>
+              <div id="selected-group-codes" hidden>
+                <h3>QR codes for the selected groups</h3>
+                <p class="field-hint">Use a group’s code while designing your document. It opens the permanent group page, not a specific PDF.</p>
+                <ul id="group-code-links"></ul>
+              </div>
               <label>Library ID <input id="entry-id" required pattern="[a-z0-9]+(-[a-z0-9]+)*" maxlength="90" aria-describedby="id-hint" spellcheck="false"></label>
               <p class="field-hint" id="id-hint">A unique name used for links and filenames, such as <code>caregiver-report-v1</code>. A suggestion appears when you enter a title.</p>
               <div id="series-options">

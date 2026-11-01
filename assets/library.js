@@ -35,16 +35,17 @@
     heading.append(link(item.title, api.releaseURL(item.id)));
     article.append(meta, heading, el("p", item.summary),
       el("p", "By " + item.authors, "release-byline"));
-    if (item.topics?.length) {
+    if (item.topics?.length || item.collections?.length) {
       const tags = el("div", undefined, "release-topics");
-      item.topics.forEach(id => tags.append(link(api.topics[id], api.topicURL(id))));
+      (item.topics || []).forEach(id => tags.append(link(api.topics[id], api.topicURL(id))));
+      (item.collections || []).forEach(id => tags.append(link(api.collections[id], api.groupURL(id))));
       article.append(tags);
     }
     if (item.series && kind !== "series")
-      article.append(link("Epidemiology Explained", "epidemiology-explained.html#release-" + item.id, "release-series"));
+      article.append(link("Epidemiology Explained", "/epidemiology-explained.html#release-" + item.id, "release-series"));
     for (const f of item.files) {
       const row = el("div", undefined, "release-file");
-      const url = "library/" + encodeURIComponent(f.name);
+      const url = "/library/" + encodeURIComponent(f.name);
       const info = el("span", (f.label === "PDF" ? "PDF" : f.label + " PDF") + " · " + bytesLabel(f.bytes));
       const open = link("View PDF", url);
       const download = link("Download PDF", url);
@@ -59,17 +60,23 @@
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 12000);
   try {
-    const res = await fetch("library/catalog.json", {cache:"no-cache", mode:"same-origin", credentials:"omit", signal:controller.signal});
+    const res = await fetch("/library/catalog.json", {cache:"no-cache", mode:"same-origin", credentials:"omit", signal:controller.signal});
     if (!res.ok) throw new Error("Catalog unavailable");
     const data = await res.json();
     if (api.validate(data).length) throw new Error("Invalid catalog");
-    const items = data.items.filter(item => kind === "all" ? true : kind === "series" ? item.series === "epidemiology-explained" :
+    const groupId = root.dataset.group;
+    const group = kind === "group" && Object.hasOwn(api.groups, groupId) ? api.groups[groupId] : null;
+    if (kind === "group" && !group) throw new Error("Unknown library group");
+    // The permanent path sets the scope. Search, reset and shared filter URLs cannot expand it.
+    const items = data.items.filter(item => group ? (group.kind === "topic" ? item.topics : item.collections)?.includes(groupId) :
+      kind === "all" ? true : kind === "series" ? item.series === "epidemiology-explained" :
       kind === "factsheets" ? item.type === "factsheet" : ["report","publication"].includes(item.type))
       .sort((a,b) => kind === "series" ? a.lesson.localeCompare(b.lesson, "en", {numeric:true}) :
         b.date.localeCompare(a.date) || a.title.localeCompare(b.title));
     if (!items.length) {
       const copy = {
-        all:["No public releases yet", "Reviewed factsheets, reports and publications will appear here together. Topic pages open as soon as the first item on that subject is released."],
+        all:["No public releases yet", "Reviewed factsheets, reports and publications will appear here together as they are released."],
+        group:["No releases here yet", "No approved resources have been published in this group. Use this same address to check for future releases."],
         factsheets:["No factsheets published yet", "When a factsheet is released, you’ll find its summary, available editions and downloads here."],
         series:["No lessons published yet", "The topic guide below introduces the series. Released lessons will appear here in lesson order."],
         reports:["No reports or publications listed yet", "This collection will list full reports and links to published research as they are released."]
@@ -80,6 +87,8 @@
     root.replaceChildren();
     const topicIds = [...new Set(items.flatMap(item => item.topics || []))]
       .sort((a,b) => api.topics[a].localeCompare(api.topics[b]));
+    const collectionIds = [...new Set(items.flatMap(item => item.collections || []))]
+      .sort((a,b) => api.collections[a].localeCompare(api.collections[b]));
     const entryParams = new URL(location.href).searchParams;
     // Preserve a reader's saved filter even if a topic later ceases to have releases.
     const controls = el("div", undefined, "release-filters");
@@ -90,9 +99,10 @@
       wrap.append(label, control); controls.append(wrap);
     }
     field(kind === "all" ? "Search the whole library" : "Search this collection", search);
-    function selectField(key, name, options, allLabel) {
+    function selectField(key, name, options, allLabel, locked = false) {
       const s = el("select"); s.id = "release-" + key;
       s.append(new Option(allLabel, ""));
+      if (locked) return s;
       options.forEach(([id,label]) => s.append(new Option(label,id)));
       const requested = entryParams.get(key);
       if (requested && !options.some(([v]) => v === requested)) s.append(new Option("Unavailable selection", requested));
@@ -100,15 +110,16 @@
       if (options.length || requested) field(name, s);
       return s;
     }
-    const topic = selectField("topic","Topic", topicIds.map(id => [id,api.topics[id]]), "All topics");
-    const type = selectField("type","Resource type", kind === "all" || kind === "reports"
+    const topic = selectField("topic","Topic", topicIds.map(id => [id,api.topics[id]]), "All topics", group?.kind === "topic");
+    const collection = selectField("collection","Collection", collectionIds.map(id => [id,api.collections[id]]), "All collections", group?.kind === "collection");
+    const type = selectField("type","Resource type", kind === "all" || kind === "reports" || kind === "group"
       ? [...new Set(items.map(it => it.type))].map(id => [id,labels[id]]) : [], "All types");
-    const series = selectField("series","Series", (kind === "all" || kind === "factsheets") && items.some(it => it.series)
-      ? [["epidemiology-explained","Epidemiology Explained"]] : [], "All collections");
+    const series = selectField("series","Series", (kind === "all" || kind === "factsheets" || kind === "group") && items.some(it => it.series)
+      ? [["epidemiology-explained","Epidemiology Explained"]] : [], "All series");
     if (kind === "all" && topicIds.length) {
       const nav = el("nav",undefined,"topic-index"); nav.setAttribute("aria-label","Browse by topic");
       topicIds.forEach(id => {
-        const a = link(api.topics[id], api.topicURL(id) + "#browse");
+        const a = link(api.topics[id], api.topicURL(id)); a.dataset.topicId=id;
         if (id === topic.value) a.setAttribute("aria-current","true");
         nav.append(a);
       });
@@ -120,13 +131,13 @@
       const q = search.value.trim().toLowerCase(), tokens = q.split(/\s+/).filter(Boolean);
       if (updateURL) {
         const u = new URL(location.href);
-        for (const [key,value] of [["q",q],["topic",topic.value],["type",type.value],["series",series.value]])
+        for (const [key,value] of [["q",q],["topic",topic.value],["collection",collection.value],["type",type.value],["series",series.value]])
           if (value) u.searchParams.set(key, value); else u.searchParams.delete(key);
         if (u.hash.startsWith("#release-")) u.hash = "";
         history.replaceState(null,"",u);
       }
       root.querySelectorAll(".topic-index a").forEach(a => {
-        if (new URL(a.href).searchParams.get("topic") === topic.value) a.setAttribute("aria-current","true");
+        if (a.dataset.topicId === topic.value) a.setAttribute("aria-current","true");
         else a.removeAttribute("aria-current");
       });
       if (kind === "all") {
@@ -135,6 +146,7 @@
         document.title = (subject ? subject + " · " : "") + "Research Library | Acropolis Analytics Research Institute";
       }
       const found = items.filter(it => (!topic.value || it.topics?.includes(topic.value)) &&
+        (!collection.value || it.collections?.includes(collection.value)) &&
         (!type.value || it.type === type.value) && (!series.value || it.series === series.value) &&
         tokens.every(token => api.searchText(it).includes(token)));
       status.textContent = found.length + (found.length === 1 ? " release" : " releases");
@@ -142,16 +154,16 @@
       if (!found.length) {
         const msg = state("No matching releases","Try another title, author or lesson number.");
         const reset = el("button","Clear filters","button button-secondary"); reset.type = "button";
-        reset.onclick = () => { for (const control of [search, topic, type, series]) control.value = ""; render(true); search.focus(); };
+        reset.onclick = () => { for (const control of [search, topic, collection, type, series]) control.value = ""; render(true); search.focus(); };
         msg.append(reset); results.append(msg);
       }
     }
     search.addEventListener("input", () => render(true));
-    [topic,type,series].forEach(control => control.addEventListener("change", () => render(true)));
+    [topic,collection,type,series].forEach(control => control.addEventListener("change", () => render(true)));
     render();
     if (location.hash.startsWith("#release-")) document.getElementById(location.hash.slice(1))?.scrollIntoView();
   } catch {
     const msg = state("The release list couldn’t load","Please reload the page, or contact the institute for a copy of a publication.");
-    msg.append(link("Contact the institute","contact.html","text-link")); root.replaceChildren(msg);
+    msg.append(link("Contact the institute","/contact.html","text-link")); root.replaceChildren(msg);
   } finally { clearTimeout(timeout); }
 })();

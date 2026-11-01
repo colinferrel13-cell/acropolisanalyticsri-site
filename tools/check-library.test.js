@@ -73,7 +73,7 @@ test("one tagged report is discoverable by common terminology and links to its m
   assert.match(searchText(record), /heart disease/);
   assert.match(searchText(record), /rhode island/);
   assert.equal(releaseURL(record.id),"/release.html?id=example-report");
-  assert.equal(topicURL(record.topics[0]),"/outputs.html?topic=cardiovascular-disease");
+  assert.equal(topicURL(record.topics[0]),"/topics/cardiovascular-disease/");
 });
 
 test("the file checker resolves study links against the public registry", t => {

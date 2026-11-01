@@ -13,6 +13,8 @@ The website is hosted on GitHub Pages. Readers do not upload anything. An instit
 
 Choose a subject that describes what the release is *about*, not its format. The primary and optional additional topics let one catalog record appear in several places; do not upload a second copy for the topic page. *Epidemiology Explained* is a series, not a disease topic. Use **Companion resources** to link a methods lesson without tagging it as a disease report.
 
+**Public service announcements** and **Agriculture** are independent collections, not document formats or diagnoses. A release can belong to either or both, with or without health topics. For instance, a public announcement about farmworker pesticide exposure could be a factsheet tagged **Injuries, violence & harmful exposures**, **PSA**, and **Agriculture**. Prepare a single entry and a single set of files.
+
 Under **Release page, related work & placement**, you can provide a plain-language takeaway, geography, period covered by the data, exact citation, version and a short public revision note. Give complete citation/attribution and data scope when available, especially for a report or external paper. A lesson with no data period does not need one. Select companion items from the current catalog and choose the originating project/study where relevant. Published findings can link to a study even when it is closed; this never opens recruitment. To show a release as an example on Services, select only applicable services. Featuring a finding deliberately transfers the single homepage spotlight from the previously featured item.
 
 1. From the latest `main` in [the website repository](https://github.com/colinferrel13-cell/acropolisanalyticsri-site), create a review branch named, for example, `release-your-topic`. Use letters, numbers, and hyphens. The account completing the upload needs write access.
@@ -22,9 +24,17 @@ Under **Release page, related work & placement**, you can provide a plain-langua
 5. Confirm distribution rights and select **Prepare release files**. Review the title, count of retained entries, and filenames. Save every offered file into an empty folder on your computer. The generated JSON is your starting catalog plus one new entry. The PDFs are unchanged copies with safe names based on the ID. Keep the exact names, including `catalog.json`, and remove any suffix such as ` (1)` added by the browser.
 6. Enter your existing review branch's name and select **Open branch upload on GitHub**. Upload the downloaded files together under `library/` on that branch, not at the repository root. Only `catalog.json` should replace an existing file. If a proposed PDF name already exists anywhere in that folder, stop and use a new ID or follow the correction procedure below. No credentials are entered on the Acropolis website.
 7. Open a pull request to `main`. Review the actual diff: it must retain every existing entry, add the intended metadata and files, and only move the previous homepage spotlight if requested. For simultaneous releases, refresh from the latest `main` and reconcile changes before merging. Inspect the PDFs and test publisher links. Do not merge when a validation check fails.
-8. After merging, wait for the normal Pages deployment. Visit the public library and test **View PDF**, **Download**, any publisher link, and both editions on a phone. Use the item's **HTML release page** (`release.html?id=YOUR-ID`) for QR codes and public citations: it survives file revisions. A topic can be shared with `outputs.html?topic=TOPIC-ID`; filters and search terms travel in the URL.
+8. After merging, wait for the normal Pages deployment. Visit the public library and test **View PDF**, **Download**, any publisher link, and both editions on a phone. To cite or share the specific work, use its permanent `release.html?id=YOUR-ID` page. For a print code that should always show the whole group, use the group directory below.
 
 The form downloads files to your device. It does not automatically log you in, create a branch, upload files, merge a pull request, start a deployment, or store credentials. If you abandon a release, close the page or choose **Clear form**; no site changes occur.
+
+## Use a group QR on a factsheet or report
+
+Open the [group link & QR directory](https://acropolisanalyticsri.com/topics/), choose the group, and download its SVG (for vector print layouts) or PNG. The directory also offers a ZIP of all codes and a table of their URLs. Put a caption such as **More on heart, blood & circulation** beside the code, and include the readable, clickable group address. Do not print “Read this report” next to a code that points to a group. Keep the white border intact and test a final-size printed proof.
+
+The `/topics/<id>/` address is independent of titles, PDF editions, and subsequent releases. An empty group still has a usable landing page; adding a matching catalog record fills it automatically. The main library's filters continue to show published holdings only. Never reuse or delete a printed destination. Keep serving the original URL if labels or groupings change.
+
+**Maintainer note:** after adding a permanent group in the catalog schema, run `node tools/build-topic-pages.cjs`, `python tools/generate-topic-qr.py` (ReportLab and Pillow), then `python tools/package-topic-qr.py`. Add its permanent address to `sitemap.xml`. Review the new page, scan the code, and check the bundle before publishing. Adding a release to an existing group does not require rebuilding the pages or artwork.
 
 ## Manual alternative and corrections
 
@@ -34,7 +44,8 @@ The form is **add-only**. To correct metadata, edit the existing record in a pul
 
 ### Catalog extensions
 
-- `topics`: ordered, distinct topic IDs from the controlled vocabulary in `assets/library-schema.js`. The first is primary. If introducing a subject, add its stable ID, reader-friendly label and search aliases to that vocabulary before using it. Unused topics never appear to readers. Older records without topics remain searchable by title and metadata.
+- `topics`: ordered, distinct topic IDs from the controlled vocabulary in `assets/library-schema.js`. The first is primary. Condition groups have permanent pages even before a release. Other cross-cutting subjects retain their library filter links. Older records without topics remain searchable by title and metadata.
+- `collections`: optional, distinct IDs (`psa`, `agriculture`). Collections work alongside topics and the EE series. They do not change a report into a factsheet or indicate survey recruitment.
 - `takeaway`, `geography`, `dataPeriod`, `citation`, `version`, `revision`: optional plain text. The required `date` is the actual public release date, not the years represented by the data.
 - `related`: optional array of existing release IDs; a single reference creates a link on both pages. `supersedes`: an earlier record's ID when there is a distinct new release; the earlier record and its citation remain accessible. If editing an existing EE lesson, retain its unique lesson ID and record, and explain changes in its revision note.
 - `project`: a supported program ID (currently `paeon`). `study`: an ID in `surveys/registry.json`. Neither is a survey URL. `services`: one or more of `mapping`, `surveys`, `reporting`, used only when a release is a suitable public example. `featured`: optional boolean; at most one record can be true.

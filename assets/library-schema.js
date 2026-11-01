@@ -4,30 +4,62 @@
   const obj = v => v !== null && typeof v === "object" && !Array.isArray(v);
   const clean = v => typeof v === "string" && v.length > 0 && v === v.trim();
   const slug = v => clean(v) && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(v);
-  // Controlled editorial vocabulary. Only topics attached to actual releases appear publicly.
+  // Slugs in this register are permanent print destinations. Labels and scope can evolve;
+  // never repurpose a printed URL, even when a group has no released material.
+  const group = (label, description, kind = "topic") => ({label, description, kind});
+  const groups = {
+    "cardiovascular-disease": group("Heart, blood & circulation", "Cardiovascular disease and blood disorders, including coronary artery disease, stroke, high blood pressure, anemia, and sickle cell disease."),
+    "metabolic-health": group("Diabetes, metabolism & kidney health", "Diabetes, obesity, cholesterol disorders, and kidney disease, including research on how these conditions overlap."),
+    "respiratory-health": group("Lungs & breathing", "Asthma, chronic obstructive pulmonary disease (COPD), occupational lung disease, and other respiratory conditions."),
+    "cancer": group("Cancer", "Cancer by site or type, along with research on screening, prevention, outcomes, and access to care."),
+    "brain-nerves-senses": group("Brain, nerves & senses", "Dementia, neurologic and neurodevelopmental conditions, and conditions affecting hearing or vision."),
+    "mental-health": group("Mental health & substance use", "Depression, anxiety, mental health conditions, alcohol and drug use disorders, and overdose."),
+    "infectious-disease": group("Infections & outbreaks", "Communicable diseases, outbreaks, and post-infectious conditions. Research may concern respiratory, foodborne, vector-borne, or sexually transmitted infections."),
+    "digestive-liver-oral": group("Digestive, liver & oral health", "Digestive conditions, liver and gallbladder disease, pancreatitis, and conditions affecting teeth and gums."),
+    "bones-joints-immune": group("Bones, joints & immune conditions", "Musculoskeletal and autoimmune conditions, including arthritis, osteoporosis, spinal disorders, and lupus."),
+    "reproductive-early-life": group("Reproductive, pregnancy & early-life health", "Reproductive health, pregnancy-related conditions, preterm birth, low birth weight, and congenital conditions."),
+    "injuries-exposures": group("Injuries, violence & harmful exposures", "Falls, traffic injuries, violence, poisoning, and occupational or environmental exposures."),
+    "psa": group("Public service announcements (PSAs)", "Public-facing announcements and educational materials about health and safety. A PSA can address any condition or stand on its own.", "collection"),
+    "agriculture": group("Agriculture", "Agricultural research and public health, including farmworker health, occupational exposures, food safety, and the relationships among people, animals, and their environment.", "collection")
+  };
+  const groupEntries = Object.entries(groups);
+  const collections = Object.fromEntries(groupEntries.filter(([,g]) => g.kind === "collection").map(([id,g]) => [id,g.label]));
+  // Preserve earlier topic IDs and cross-cutting research subjects. A topic match
+  // does not imply a particular diagnosis, release, or surveillance designation.
   const subjects = {
-    "cardiovascular-disease": ["Cardiovascular disease", "heart disease", "heart health", "cvd"],
-    "metabolic-health": ["Diabetes & metabolic health", "metabolic disorders"],
-    "respiratory-health": ["Respiratory health", "lung health", "respiratory disease"],
+    ...Object.fromEntries(groupEntries.filter(([,g]) => g.kind === "topic").map(([id,g]) => [id,[g.label]])),
     "dementia-caregiving": ["Dementia & caregiving", "adrd", "caregiver"],
-    "infectious-disease": ["Infectious disease", "communicable disease"],
-    "cancer": ["Cancer", "oncology"],
-    "mental-health": ["Mental & behavioral health", "mental health", "behavioral health"],
     "access-and-equity": ["Health care access & equity", "access to care", "health equity", "inequality"],
     "population-health": ["Population health", "surveillance", "public health"],
     "epidemiologic-methods": ["Epidemiologic methods", "epidemiology", "study design", "statistics", "measurement"]
   };
+  const aliases = {
+    "cardiovascular-disease":["cardiovascular disease","heart disease","heart health","cvd"],
+    "metabolic-health":["metabolic health","metabolic disorders","renal"],
+    "respiratory-health":["respiratory health","lung health","respiratory disease"],
+    "brain-nerves-senses":["neurology","neurologic","sensory"],
+    "infectious-disease":["infectious disease","communicable disease"],
+    cancer:["oncology"],
+    "mental-health":["behavioral health"],
+    "digestive-liver-oral":["gastrointestinal","hepatic","dental"],
+    "bones-joints-immune":["musculoskeletal","autoimmune"],
+    "reproductive-early-life":["maternal","perinatal","neonatal"],
+    "injuries-exposures":["injury","environmental health","occupational health"]
+  };
+  for (const [id, terms] of Object.entries(aliases)) subjects[id].push(...terms);
   const topics = Object.fromEntries(Object.entries(subjects).map(([id, names]) => [id, names[0]]));
   const projects = {paeon: "Population-Adjusted Epidemiology Outcomes Network"};
   const services = {mapping:"Geographic analysis & mapping", surveys:"Survey & program evaluation", reporting:"Reporting & communication"};
   const types = {factsheet:"Factsheet", report:"Full report", publication:"Publication"};
   const own = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
   const releaseURL = id => "/release.html?id=" + encodeURIComponent(id);
-  const topicURL = id => "/outputs.html?topic=" + encodeURIComponent(id);
+  const groupURL = id => "/topics/" + encodeURIComponent(id) + "/";
+  const topicURL = id => own(groups,id) ? groupURL(id) : "/outputs.html?topic=" + encodeURIComponent(id);
   function searchText(item) {
     return [item.title,item.summary,item.takeaway,item.authors,item.lesson,item.geography,item.dataPeriod,
       types[item.type],item.series === "epidemiology-explained" ? "Epidemiology Explained" : "",
-      ...(item.topics || []).flatMap(id => subjects[id] || [])].filter(Boolean).join(" ").toLowerCase();
+      ...(item.topics || []).flatMap(id => subjects[id] || []),
+      ...(item.collections || []).map(id => collections[id])].filter(Boolean).join(" ").toLowerCase();
   }
   const validDate = v => {
     if (!clean(v) || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return false;
@@ -57,7 +89,7 @@
       if (!validDate(item.date)) err("supply a valid release date (YYYY-MM-DD).");
       for (const key of ["takeaway","geography","dataPeriod","citation","version","revision"])
         if (item[key] !== undefined && !clean(item[key])) err("supply nonempty text for " + key + ".");
-      for (const [key, accepts] of [["topics", v => own(topics,v)], ["services", v => own(services,v)], ["related", slug]])
+      for (const [key, accepts] of [["topics", v => own(topics,v)], ["collections", v => own(collections,v)], ["services", v => own(services,v)], ["related", slug]])
         if (item[key] !== undefined && (!Array.isArray(item[key]) || item[key].some(v => !clean(v) || !accepts(v)) ||
             new Set(item[key]).size !== item[key].length)) err("use distinct supported " + key + " IDs.");
       if (item.featured !== undefined && typeof item.featured !== "boolean") err("featured must be true or false.");
@@ -101,7 +133,7 @@
     }
     return errors;
   }
-  const api = { validate, topics, projects, services, types, searchText, releaseURL, topicURL };
+  const api = { validate, topics, collections, groups, projects, services, types, searchText, releaseURL, topicURL, groupURL };
   if (typeof module === "object" && module.exports) module.exports = api;
   else root.PublicationCatalog = api;
 })(globalThis);

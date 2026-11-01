@@ -52,6 +52,10 @@
       context.append(el('h3','Topics'));
       list(context,item.topics.map(id=>[api.topics[id],api.topicURL(id)]));
     }
+    if(item.collections?.length) {
+      context.append(el('h3','Collections'));
+      list(context,item.collections.map(id=>[api.collections[id],api.groupURL(id)]));
+    }
     if(item.revision) context.append(el('h3','Revision note'),el('p',item.revision));
     if(item.supersedes) context.append(a('Previous version: '+byId.get(item.supersedes).title,api.releaseURL(item.supersedes)));
 

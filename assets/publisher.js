@@ -29,6 +29,7 @@
   }
   for (const [id,name] of Object.entries(schema.topics)) el("entry-topic").add(new Option(name,id));
   choices("entry-extra-topics", Object.entries(schema.topics));
+  choices("entry-collections", Object.entries(schema.collections));
   choices("entry-services", Object.entries(schema.services));
   for (const [id,name] of Object.entries(schema.projects)) el("entry-project").add(new Option(name,id));
   fetch("./surveys/registry.json",{mode:"same-origin",credentials:"omit",cache:"no-cache"})
@@ -74,7 +75,30 @@
     status.textContent = "";
   }
 
+  let lastGroupKeys = "";
+  function updateGroupCodes() {
+    const ids = [...new Set([value("entry-topic"), ...checked("entry-extra-topics"), ...checked("entry-collections")])]
+      .filter(id => Object.hasOwn(schema.groups, id));
+    if (lastGroupKeys === ids.join(",")) return;
+    lastGroupKeys = ids.join(",");
+    const rows=ids.map(id=>{
+      const row=document.createElement("li"), group=document.createElement("a");
+      group.textContent=schema.groups[id].label; group.href=schema.groupURL(id);
+      group.target="_blank"; group.rel="noopener"; group.setAttribute("aria-label", group.textContent+" (opens in a new tab)");
+      row.append(group);
+      for (const ext of ["svg","png"]) {
+        const save=document.createElement("a"); save.textContent=ext.toUpperCase();
+        save.href="/assets/qr/"+id+"."+ext; save.download=id+"."+ext;
+        save.setAttribute("aria-label","Download "+schema.groups[id].label+" QR code ("+ext.toUpperCase()+")");
+        row.append(" · ",save);
+      }
+      return row;
+    });
+    el("group-code-links").replaceChildren(...rows); el("selected-group-codes").hidden=!rows.length;
+  }
   function updateFields() {
+    el("entry-topic").required = !checked("entry-collections").length || checked("entry-extra-topics").length > 0;
+    updateGroupCodes();
     const factsheet = value("entry-type") === "factsheet";
     const inSeries = factsheet && el("entry-series").checked;
     el("series-options").hidden = !factsheet;
@@ -170,12 +194,13 @@
         id, type, title: value("entry-title"), summary: value("entry-summary"),
         date: value("entry-date"), authors: value("entry-authors"), files: []
       };
-      entry.topics = [...new Set([value("entry-topic"), ...checked("entry-extra-topics")])];
+      const topics = [...new Set([value("entry-topic"), ...checked("entry-extra-topics")].filter(Boolean))];
+      if (topics.length) entry.topics = topics;
       for (const [key, field] of Object.entries({takeaway:"takeaway", geography:"geography",dataPeriod:"data-period",
         citation:"citation", version:"version", revision:"revision", supersedes:"supersedes", project:"project", study:"study"})) {
         const text = value("entry-" + field); if (text) entry[key] = text;
       }
-      for (const key of ["related","services"]) {
+      for (const key of ["related","services","collections"]) {
         const list = checked("entry-" + key); if (list.length) entry[key] = list;
       }
       if (el("entry-featured").checked) entry.featured = true;

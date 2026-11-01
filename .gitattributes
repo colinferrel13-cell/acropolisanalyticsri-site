@@ -1,0 +1,3 @@
+assets/qr/*.svg text eol=lf
+assets/qr/*.png binary
+assets/qr/*.zip binary
