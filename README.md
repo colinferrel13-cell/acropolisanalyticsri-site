@@ -6,12 +6,14 @@ Institute, LLC. It is a dependency-free static site hosted through GitHub Pages.
 ## Site structure
 
 - `index.html` — homepage and top-level positioning
-- `about.html` — institute mission, founder biography, and independence statement
-- `projects.html` — research programs and project roadmap
+- `about.html` — institute overview and independence statement; `colin-ferrel.html` is the academic profile
+- `projects.html` — research index; `paeon.html` explains PAEON and its planned applications
+- `methods.html` — sources, uncertainty, attribution, release principles, and corrections
 - `participate.html` — public research participation hub and recruitment status
 - `surveys/` — stable participant-facing project pages and survey workflow notes
 - `services.html` — applied analytics capabilities and engagement process
-- `outputs.html` — research library hub; `data.html` keeps the legacy data link working
+- `outputs.html` — topic-first research library and cross-format search; `data.html` preserves the legacy data link
+- `release.html?id=ID` — permanent, shareable HTML record for a work (including its PDF editions or publisher link)
 - `factsheets.html` — searchable public factsheet releases
 - `epidemiology-explained.html` — numbered lessons in a collection within Factsheets
 - `reports.html` — full reports, publications and authorized external links
@@ -70,9 +72,9 @@ server is required for the JSON-driven library and survey pages.
 ## Add a research project
 
 1. Open `projects.html`.
-2. Copy an existing project or workstream `<article class="card">`.
-3. Update the heading, description, tags, and status.
-4. If the project has a dedicated public release, use [the publishing guide](PUBLISHING.md) to add a catalog record and link to its stable release anchor.
+2. Add a short project entry linking to its program or study information page.
+3. Give the project a question, scope, and honest status; label proposed work as planned.
+4. If it has an approved release, use [the publishing guide](PUBLISHING.md) to add the catalog record. Link to its permanent publication page, not only to a particular PDF edition. A program/study tag connects published work to the corresponding page independently of recruitment status.
 5. Add the new page to `sitemap.xml` if it receives its own HTML file.
 
 Use status language conservatively. Gold labels mean planned, in development, or
@@ -94,7 +96,7 @@ downloads/
       README.txt
       data.csv
       data-dictionary.csv
-      methods.pdf
+      methods.txt
 ```
 
 Add a release card to `outputs.html` with:
@@ -110,6 +112,7 @@ Add a release card to `outputs.html` with:
 
 Never commit protected health information, personally identifiable information,
 restricted records, credentials, or partner-confidential data to this repository.
+Keep downloadable publication PDFs in the reviewed `library/` inventory, not alongside separate data extracts.
 
 ## Publish factsheets, reports and publications
 

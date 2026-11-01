@@ -1,4 +1,4 @@
-name: Check public catalogs
+name: Check site and public catalogs
 on: [pull_request, push]
 permissions:
   contents: read
@@ -14,4 +14,4 @@ jobs:
         with:
           node-version: '22'
       - name: Check publication files, survey landings and regression cases
-        run: node --test tools/check-library.test.js tests/survey-directory.test.cjs
+        run: node --test

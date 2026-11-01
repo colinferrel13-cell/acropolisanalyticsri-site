@@ -23,6 +23,12 @@
 .release-filters label { display:block; font-size:.9rem; font-weight:650; }
 .release-filters input, .release-filters select { width:100%; padding:.65rem .8rem; border:1px solid var(--line); border-radius:.45rem; color:var(--text); background:var(--surface); font:inherit; }
 .release-results { display:grid; gap:1rem; }
+.topic-index, .release-topics { display:flex; align-items:center; flex-wrap:wrap; gap:.4rem .55rem; margin:0 0 1.2rem; }
+.topic-index a, .release-topics a { display:inline-block; padding:.38rem .8rem; border:1px solid var(--line); border-radius:2rem; font-size:.95rem; color:var(--text); background:var(--surface); text-decoration:none; }
+.topic-index a:is(:hover,[aria-current]), .release-topics a:hover { border-color:var(--gold); color:var(--gold); }
+.release-topics { margin:.6rem 0 .9rem; }
+.release-entry h3 a { color:var(--text); text-decoration-color:var(--gold-dark); }
+.release-entry h3 a:hover { color:var(--gold-bright); }
 .release-count, .release-byline, .release-meta time, .release-file span { color:var(--muted); font-size:.92rem; }
 .release-entry { padding:clamp(1.1rem,3vw,2rem); background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md); scroll-margin-top:6rem; overflow-wrap:anywhere; }
 .release-entry:target { border-color:var(--gold); }

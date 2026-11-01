@@ -1,0 +1,78 @@
+/* Cover and decision routes; the reading-room and global navigation have their own rules. */
+.front-cover {
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(2.3rem, 4.3vw, 4rem) clamp(1.4rem, 2.3vw, 2rem);
+  border-block-end: 1px solid rgba(244, 200, 97, .36);
+  background: linear-gradient(112deg, #08162b 6%, #112e50 68%, #1a456d);
+}
+.front-intro { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(11rem, .65fr); align-items: center; gap: 2rem; position: relative; }
+.front-copy { z-index: 1; }
+.front-cover h1 { max-width: 22ch; margin-bottom: .78rem; font-size: clamp(2.5rem, 4.8vw, 4.45rem); line-height: 1.04; }
+.front-copy p { max-width: 63ch; color: #e1e7f0; font-size: clamp(1.02rem, 1.35vw, 1.17rem); line-height: 1.62; }
+.front-emblem { width: 100%; height: clamp(12rem, 19vw, 16rem); object-fit: contain; filter: brightness(1.18) drop-shadow(0 0 .8px #d4cbb9); }
+.visitor-routes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-block-start: clamp(1.4rem, 3vw, 2.4rem); border-block: 1px solid #7892a9; }
+.visitor-routes a { display: grid; grid-template-columns: auto 1fr auto; gap: .7rem; align-items: baseline; padding: 1.18rem .9rem; min-width: 0; text-decoration: none; color: var(--text); background: #091a2f50; }
+.visitor-routes a + a { border-inline-start: 1px solid #7892a980; }
+.visitor-routes a:hover, .visitor-routes a:focus-visible { background: #08162b; }
+.visitor-routes a:hover strong, .visitor-routes a:focus-visible strong { text-decoration: underline; text-underline-offset: .22em; color: var(--gold-bright); }
+.route-index, .route-arrow { color: var(--gold-bright); }
+.route-index { font: italic .96rem Georgia, serif; font-variant-numeric: tabular-nums; }
+.visitor-routes strong, .visitor-routes small { display: block; }
+.visitor-routes strong { font-size: clamp(1.04rem, 1.44vw, 1.26rem); line-height: 1.22; }
+.visitor-routes small { color: #c9d8e6; font-size: .88rem; line-height: 1.45; margin-top: .35rem; }
+.front-library { margin: 1rem 0 0; font-size: .92rem; color: #d3dfed; }
+.front-library a { font-weight: 650; }
+.front-feature { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.5fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; }
+.front-feature-label { border-inline-start: .2rem solid var(--gold-dark); padding-inline-start: clamp(1.15rem, 2.5vw, 2rem); }
+.front-feature-label .eyebrow { margin: 0; }
+.feature-name { font: clamp(3.1rem, 5.2vw, 5.1rem)/1.15 Georgia, serif; color: var(--text); margin: .45rem 0 1rem; letter-spacing: -.035em; }
+.front-feature h2, .front-founder h2 { max-width: 23ch; }
+.front-feature p:not(.feature-name), .front-founder p { max-width: 65ch; color: #c9d2df; }
+.front-founder { display: grid; grid-template-columns: minmax(7.5rem, .42fr) minmax(0, 1.58fr); align-items: center; gap: clamp(1.4rem, 4vw, 3.5rem); }
+.front-founder > img { width: min(100%, 12.5rem); aspect-ratio: 4/5; object-fit: cover; object-position: 50% 32%; justify-self: end; border-bottom: .22rem solid var(--gold-dark); }
+.front-inline-links { display: flex; flex-wrap: wrap; align-items: baseline; gap: .65rem 1.65rem; }
+.service-questions { border-block-start: 1px solid var(--line); }
+.service-question { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(1.55rem, 4vw, 3.5rem); padding-block: clamp(1.8rem, 3vw, 2.5rem); border-block-end: 1px solid var(--line); scroll-margin-top: 7rem; }
+.service-kicker { color: var(--gold); font-size: .78rem; font-weight: 740; letter-spacing: .08em; text-transform: uppercase; }
+.service-question h3 { margin: .4rem 0 .7rem; font-size: clamp(1.4rem, 2.2vw, 1.9rem); }
+.service-question p, .service-process p, .service-inquiry p { color: #c9d2df; }
+.deliverables { border-inline-start: .15rem solid var(--gold-dark); align-self: start; padding: .95rem 1.25rem; background: var(--surface); }
+.deliverables h4 { margin: 0 0 .25rem; color: var(--text); font-size: 1rem; }
+.deliverables ul { margin: 0; padding-inline-start: 1.3rem; }
+.deliverables li::marker { color: var(--gold); }
+.service-process { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1.4rem 2.5rem; list-style: none; margin: 0; padding: 0; counter-reset: stage; }
+.service-process li { border-top: 1px solid var(--line); padding-top: .85rem; counter-increment: stage; }
+.service-process li::before { content: counter(stage, decimal-leading-zero); font-family: Georgia, serif; color: var(--gold); }
+.service-process li h3 { margin: .45rem 0; }
+.service-inquiry { display: flex; align-items: center; justify-content: space-between; gap: 1.4rem; padding: 1.6rem clamp(1.25rem, 3vw, 2rem); margin-top: 2.2rem; border-left: 3px solid var(--gold); background: var(--surface); }
+.service-inquiry p { max-width: 58ch; }
+.service-inquiry a { flex-shrink: 0; }
+@media (max-width: 780px) {
+  .front-intro { grid-template-columns: minmax(0, 1fr) minmax(5rem, .32fr); gap: .75rem; }
+  .visitor-routes { grid-template-columns: 1fr; }
+  .visitor-routes a { padding: .65rem .85rem; gap: 1rem; align-items: center; }
+  .visitor-routes a + a { border-inline-start: none; border-block-start: 1px solid #7892a960; }
+  .visitor-routes small { margin-top: .1rem; }
+  .front-feature, .service-question { grid-template-columns: 1fr; }
+  .front-feature { gap: 1.15rem; }
+  .front-feature-label { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: center; padding-left: .85rem; }
+  .feature-name { font-size: 2rem; margin: 0; }
+  .front-founder { grid-template-columns: minmax(6.3rem, .32fr) minmax(0, 1fr); }
+  .service-inquiry { align-items: flex-start; flex-direction: column; }
+}
+@media (max-width: 520px) {
+  .front-intro { display: block; isolation: isolate; }
+  .front-cover { padding-top: 1.8rem; }
+  .front-cover h1 { font-size: clamp(2.15rem, 8.5vw, 2.7rem); }
+  .front-emblem { position: absolute; z-index: -1; inset: 0 -1.8rem 0 auto; width: 8rem; height: 100%; opacity: .12; }
+  .front-founder { grid-template-columns: 1fr; }
+  .front-founder > img { width: 6rem; justify-self: start; }
+  .service-process { grid-template-columns: 1fr; }
+}
+@media print {
+  .front-cover, .visitor-routes a, .deliverables, .service-inquiry { background: white; }
+  .front-emblem, .route-arrow { display: none; }
+  .visitor-routes a, .visitor-routes small, .front-library a, .route-index, .service-kicker, .deliverables h4 { color: #111827; }
+  .service-question { break-inside: avoid; }
+}

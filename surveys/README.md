@@ -25,7 +25,7 @@ The catalogue is public. It accepts no external URLs, arbitrary page paths, HTML
 - **Development:** no recruitment and no questionnaire button. Never describe a proposed 365-day rule as implemented.
 - **Open:** first review and test the actual collection service, confirm eligibility, estimated time, consent, privacy, retention, any verification method, accessibility, study contact, and applicable approvals. Publish these on the stable study page **before** its clearly labeled participant link to the reviewed HTTPS questionnaire. Only then change the registry status to `open` and supply the reviewed duration. The directory still takes readers to the study page.
 - **Paused or closed:** stop accepting responses at the collection service itself; remove/disable the questionnaire link and update the study page and registry together. Changing a directory label alone cannot close a third-party form.
-- **Results:** release availability is separate from recruitment. Link reviewed aggregate reports through the public library; do not mark a study open just because results are available.
+- **Results:** release availability is separate from recruitment. In the publication manager, associate a reviewed aggregate report with the study ID. Its release page links back to that study. To display its findings on the landing page, follow the caregiver example: use a hidden `data-context-releases="study:your-study-id"` container and the shared library-schema and context-releases scripts. Do not mark a study open just because results are available.
 
 ## Verification
 

@@ -5,7 +5,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
-const { validate } = require("../assets/library-schema.js");
+const { validate, searchText, releaseURL, topicURL } = require("../assets/library-schema.js");
 const { checkLibrary } = require("./check-library.js");
 
 // These synthetic metadata and header bytes are created only in isolated OS temp
@@ -64,6 +64,23 @@ test("an empty catalog is publishable", t => {
   assert.deepEqual(checkLibrary(fixture(t, catalog()).dir), []);
 });
 
+test("one tagged report is discoverable by common terminology and links to its methods lesson", () => {
+  const record = release({topics:["cardiovascular-disease"], related:["example-lesson"],
+    featured:true, services:["mapping","reporting"], project:"paeon",
+    geography:"Rhode Island", dataPeriod:"2018–2022", takeaway:"Fixture only.",
+    citation:"Example citation.", version:"1.1", revision:"Updated figure."});
+  assert.deepEqual(validate(catalog(record,lesson())), []);
+  assert.match(searchText(record), /heart disease/);
+  assert.match(searchText(record), /rhode island/);
+  assert.equal(releaseURL(record.id),"/release.html?id=example-report");
+  assert.equal(topicURL(record.topics[0]),"/outputs.html?topic=cardiovascular-disease");
+});
+
+test("the file checker resolves study links against the public registry", t => {
+  const {dir} = fixture(t, catalog({...publication(),study:"not-a-registered-study"}));
+  assert.match(checkLibrary(dir).join(" "),/study is not present/);
+});
+
 test("dual-edition EE sheet, full report and publisher-only publication", t => {
   const data = catalog(lesson(), release(), publication());
   const files = Object.fromEntries(data.items.flatMap(item => item.files.map(f => [f.name, payload])));
@@ -73,6 +90,18 @@ test("dual-edition EE sheet, full report and publisher-only publication", t => {
 
 for (const [label, data] of [
   ["unsupported catalog version", { version: 2, items: [] }],
+  ["unknown topic", catalog(release({topics:["not-a-real-topic"]}))],
+  ["duplicate topic", catalog(release({topics:["cardiovascular-disease","cardiovascular-disease"]}))],
+  ["topic is not an array", catalog(release({topics:"cardiovascular-disease"}))],
+  ["unknown project", catalog(release({project:"not-a-project"}))],
+  ["unsafe study ID", catalog(release({study:"../not-a-study"}))],
+  ["unknown service", catalog(release({services:["unrecognized"]}))],
+  ["unknown related release", catalog(release({related:["unreleased-draft"]}))],
+  ["self-related release", catalog(release({related:["example-report"]}))],
+  ["unknown earlier version", catalog(release({supersedes:"does-not-exist"}))],
+  ["cyclic revision", catalog(release({supersedes:"example-paper"}), {...publication(),supersedes:"example-report"})],
+  ["two featured findings", catalog(release({featured:true}), {...publication(),featured:true})],
+  ["blank takeaway", catalog(release({takeaway:" "}))],
   ["invalid date", catalog(release({ date: "2025-02-29" }))],
   ["unrecognized type", catalog(release({ type: "survey" }))],
   ["invalid release ID", catalog(release({ id: "Report One" }))],

@@ -6,7 +6,8 @@
   const kind = root.dataset.libraryList;
   const loading = root.querySelector(".catalog-loading");
   if (loading) loading.hidden = false;
-  const labels = {factsheet: "Factsheet", report: "Full report", publication: "Publication"};
+  const api = window.PublicationCatalog;
+  const labels = api ? api.types : {};
   const el = (tag, text, cls) => {
     const node = document.createElement(tag);
     if (text !== undefined) node.textContent = text;
@@ -30,11 +31,15 @@
       {year:"numeric", month:"short", day:"numeric", timeZone:"UTC"}));
     date.dateTime = item.date;
     meta.append(el("span", item.lesson || labels[item.type]), date);
-    const permalink = link("Link to release", "#release-" + item.id, "release-permalink");
-    permalink.setAttribute("aria-label", "Link to release: " + item.title);
-    meta.append(permalink);
-    article.append(meta, el("h3", item.title), el("p", item.summary),
+    const heading = el("h3");
+    heading.append(link(item.title, api.releaseURL(item.id)));
+    article.append(meta, heading, el("p", item.summary),
       el("p", "By " + item.authors, "release-byline"));
+    if (item.topics?.length) {
+      const tags = el("div", undefined, "release-topics");
+      item.topics.forEach(id => tags.append(link(api.topics[id], api.topicURL(id))));
+      article.append(tags);
+    }
     if (item.series && kind !== "series")
       article.append(link("Epidemiology Explained", "epidemiology-explained.html#release-" + item.id, "release-series"));
     for (const f of item.files) {
@@ -57,13 +62,14 @@
     const res = await fetch("library/catalog.json", {cache:"no-cache", mode:"same-origin", credentials:"omit", signal:controller.signal});
     if (!res.ok) throw new Error("Catalog unavailable");
     const data = await res.json();
-    if (PublicationCatalog.validate(data).length) throw new Error("Invalid catalog");
-    const items = data.items.filter(item => kind === "series" ? item.series === "epidemiology-explained" :
+    if (api.validate(data).length) throw new Error("Invalid catalog");
+    const items = data.items.filter(item => kind === "all" ? true : kind === "series" ? item.series === "epidemiology-explained" :
       kind === "factsheets" ? item.type === "factsheet" : ["report","publication"].includes(item.type))
       .sort((a,b) => kind === "series" ? a.lesson.localeCompare(b.lesson, "en", {numeric:true}) :
         b.date.localeCompare(a.date) || a.title.localeCompare(b.title));
     if (!items.length) {
       const copy = {
+        all:["No public releases yet", "Reviewed factsheets, reports and publications will appear here together. Topic pages open as soon as the first item on that subject is released."],
         factsheets:["No factsheets published yet", "When a factsheet is released, you’ll find its summary, available editions and downloads here."],
         series:["No lessons published yet", "The topic guide below introduces the series. Released lessons will appear here in lesson order."],
         reports:["No reports or publications listed yet", "This collection will list full reports and links to published research as they are released."]
@@ -72,33 +78,76 @@
     }
     const results = el("div", undefined, "release-results");
     root.replaceChildren();
+    const topicIds = [...new Set(items.flatMap(item => item.topics || []))]
+      .sort((a,b) => api.topics[a].localeCompare(api.topics[b]));
+    const entryParams = new URL(location.href).searchParams;
+    // Preserve a reader's saved filter even if a topic later ceases to have releases.
     const controls = el("div", undefined, "release-filters");
     const search = el("input"); search.type = "search"; search.id = "release-search";
-    const searchLabel = el("label","Search this collection"); searchLabel.htmlFor = search.id;
-    const select = el("select"); select.id = "release-filter";
-    const field = el("div"); field.append(searchLabel, search); controls.append(field);
-    const filterField = el("div"), filterLabel = el("label", kind === "reports" ? "Type" : "Collection");
-    filterLabel.htmlFor = select.id; filterField.append(filterLabel, select);
-    const group = item => kind === "reports" ? labels[item.type] : item.series ? "Epidemiology Explained" : "Other factsheets";
-    const groups = [...new Set(items.map(group))];
-    select.append(new Option("All", ""));
-    if (groups.length > 1) { groups.forEach(g => select.append(new Option(g, g))); controls.append(filterField); }
+    search.value = entryParams.get("q") || "";
+    function field(name, control) {
+      const wrap = el("div"), label = el("label", name); label.htmlFor = control.id;
+      wrap.append(label, control); controls.append(wrap);
+    }
+    field(kind === "all" ? "Search the whole library" : "Search this collection", search);
+    function selectField(key, name, options, allLabel) {
+      const s = el("select"); s.id = "release-" + key;
+      s.append(new Option(allLabel, ""));
+      options.forEach(([id,label]) => s.append(new Option(label,id)));
+      const requested = entryParams.get(key);
+      if (requested && !options.some(([v]) => v === requested)) s.append(new Option("Unavailable selection", requested));
+      s.value = requested || "";
+      if (options.length || requested) field(name, s);
+      return s;
+    }
+    const topic = selectField("topic","Topic", topicIds.map(id => [id,api.topics[id]]), "All topics");
+    const type = selectField("type","Resource type", kind === "all" || kind === "reports"
+      ? [...new Set(items.map(it => it.type))].map(id => [id,labels[id]]) : [], "All types");
+    const series = selectField("series","Series", (kind === "all" || kind === "factsheets") && items.some(it => it.series)
+      ? [["epidemiology-explained","Epidemiology Explained"]] : [], "All collections");
+    if (kind === "all" && topicIds.length) {
+      const nav = el("nav",undefined,"topic-index"); nav.setAttribute("aria-label","Browse by topic");
+      topicIds.forEach(id => {
+        const a = link(api.topics[id], api.topicURL(id) + "#browse");
+        if (id === topic.value) a.setAttribute("aria-current","true");
+        nav.append(a);
+      });
+      root.append(nav);
+    }
     const status = el("p", undefined, "release-count"); status.setAttribute("role","status");
     root.append(controls, status, results);
-    function render() {
-      const q = search.value.trim().toLocaleLowerCase();
-      const found = items.filter(it => (!select.value || group(it) === select.value) &&
-        [it.title,it.summary,it.authors,it.lesson,group(it)].filter(Boolean).join(" ").toLocaleLowerCase().includes(q));
+    function render(updateURL = false) {
+      const q = search.value.trim().toLowerCase(), tokens = q.split(/\s+/).filter(Boolean);
+      if (updateURL) {
+        const u = new URL(location.href);
+        for (const [key,value] of [["q",q],["topic",topic.value],["type",type.value],["series",series.value]])
+          if (value) u.searchParams.set(key, value); else u.searchParams.delete(key);
+        if (u.hash.startsWith("#release-")) u.hash = "";
+        history.replaceState(null,"",u);
+      }
+      root.querySelectorAll(".topic-index a").forEach(a => {
+        if (new URL(a.href).searchParams.get("topic") === topic.value) a.setAttribute("aria-current","true");
+        else a.removeAttribute("aria-current");
+      });
+      if (kind === "all") {
+        const subject = topicIds.includes(topic.value) ? api.topics[topic.value] : "";
+        document.getElementById("browse-title").textContent = subject || "Browse by topic";
+        document.title = (subject ? subject + " · " : "") + "Research Library | Acropolis Analytics Research Institute";
+      }
+      const found = items.filter(it => (!topic.value || it.topics?.includes(topic.value)) &&
+        (!type.value || it.type === type.value) && (!series.value || it.series === series.value) &&
+        tokens.every(token => api.searchText(it).includes(token)));
       status.textContent = found.length + (found.length === 1 ? " release" : " releases");
       results.replaceChildren(...found.map(card));
       if (!found.length) {
         const msg = state("No matching releases","Try another title, author or lesson number.");
         const reset = el("button","Clear filters","button button-secondary"); reset.type = "button";
-        reset.onclick = () => { search.value = ""; select.value = ""; render(); search.focus(); };
+        reset.onclick = () => { for (const control of [search, topic, type, series]) control.value = ""; render(true); search.focus(); };
         msg.append(reset); results.append(msg);
       }
     }
-    search.addEventListener("input", render); select.addEventListener("change", render);
+    search.addEventListener("input", () => render(true));
+    [topic,type,series].forEach(control => control.addEventListener("change", () => render(true)));
     render();
     if (location.hash.startsWith("#release-")) document.getElementById(location.hash.slice(1))?.scrollIntoView();
   } catch {

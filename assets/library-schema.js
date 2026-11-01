@@ -3,6 +3,32 @@
   "use strict";
   const obj = v => v !== null && typeof v === "object" && !Array.isArray(v);
   const clean = v => typeof v === "string" && v.length > 0 && v === v.trim();
+  const slug = v => clean(v) && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(v);
+  // Controlled editorial vocabulary. Only topics attached to actual releases appear publicly.
+  const subjects = {
+    "cardiovascular-disease": ["Cardiovascular disease", "heart disease", "heart health", "cvd"],
+    "metabolic-health": ["Diabetes & metabolic health", "metabolic disorders"],
+    "respiratory-health": ["Respiratory health", "lung health", "respiratory disease"],
+    "dementia-caregiving": ["Dementia & caregiving", "adrd", "caregiver"],
+    "infectious-disease": ["Infectious disease", "communicable disease"],
+    "cancer": ["Cancer", "oncology"],
+    "mental-health": ["Mental & behavioral health", "mental health", "behavioral health"],
+    "access-and-equity": ["Health care access & equity", "access to care", "health equity", "inequality"],
+    "population-health": ["Population health", "surveillance", "public health"],
+    "epidemiologic-methods": ["Epidemiologic methods", "epidemiology", "study design", "statistics", "measurement"]
+  };
+  const topics = Object.fromEntries(Object.entries(subjects).map(([id, names]) => [id, names[0]]));
+  const projects = {paeon: "Population-Adjusted Epidemiology Outcomes Network"};
+  const services = {mapping:"Geographic analysis & mapping", surveys:"Survey & program evaluation", reporting:"Reporting & communication"};
+  const types = {factsheet:"Factsheet", report:"Full report", publication:"Publication"};
+  const own = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
+  const releaseURL = id => "/release.html?id=" + encodeURIComponent(id);
+  const topicURL = id => "/outputs.html?topic=" + encodeURIComponent(id);
+  function searchText(item) {
+    return [item.title,item.summary,item.takeaway,item.authors,item.lesson,item.geography,item.dataPeriod,
+      types[item.type],item.series === "epidemiology-explained" ? "Epidemiology Explained" : "",
+      ...(item.topics || []).flatMap(id => subjects[id] || [])].filter(Boolean).join(" ").toLowerCase();
+  }
   const validDate = v => {
     if (!clean(v) || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return false;
     const parsed = new Date(v + "T00:00:00Z");
@@ -19,6 +45,7 @@
     if (!obj(catalog) || catalog.version !== 1 || !Array.isArray(catalog.items))
       return ["Expected catalog version 1 with an items list."];
     const ids = new Set(), lessons = new Set(), paths = new Set(), errors = [];
+    let featuredCount = 0;
     for (const [i, item] of catalog.items.entries()) {
       const err = msg => errors.push("Entry " + (i + 1) + ": " + msg);
       if (!obj(item)) { err("expected an object."); continue; }
@@ -28,6 +55,16 @@
       if (!["factsheet", "report", "publication"].includes(item.type)) err("unknown item type.");
       for (const key of ["title", "summary", "authors"]) if (!clean(item[key])) err("supply " + key + ".");
       if (!validDate(item.date)) err("supply a valid release date (YYYY-MM-DD).");
+      for (const key of ["takeaway","geography","dataPeriod","citation","version","revision"])
+        if (item[key] !== undefined && !clean(item[key])) err("supply nonempty text for " + key + ".");
+      for (const [key, accepts] of [["topics", v => own(topics,v)], ["services", v => own(services,v)], ["related", slug]])
+        if (item[key] !== undefined && (!Array.isArray(item[key]) || item[key].some(v => !clean(v) || !accepts(v)) ||
+            new Set(item[key]).size !== item[key].length)) err("use distinct supported " + key + " IDs.");
+      if (item.featured !== undefined && typeof item.featured !== "boolean") err("featured must be true or false.");
+      if (item.featured === true && ++featuredCount > 1) err("only one homepage finding can be featured.");
+      if (item.project !== undefined && (!clean(item.project) || !own(projects,item.project))) err("unknown project.");
+      if (item.study !== undefined && !slug(item.study)) err("invalid study ID.");
+      if (item.supersedes !== undefined && !slug(item.supersedes)) err("invalid earlier release ID.");
       if (item.series || item.lesson) {
         if (item.type !== "factsheet" || item.series !== "epidemiology-explained" ||
           !clean(item.lesson) || !/^EE (0|[1-9]\d*)\.\d{2}$/.test(item.lesson) || lessons.has(item.lesson))
@@ -50,9 +87,21 @@
         if (!Number.isSafeInteger(f.bytes) || f.bytes < 1) err("file size must be in bytes.");
       }
     }
+    if (errors.length) return errors;
+    const byId = new Map(catalog.items.map(item => [item.id, item]));
+    for (const item of catalog.items) {
+      for (const ref of [...(item.related || []), ...(item.supersedes ? [item.supersedes] : [])])
+        if (ref === item.id || !byId.has(ref)) errors.push(item.id + ": invalid or missing referenced release " + ref + ".");
+      const seen = new Set([item.id]);
+      let next = item.supersedes;
+      while (next && byId.has(next)) {
+        if (seen.has(next)) { errors.push(item.id + ": revision references form a cycle."); break; }
+        seen.add(next); next = byId.get(next).supersedes;
+      }
+    }
     return errors;
   }
-  const api = { validate };
+  const api = { validate, topics, projects, services, types, searchText, releaseURL, topicURL };
   if (typeof module === "object" && module.exports) module.exports = api;
   else root.PublicationCatalog = api;
 })(globalThis);

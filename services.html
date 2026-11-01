@@ -9,6 +9,7 @@
   <link rel="canonical" href="https://acropolisanalyticsri.com/services.html">
   <link rel="icon" href="/assets/brand/helmet-accent.webp" type="image/webp">
   <link rel="stylesheet" href="style.css?v=20260731-3">
+  <link rel="stylesheet" href="/assets/front-door.css">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Acropolis Analytics Research Institute">
   <meta property="og:title" content="Services | Acropolis Analytics Research Institute">
@@ -20,6 +21,9 @@
   <meta property="og:image:alt" content="Acropolis Analytics Research Institute, Science, Medicine and Humanity">
   <meta name="twitter:card" content="summary_large_image">
   <script src="site.js?v=20260731-1" defer></script>
+  <link rel="stylesheet" href="/assets/read.css?v=1">
+  <script src="/assets/library-schema.js" defer></script>
+  <script src="/assets/context-releases.js" defer></script>
 </head>
 <body data-ornament-one="shield-column" data-ornament-two="column-cracked">
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -38,11 +42,11 @@
             <span class="sr-only">Open navigation</span>
             <span class="nav-toggle-lines" aria-hidden="true"></span>
           </button>
-          <div class="nav-links" id="primary-navigation">
+<div class="nav-links" id="primary-navigation">
             <a href="projects.html">Research</a>
-            <a href="services.html" aria-current="page">Services</a>
-            <a href="participate.html">Surveys</a>
             <a href="outputs.html">Library</a>
+            <a href="participate.html">Surveys</a>
+            <a href="services.html" aria-current="page">Services</a>
             <a href="about.html">About</a>
             <a class="nav-cta" href="contact.html">Contact</a>
           </div>
@@ -51,17 +55,14 @@
     </header>
 
     <main id="main-content" tabindex="-1">
-      <section class="page-hero page-hero--services">
+      <section class="page-hero page-hero--services" aria-labelledby="services-page-title">
         <div class="container">
-          <span class="eyebrow">Applied analytic services</span>
-          <h1>Applied analytics services.</h1>
-          <p class="lede">
-            Technical depth is scoped around a real decision. Acropolis supports
-            agencies, research teams, care organizations, and mission-driven partners
-            with defensible data foundations, models, surveys, and reports.
-          </p>
+          <span class="eyebrow">Applied analytics services</span>
+          <h1 id="services-page-title">Work with Acropolis</h1>
+          <p class="lede">Bring a public-health question and the decision it needs to inform. Acropolis can help design a survey, interpret population data, or turn a complex analysis into a useful report.</p>
           <div class="actions">
             <a class="button button-primary" href="contact.html">Discuss your project</a>
+            <a class="button button-secondary" href="#services-title">Explore services</a>
           </div>
         </div>
       </section>
@@ -69,74 +70,46 @@
       <section class="section" aria-labelledby="services-title">
         <div class="container">
           <div class="section-heading">
-            <div>
-              <span class="eyebrow">Capabilities</span>
-              <h2 id="services-title">Support across the analytic lifecycle.</h2>
-            </div>
-            <p>
-              Engagements can focus on one specific deliverable or combine several
-              capabilities into a documented workflow that can be updated over time.
-            </p>
+            <div><span class="eyebrow">What we can work on</span><h2 id="services-title">Start with your question.</h2></div>
+            <p>These are examples of how an engagement can be scoped. The data, intended audience, and decision determine which methods and deliverables make sense.</p>
           </div>
 
-          <div class="grid grid-2">
-            <article class="card featured-card">
-              <span class="card-number">01</span>
-              <h3>Population &amp; survey data integration</h3>
-              <p>
-                Create a clean, defensible data backbone before modeling begins.
-              </p>
-              <ul>
-                <li>BRFSS, YRBSS, Census/ACS, vital statistics, and surveillance data</li>
-                <li>Geographic and temporal harmonization</li>
-                <li>Variable crosswalks, recodes, and data dictionaries</li>
-                <li>Structures designed for repeat updates</li>
-              </ul>
+          <div class="service-questions">
+            <article class="service-question" id="mapping" aria-labelledby="mapping-title">
+              <div>
+                <span class="service-kicker">01 / Population health &amp; geography</span>
+                <h3 id="mapping-title">Where is disease burden highest?</h3>
+                <p>Compare places or populations using surveillance, census, or vital statistics data. We look at whether the measures, denominators, and time periods are comparable before mapping differences.</p>
+              </div>
+              <div class="deliverables">
+                <h4>Possible deliverables</h4>
+                <ul><li>A county-level map and accompanying rate table</li><li>An analysis of trends, risk, or geographic differences</li><li>A data dictionary and notes on uncertainty</li></ul>
+                <div data-context-releases="service:mapping" hidden></div>
+              </div>
             </article>
-
-            <article class="card featured-card">
-              <span class="card-number">02</span>
-              <h3>Modeling, burden &amp; risk</h3>
-              <p>
-                Develop estimates and scenarios that answer a defined planning or
-                research question.
-              </p>
-              <ul>
-                <li>Survey-weighted and multivariable regression</li>
-                <li>Small-area burden and risk summaries</li>
-                <li>Trend, cluster, and geographic comparisons</li>
-                <li>Scenario analysis with uncertainty made explicit</li>
-              </ul>
+            <article class="service-question" id="surveys" aria-labelledby="surveys-title">
+              <div>
+                <span class="service-kicker">02 / Surveys &amp; program evaluation</span>
+                <h3 id="surveys-title">What did our survey tell us?</h3>
+                <p>Understand what respondents reported, whose experience may be missing, and which comparisons the survey supports. If collection has not started, we can review questions and plan the analysis first.</p>
+              </div>
+              <div class="deliverables">
+                <h4>Possible deliverables</h4>
+                <ul><li>A questionnaire review and analysis plan</li><li>Response summaries with appropriate weighting</li><li>A repeatable reporting workflow for later survey rounds</li></ul>
+                <div data-context-releases="service:surveys" hidden></div>
+              </div>
             </article>
-
-            <article class="card featured-card">
-              <span class="card-number">03</span>
-              <h3>Survey &amp; program analytics</h3>
-              <p>
-                Help programs collect the right information and use it to improve
-                services and communicate need.
-              </p>
-              <ul>
-                <li>Survey design, refinement, and analysis</li>
-                <li>Caregiver and patient-experience reporting</li>
-                <li>Recurring program summaries and dashboards</li>
-                <li>Links between participant experience and population context</li>
-              </ul>
-            </article>
-
-            <article class="card featured-card">
-              <span class="card-number">04</span>
-              <h3>Reporting, visualization &amp; grants</h3>
-              <p>
-                Translate complex methods into materials tailored to reviewers, leaders,
-                partners, and public audiences.
-              </p>
-              <ul>
-                <li>Publication-ready figures, maps, and tables</li>
-                <li>Technical reports, executive briefs, and slide decks</li>
-                <li>Analytic and methods sections for proposals</li>
-                <li>Codebooks, appendices, and reproducible handoffs</li>
-              </ul>
+            <article class="service-question" id="reporting" aria-labelledby="reporting-title">
+              <div>
+                <span class="service-kicker">03 / Reporting &amp; communication</span>
+                <h3 id="reporting-title">How do we explain the findings?</h3>
+                <p>A public audience, a program director, and a technical reviewer need different levels of detail. We can shape the same analysis for each audience while keeping the sources, interpretation, and limits consistent.</p>
+              </div>
+              <div class="deliverables">
+                <h4>Possible deliverables</h4>
+                <ul><li>A public factsheet or executive brief</li><li>A technical report, methods appendix, or grant methods section</li><li>Presentation figures, tables, or stakeholder slides</li></ul>
+                <div data-context-releases="service:reporting" hidden></div>
+              </div>
             </article>
           </div>
         </div>
@@ -145,89 +118,19 @@
       <section class="section section-muted" aria-labelledby="process-title">
         <div class="container">
           <div class="section-heading">
-            <div>
-              <span class="eyebrow">Engagement process</span>
-              <h2 id="process-title">Start narrow. Build what the question needs.</h2>
-            </div>
-            <p>
-              The initial conversation is used to determine whether Acropolis is a good
-              methodological and practical fit before a detailed scope is developed.
-            </p>
+            <div><span class="eyebrow">Working together</span><h2 id="process-title">From question to handoff</h2></div>
+            <p>Acropolis works with public-health agencies, researchers, care organizations, and mission-driven programs. A project can be a single analysis, a recurring report, or a research collaboration.</p>
           </div>
-
-          <div class="process">
-            <article class="process-step">
-              <span>1</span>
-              <h3>Scope the decision</h3>
-              <p>
-                Define the question, intended audience, available data, constraints,
-                timeline, and what a useful answer would look like.
-              </p>
-            </article>
-            <article class="process-step">
-              <span>2</span>
-              <h3>Design the work</h3>
-              <p>
-                Align methods, data governance, milestones, deliverables, review points,
-                and expectations for code and documentation.
-              </p>
-            </article>
-            <article class="process-step">
-              <span>3</span>
-              <h3>Deliver and hand off</h3>
-              <p>
-                Produce decision-ready outputs with the technical context needed to
-                interpret, maintain, reproduce, or extend them.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" aria-labelledby="fit-title">
-        <div class="container">
-          <div class="split-panel">
-            <div>
-              <span class="eyebrow">Typical partners</span>
-              <h2 id="fit-title">Where the work fits.</h2>
-              <ul>
-                <li>State and local public-health agencies</li>
-                <li>Universities and interdisciplinary research teams</li>
-                <li>Clinical, memory-care, and long-term-care organizations</li>
-                <li>Nonprofit and mission-driven programs</li>
-                <li>Laboratory and translational science groups</li>
-              </ul>
+          <ol class="service-process">
+            <li><h3>Define the decision</h3><p>Identify who will use the result, what they need to decide, and what data are available.</p></li>
+            <li><h3>Agree on the scope</h3><p>Choose methods, deliverables, data safeguards, milestones, and review points together.</p></li>
+            <li><h3>Hand over the work</h3><p>Review the findings, their limitations, and the documentation needed to interpret or update them.</p></li>
+          </ol>
+          <div class="service-inquiry">
+            <div><h3>Tell us about your project</h3>
+              <p>A question, an intended audience, and a timeline are enough for a first conversation. Please do not send personal health information or confidential files.</p>
             </div>
-            <div>
-              <h3>Engagement range</h3>
-              <p>
-                Work may range from a bounded analytic consultation to a repeat reporting
-                system or multi-year research collaboration. Scope depends on data access,
-                governance requirements, method, audience, and timeline.
-              </p>
-              <div class="note">
-                Do not send protected health information, confidential records, or
-                restricted datasets during an initial inquiry. Secure transfer and
-                appropriate agreements can be discussed after scope and fit are reviewed.
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="container">
-          <div class="cta-panel">
-            <span class="eyebrow">Project inquiry</span>
-            <h2>Describe the question before the solution.</h2>
-            <p>
-              A useful first message includes the decision you need to support, the
-              audience, available data, constraints, and preferred timeline.
-            </p>
-            <div class="actions">
-              <a class="button button-primary" href="contact.html">Start a project inquiry</a>
-              <a class="button button-secondary" href="projects.html">Review the research</a>
-            </div>
+            <a class="button button-primary" href="contact.html">Start a project inquiry</a>
           </div>
         </div>
       </section>
@@ -239,12 +142,13 @@
           <div class="footer-title">Acropolis Analytics Research Institute</div>
           <p class="footer-subtitle">Science, Medicine &amp; Humanity</p>
         </div>
-        <nav class="footer-links" aria-label="Footer navigation">
+<nav class="footer-links" aria-label="Footer navigation">
           <a href="projects.html">Research</a>
-          <a href="services.html" aria-current="page">Services</a>
-          <a href="participate.html">Surveys</a>
           <a href="outputs.html">Library</a>
+          <a href="participate.html">Surveys</a>
+          <a href="services.html" aria-current="page">Services</a>
           <a href="about.html">About</a>
+          <a href="/methods.html">Methods &amp; transparency</a>
           <a href="contact.html">Contact</a>
           <a href="privacy.html">Privacy</a>
         </nav>

@@ -17,6 +17,47 @@
   let exportedUrls = [];
   const value = (id) => el(id).value.trim();
   const selected = (id) => el(id).files[0];
+  const checked = id => [...el(id).querySelectorAll("input:checked")].map(i => i.value);
+  function choices(id, pairs, keep = []) {
+    const container = el(id); container.replaceChildren();
+    for (const [value, title] of pairs) {
+      const label = document.createElement("label"); label.className = "check-label";
+      const input = document.createElement("input"); input.type = "checkbox";
+      input.value = value; input.checked = keep.includes(value);
+      label.append(input, document.createTextNode(title)); container.append(label);
+    }
+  }
+  for (const [id,name] of Object.entries(schema.topics)) el("entry-topic").add(new Option(name,id));
+  choices("entry-extra-topics", Object.entries(schema.topics));
+  choices("entry-services", Object.entries(schema.services));
+  for (const [id,name] of Object.entries(schema.projects)) el("entry-project").add(new Option(name,id));
+  fetch("./surveys/registry.json",{mode:"same-origin",credentials:"omit",cache:"no-cache"})
+    .then(async r => {
+      if (!r.ok) throw Error();
+      const registry = await r.json();
+      if (registry.version !== 1 || !Array.isArray(registry.studies)) throw Error();
+      for (const study of registry.studies)
+        if (/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(study.id) && typeof study.title === "string")
+          el("entry-study").add(new Option(study.title, study.id));
+    }).catch(() => { el("study-choices-status").textContent = "Study options could not load. If sharing study findings, reconnect before preparing your release."; });
+
+  let choicesVersion = 0;
+  async function refreshRelations() {
+    const current = ++choicesVersion;
+    const prior = checked("entry-related"), earlier = el("entry-supersedes");
+    const previous = earlier.value;
+    choices("entry-related", []); earlier.replaceChildren(new Option("None",""));
+    try {
+      const catalog = await loadBase();
+      if (current !== choicesVersion) return;
+      choices("entry-related", catalog.items.map(it => [it.id,it.title]), prior);
+      for (const it of catalog.items) earlier.add(new Option(it.title,it.id));
+      if ([...earlier.options].some(o => o.value === previous)) earlier.value = previous;
+      el("related-status").textContent = catalog.items.length ? "" : "No prior releases are available in the starting catalog.";
+    } catch {
+      if (current === choicesVersion) el("related-status").textContent = "Choose a current local catalog below to see companion releases.";
+    }
+  }
   const slug = (str) => str.toLowerCase().normalize("NFKD")
     .replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-")
     .slice(0, 90).replace(/^-+|-+$/g, "");
@@ -77,7 +118,7 @@
   async function preparePdf(file, label, id) {
     if (file.size <= 0 || file.size > 25 * 1024 * 1024)
       throw new Error("Choose a nonempty PDF of 25 MiB or less for each edition.");
-    if (!/\.pdf$/i.test(file.name) || !(await file.slice(0, 1024).text()).includes("%PDF-"))
+    if (!/\.pdf$/i.test(file.name) || !/^%PDF-(?:1\.[0-7]|2\.0)(?:\r\n|\r|\n)/.test(await file.slice(0, 10).text()))
       throw new Error("A selected file does not appear to be a PDF. Export it as a real PDF rather than renaming its extension.");
     const suffix = { "PDF": "", "Showcase": "-showcase", "Printer-friendly": "-print" }[label];
     if (suffix === undefined) throw new Error("Choose a supported PDF edition.");
@@ -104,11 +145,13 @@
     updateFields();
   });
   form.addEventListener("change", () => { invalidate(); updateFields(); });
+  el("entry-catalog").addEventListener("change", refreshRelations);
   form.addEventListener("reset", () => {
     invalidate();
     manualId = false;
     requestAnimationFrame(() => {
       updateFields();
+      refreshRelations();
       status.textContent = "Form cleared. No repository changes were made.";
     });
   });
@@ -127,6 +170,15 @@
         id, type, title: value("entry-title"), summary: value("entry-summary"),
         date: value("entry-date"), authors: value("entry-authors"), files: []
       };
+      entry.topics = [...new Set([value("entry-topic"), ...checked("entry-extra-topics")])];
+      for (const [key, field] of Object.entries({takeaway:"takeaway", geography:"geography",dataPeriod:"data-period",
+        citation:"citation", version:"version", revision:"revision", supersedes:"supersedes", project:"project", study:"study"})) {
+        const text = value("entry-" + field); if (text) entry[key] = text;
+      }
+      for (const key of ["related","services"]) {
+        const list = checked("entry-" + key); if (list.length) entry[key] = list;
+      }
+      if (el("entry-featured").checked) entry.featured = true;
       const url = value("entry-url");
       if (url) entry.url = url;
       if (type === "factsheet" && el("entry-series").checked) {
@@ -144,7 +196,11 @@
       if (first) files.push(await preparePdf(first, label, id));
       if (second) files.push(await preparePdf(second, "Printer-friendly", id));
       entry.files = files.map((pdf) => pdf.meta);
-      const updated = { ...base, items: [...base.items, entry] };
+      const retained = base.items.map(it => {
+        if (!entry.featured || !it.featured) return it;
+        const copy = {...it}; delete copy.featured; return copy;
+      });
+      const updated = { ...base, items: [...retained, entry] };
       validate(updated, "Cannot prepare this release");
       if (revision !== currentRevision) return;
 
@@ -182,6 +238,7 @@
     }
   });
   el("entry-fields").disabled = false;
+  refreshRelations();
   updateFields();
   status.textContent = "";
 })();

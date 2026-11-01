@@ -7,7 +7,8 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { validate } = require("../assets/library-schema.js");
 
-function checkLibrary(dir = path.join(__dirname, "..", "library")) {
+function checkLibrary(dir = path.join(__dirname, "..", "library"),
+  registryFile = path.join(__dirname, "..", "surveys", "registry.json")) {
   const errors = [];
   try {
     if (!fs.lstatSync(dir).isDirectory()) return ["library/ must be a real directory."];
@@ -24,6 +25,14 @@ function checkLibrary(dir = path.join(__dirname, "..", "library")) {
     const schemaErrors = validate(catalog);
     // Never resolve paths supplied by records until the shared basename/URL contract passes.
     if (schemaErrors.length) return schemaErrors;
+    const referencedStudies = catalog.items.filter(item => item.study);
+    if (referencedStudies.length) {
+      const registry = JSON.parse(fs.readFileSync(registryFile,"utf8"));
+      if (registry.version !== 1 || !Array.isArray(registry.studies)) return ["Cannot validate the linked study registry."];
+      const known = new Set(registry.studies.map(study => study.id));
+      for (const item of referencedStudies) if (!known.has(item.study))
+        errors.push(item.id + ": study is not present in surveys/registry.json: " + item.study);
+    }
 
     const listed = new Set();
     for (const item of catalog.items) {

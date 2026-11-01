@@ -13,6 +13,7 @@
   <script src="site.js?v=20260731-1" defer></script>
   <script src="assets/library-schema.js" defer></script>
   <script src="assets/publisher.js" defer></script>
+  <link rel="stylesheet" href="/assets/read.css?v=1">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -31,11 +32,11 @@
             <span class="sr-only">Open navigation</span>
             <span class="nav-toggle-lines" aria-hidden="true"></span>
           </button>
-          <div class="nav-links" id="primary-navigation">
+<div class="nav-links" id="primary-navigation">
             <a href="projects.html">Research</a>
-            <a href="services.html">Services</a>
-            <a href="participate.html">Surveys</a>
             <a href="outputs.html">Library</a>
+            <a href="participate.html">Surveys</a>
+            <a href="services.html">Services</a>
             <a href="about.html">About</a>
             <a class="nav-cta" href="contact.html">Contact</a>
           </div>
@@ -72,6 +73,12 @@
               <label>Title <input id="entry-title" required maxlength="220"></label>
               <label>Authors or issuing organization <input id="entry-authors" required maxlength="450"></label>
               <label>Short summary <textarea id="entry-summary" rows="3" required maxlength="1400"></textarea></label>
+              <label>Primary topic <select id="entry-topic" required><option value="">Choose the subject of this work</option></select></label>
+              <details>
+                <summary>Additional topics (optional)</summary>
+                <p>Tag subjects the release actually covers. Use companion links below for general lessons that explain your method.</p>
+                <div id="entry-extra-topics" class="publisher-checks"></div>
+              </details>
               <label>Library ID <input id="entry-id" required pattern="[a-z0-9]+(-[a-z0-9]+)*" maxlength="90" aria-describedby="id-hint" spellcheck="false"></label>
               <p class="field-hint" id="id-hint">A unique name used for links and filenames, such as <code>caregiver-report-v1</code>. A suggestion appears when you enter a title.</p>
               <div id="series-options">
@@ -79,6 +86,29 @@
                 <label id="lesson-field" hidden>Lesson number <input id="entry-lesson" placeholder="EE 0.00" pattern="EE [0-9]+\.[0-9]{2}" disabled aria-describedby="lesson-hint"></label>
                 <p class="field-hint" id="lesson-hint" hidden>Use the series identifier exactly, including both digits after the decimal.</p>
               </div>
+              <details>
+                <summary>Release page, related work &amp; placement (optional)</summary>
+                <label>Plain-language takeaway <textarea id="entry-takeaway" rows="2" maxlength="1200"></textarea></label>
+                <div class="publisher-grid">
+                  <label>Geography <input id="entry-geography" maxlength="200"></label>
+                  <label>Period covered by the data <input id="entry-data-period" maxlength="120"></label>
+                </div>
+                <label>Suggested citation <textarea id="entry-citation" rows="2" maxlength="1400"></textarea></label>
+                <label>Version or edition identifier <input id="entry-version" maxlength="80"></label>
+                <label>Public revision note <textarea id="entry-revision" rows="2" maxlength="600"></textarea></label>
+                <label>Earlier release replaced by this one <select id="entry-supersedes"><option value="">None</option></select></label>
+                <fieldset><legend>Companion resources</legend><p class="field-hint">Choose an already released sheet, full report, or methods lesson. The link will appear on both release pages.</p>
+                  <div id="entry-related" class="publisher-checks"></div><p id="related-status" class="field-hint" role="status"></p>
+                </fieldset>
+                <div class="publisher-grid">
+                  <label>Research program <select id="entry-project"><option value="">None</option></select></label>
+                  <label>Study that produced these findings <select id="entry-study"><option value="">None</option></select></label>
+                </div>
+                <p id="study-choices-status" class="field-hint" role="status"></p>
+                <fieldset><legend>Use as a public example on Services</legend><div id="entry-services" class="publisher-checks"></div></fieldset>
+                <label class="check-label"><input type="checkbox" id="entry-featured"> Feature this approved finding on the homepage.</label>
+                <small>When checked, this release replaces the previously featured finding.</small>
+              </details>
               <h2 class="publisher-step">2. Choose public files or a publisher link</h2>
               <p id="file-hint">Choose the final PDF. Add a second edition only if it represents the same release. This tool prepares web-upload files up to 25 MiB each.</p>
               <div class="publisher-grid file-grid">
@@ -114,7 +144,7 @@
             <ol>
               <li>Sign in to the website repository and <a href="https://github.com/colinferrel13-cell/acropolisanalyticsri-site/branches">create a new review branch</a> from the latest <code>main</code>. Confirm that its current <code>library/catalog.json</code> matches the one you started with. When in doubt, select that branch's catalog above and prepare again.</li>
               <li>Enter that branch's name below and open its upload page. Upload the entire package into <code>library/</code> together. Only the existing <code>catalog.json</code> should be replaced; PDF filenames must be new.</li>
-              <li>Open a pull request to <code>main</code>. Check the file list and confirm the catalog diff adds only this title without removing other releases. Review both PDF editions and the publisher link, then merge after checks pass.</li>
+              <li>Open a pull request to <code>main</code>. Check that no existing titles are removed. The only change to a prior entry should be a homepage spotlight you intentionally reassigned. Review the PDF editions and any publisher link, then merge after checks pass.</li>
               <li>After GitHub Pages publishes the change, open the listing and test its view and download links.</li>
             </ol>
             <label>Existing review branch <input id="upload-branch" type="text" placeholder="release-caregiver-report-v1" aria-describedby="branch-hint" spellcheck="false"></label>
@@ -131,12 +161,13 @@
           <div class="footer-title">Acropolis Analytics Research Institute</div>
           <p class="footer-subtitle">Science, Medicine &amp; Humanity</p>
         </div>
-        <nav class="footer-links" aria-label="Footer navigation">
+<nav class="footer-links" aria-label="Footer navigation">
           <a href="projects.html">Research</a>
-          <a href="services.html">Services</a>
-          <a href="participate.html">Surveys</a>
           <a href="outputs.html">Library</a>
+          <a href="participate.html">Surveys</a>
+          <a href="services.html">Services</a>
           <a href="about.html">About</a>
+          <a href="/methods.html">Methods &amp; transparency</a>
           <a href="contact.html">Contact</a>
           <a href="privacy.html">Privacy</a>
         </nav>

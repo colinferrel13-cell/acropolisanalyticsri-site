@@ -15,6 +15,10 @@
 .publisher .file-grid { grid-template-columns: minmax(0,2fr) minmax(0,1fr); }
 .publisher details { border-left: .18rem solid var(--gold-dark); padding: .5rem 1rem; background: var(--surface); }
 .publisher summary { cursor: pointer; color: var(--gold-bright); }
+.publisher details { margin-top:1rem; }
+.publisher details fieldset { margin:1.2rem 0; }
+.publisher details fieldset legend { font-size:1rem; }
+.publisher-checks { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr)); gap:0 .8rem; }
 .publisher :is(legend, h2, h3, code, a, #preparation-status, #package-summary) { overflow-wrap: anywhere; }
 .publisher button { cursor: pointer; }
 .publisher #preparation-status { white-space: pre-line; }
