@@ -27,9 +27,17 @@
       label.append(input, document.createTextNode(title)); container.append(label);
     }
   }
-  for (const [id,name] of Object.entries(schema.topics)) el("entry-topic").add(new Option(name,id));
-  choices("entry-extra-topics", Object.entries(schema.topics));
-  choices("entry-collections", Object.entries(schema.collections));
+  const options = Object.entries(schema.topics).sort((a,b) => a[1].localeCompare(b[1], "en"));
+  const publicChoices = options.filter(([id]) => Object.hasOwn(schema.groups, id));
+  const otherChoices = options.filter(([id]) => !Object.hasOwn(schema.groups, id));
+  for (const [label,pairs] of [["Health Topics",publicChoices],["Other research subjects",otherChoices]]) {
+    if (!pairs.length) continue;
+    const optgroup = document.createElement("optgroup"); optgroup.label = label;
+    pairs.forEach(([id,name]) => optgroup.append(new Option(name,id)));
+    el("entry-topic").append(optgroup);
+  }
+  choices("entry-extra-topics", publicChoices);
+  choices("entry-extra-subjects", otherChoices);
   choices("entry-services", Object.entries(schema.services));
   for (const [id,name] of Object.entries(schema.projects)) el("entry-project").add(new Option(name,id));
   fetch("./surveys/registry.json",{mode:"same-origin",credentials:"omit",cache:"no-cache"})
@@ -77,7 +85,7 @@
 
   let lastGroupKeys = "";
   function updateGroupPages() {
-    const ids = [...new Set([value("entry-topic"), ...checked("entry-extra-topics"), ...checked("entry-collections")])]
+    const ids = [...new Set([value("entry-topic"), ...checked("entry-extra-topics")])]
       .filter(id => Object.hasOwn(schema.groups, id));
     if (lastGroupKeys === ids.join(",")) return;
     lastGroupKeys = ids.join(",");
@@ -91,7 +99,6 @@
     el("group-page-links").replaceChildren(...rows); el("selected-group-pages").hidden=!rows.length;
   }
   function updateFields() {
-    el("entry-topic").required = !checked("entry-collections").length || checked("entry-extra-topics").length > 0;
     updateGroupPages();
     const factsheet = value("entry-type") === "factsheet";
     const inSeries = factsheet && el("entry-series").checked;
@@ -188,13 +195,13 @@
         id, type, title: value("entry-title"), summary: value("entry-summary"),
         date: value("entry-date"), authors: value("entry-authors"), files: []
       };
-      const topics = [...new Set([value("entry-topic"), ...checked("entry-extra-topics")].filter(Boolean))];
+      const topics = [...new Set([value("entry-topic"), ...checked("entry-extra-topics"), ...checked("entry-extra-subjects")].filter(Boolean))];
       if (topics.length) entry.topics = topics;
       for (const [key, field] of Object.entries({takeaway:"takeaway", geography:"geography",dataPeriod:"data-period",
         citation:"citation", version:"version", revision:"revision", supersedes:"supersedes", project:"project", study:"study"})) {
         const text = value("entry-" + field); if (text) entry[key] = text;
       }
-      for (const key of ["related","services","collections"]) {
+      for (const key of ["related","services"]) {
         const list = checked("entry-" + key); if (list.length) entry[key] = list;
       }
       if (el("entry-featured").checked) entry.featured = true;

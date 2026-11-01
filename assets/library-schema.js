@@ -6,7 +6,7 @@
   const slug = v => clean(v) && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(v);
   // Slugs in this register are permanent print destinations. Labels and scope can evolve;
   // never repurpose a printed URL, even when a group has no released material.
-  const group = (label, description, kind = "topic") => ({label, description, kind});
+  const group = (label, description) => ({label, description, kind: "topic"});
   const groups = {
     "cardiovascular-disease": group("Cardiovascular & Blood Health", "Cardiovascular disease and blood disorders, including coronary artery disease, stroke, high blood pressure, anemia, and sickle cell disease."),
     "metabolic-health": group("Diabetes, Metabolism & Kidney Disease", "Diabetes, obesity, cholesterol disorders, and kidney disease, including research on how these conditions overlap."),
@@ -15,19 +15,22 @@
     "brain-nerves-senses": group("Neurologic & Sensory Health", "Dementia, neurologic and neurodevelopmental conditions, and conditions affecting hearing or vision."),
     "mental-health": group("Mental Health & Substance Use", "Depression, anxiety, mental health conditions, alcohol and drug use disorders, and overdose."),
     "infectious-disease": group("Infectious Diseases & Outbreaks", "Communicable diseases, outbreaks, and post-infectious conditions. Research may concern respiratory, foodborne, vector-borne, or sexually transmitted infections."),
+    "reproductive-health-stis": group("Reproductive Health & STIs", "Conditions affecting the reproductive organs outside of pregnancy and childhood, such as endometriosis, as well as sexually transmitted infections (STIs), including chlamydia, gonorrhea, syphilis, and HIV. A condition does not have to be infectious to belong here."),
     "digestive-liver-oral": group("Digestive, Liver & Oral Health", "Digestive conditions, liver and gallbladder disease, pancreatitis, and conditions affecting teeth and gums."),
     "bones-joints-immune": group("Musculoskeletal & Immune Health", "Musculoskeletal and autoimmune conditions, including arthritis, osteoporosis, spinal disorders, and lupus."),
-    "reproductive-early-life": group("Reproductive, Maternal & Early-Life Health", "Reproductive health, pregnancy-related conditions, preterm birth, low birth weight, and congenital conditions."),
+    "reproductive-early-life": group("Maternal & Child Health", "Health during pregnancy, after birth, and through childhood. Topics include gestational diabetes, pregnancy-related hypertension, preterm birth, low birth weight, and congenital conditions, including congenital syphilis."),
     "injuries-exposures": group("Injury, Violence & Environmental Exposures", "Falls, traffic injuries, violence, poisoning, and occupational or environmental exposures."),
-    "psa": group("Public Service Announcements (PSAs)", "Public-facing announcements and educational materials about health and safety. A PSA can address any condition or stand on its own.", "collection"),
-    "agriculture": group("Agriculture & Food Systems", "Agricultural research and public health, including farmworker health, occupational exposures, food safety, and the relationships among people, animals, and their environment.", "collection")
+    "psa": group("Public Service Announcements (PSAs)", "Public-facing announcements and educational materials about health and safety. A PSA can address any condition or stand on its own."),
+    "agriculture": group("Agriculture & Food Systems", "Agricultural research and public health, including farmworker health, occupational exposures, food safety, and the relationships among people, animals, and their environment.")
   };
   const groupEntries = Object.entries(groups);
-  const collections = Object.fromEntries(groupEntries.filter(([,g]) => g.kind === "collection").map(([id,g]) => [id,g.label]));
+  // Earlier v1 records used this field for two topic IDs. Never ask authors
+  // to retag existing releases, or write this field for new releases.
+  const collections = Object.fromEntries(["psa","agriculture"].map(id => [id,groups[id].label]));
   // Preserve earlier topic IDs and cross-cutting research subjects. A topic match
   // does not imply a particular diagnosis, release, or surveillance designation.
   const subjects = {
-    ...Object.fromEntries(groupEntries.filter(([,g]) => g.kind === "topic").map(([id,g]) => [id,[g.label]])),
+    ...Object.fromEntries(groupEntries.map(([id,g]) => [id,[g.label]])),
     "dementia-caregiving": ["Dementia & caregiving", "adrd", "caregiver"],
     "access-and-equity": ["Health care access & equity", "access to care", "health equity", "inequality"],
     "population-health": ["Population health", "surveillance", "public health"],
@@ -43,7 +46,8 @@
     "mental-health":["behavioral health"],
     "digestive-liver-oral":["gastrointestinal","hepatic","dental"],
     "bones-joints-immune":["bones, joints & immune conditions","musculoskeletal","autoimmune"],
-    "reproductive-early-life":["reproductive, pregnancy & early-life health","maternal","perinatal","neonatal"],
+    "reproductive-early-life":["reproductive, pregnancy & early-life health","reproductive, maternal & early-life health","maternal","child health","perinatal","neonatal","pediatric"],
+    "reproductive-health-stis":["reproductive organ conditions","reproductive health","STI","STIs","STD","sexually transmitted diseases","sexually transmitted infections"],
     "injuries-exposures":["injuries, violence & harmful exposures","injury","environmental health","occupational health"]
   };
   for (const [id, terms] of Object.entries(aliases)) subjects[id].push(...terms);
@@ -55,11 +59,16 @@
   const releaseURL = id => "/release.html?id=" + encodeURIComponent(id);
   const groupURL = id => "/topics/" + encodeURIComponent(id) + "/";
   const topicURL = id => own(groups,id) ? groupURL(id) : "/outputs.html?topic=" + encodeURIComponent(id);
+  const itemTopics = item => [...new Set([...(item.topics || []), ...(item.collections || [])])];
+  function topicFilters(params) {
+    const topic = params.get("topic") || params.get("collection") || "";
+    const secondary = params.get("alsoTopic") || params.get("collection") || "";
+    return {topic, alsoTopic: secondary !== topic ? secondary : ""};
+  }
   function searchText(item) {
     return [item.title,item.summary,item.takeaway,item.authors,item.lesson,item.geography,item.dataPeriod,
       types[item.type],item.series === "epidemiology-explained" ? "Epidemiology Explained" : "",
-      ...(item.topics || []).flatMap(id => subjects[id] || []),
-      ...(item.collections || []).map(id => collections[id])].filter(Boolean).join(" ").toLowerCase();
+      ...itemTopics(item).flatMap(id => subjects[id] || [])].filter(Boolean).join(" ").toLowerCase();
   }
   const validDate = v => {
     if (!clean(v) || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return false;
@@ -133,7 +142,7 @@
     }
     return errors;
   }
-  const api = { validate, topics, collections, groups, projects, services, types, searchText, releaseURL, topicURL, groupURL };
+  const api = { validate, topics, collections, groups, projects, services, types, itemTopics, topicFilters, searchText, releaseURL, topicURL, groupURL };
   if (typeof module === "object" && module.exports) module.exports = api;
   else root.PublicationCatalog = api;
 })(globalThis);

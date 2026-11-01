@@ -35,10 +35,10 @@
     heading.append(link(item.title, api.releaseURL(item.id)));
     article.append(meta, heading, el("p", item.summary),
       el("p", "By " + item.authors, "release-byline"));
-    if (item.topics?.length || item.collections?.length) {
+    const subjectIds = api.itemTopics(item);
+    if (subjectIds.length) {
       const tags = el("div", undefined, "release-topics");
-      (item.topics || []).forEach(id => tags.append(link(api.topics[id], api.topicURL(id))));
-      (item.collections || []).forEach(id => tags.append(link(api.collections[id], api.groupURL(id))));
+      subjectIds.forEach(id => tags.append(link(api.topics[id], api.topicURL(id))));
       article.append(tags);
     }
     if (item.series && kind !== "series")
@@ -68,7 +68,7 @@
     const group = kind === "group" && Object.hasOwn(api.groups, groupId) ? api.groups[groupId] : null;
     if (kind === "group" && !group) throw new Error("Unknown library group");
     // The permanent path sets the scope. Search, reset and shared filter URLs cannot expand it.
-    const items = data.items.filter(item => group ? (group.kind === "topic" ? item.topics : item.collections)?.includes(groupId) :
+    const items = data.items.filter(item => group ? api.itemTopics(item).includes(groupId) :
       kind === "all" ? true : kind === "series" ? item.series === "epidemiology-explained" :
       kind === "factsheets" ? item.type === "factsheet" : ["report","publication"].includes(item.type))
       .sort((a,b) => kind === "series" ? a.lesson.localeCompare(b.lesson, "en", {numeric:true}) :
@@ -85,11 +85,11 @@
     }
     const results = el("div", undefined, "release-results");
     root.replaceChildren();
-    const topicIds = [...new Set(items.flatMap(item => item.topics || []))]
+    const topicIds = [...new Set(items.flatMap(api.itemTopics))]
       .sort((a,b) => api.topics[a].localeCompare(api.topics[b]));
-    const collectionIds = [...new Set(items.flatMap(item => item.collections || []))]
-      .sort((a,b) => api.collections[a].localeCompare(api.collections[b]));
     const entryParams = new URL(location.href).searchParams;
+    const initial = api.topicFilters(entryParams);
+    let alsoTopic = initial.alsoTopic;
     // Preserve a reader's saved filter even if a topic later ceases to have releases.
     const controls = el("div", undefined, "release-filters");
     const search = el("input"); search.type = "search"; search.id = "release-search";
@@ -98,20 +98,19 @@
       const wrap = el("div"), label = el("label", name); label.htmlFor = control.id;
       wrap.append(label, control); controls.append(wrap);
     }
-    field(kind === "all" ? "Search the whole library" : "Search this collection", search);
-    function selectField(key, name, options, allLabel, locked = false) {
+    field(kind === "all" ? "Search the whole library" : (group ? "Search this topic" : "Search this list"), search);
+    function selectField(key, name, options, allLabel, requested = entryParams.get(key)) {
       const s = el("select"); s.id = "release-" + key;
       s.append(new Option(allLabel, ""));
-      if (locked) return s;
       options.forEach(([id,label]) => s.append(new Option(label,id)));
-      const requested = entryParams.get(key);
       if (requested && !options.some(([v]) => v === requested)) s.append(new Option("Unavailable selection", requested));
       s.value = requested || "";
       if (options.length || requested) field(name, s);
       return s;
     }
-    const topic = selectField("topic","Topic", topicIds.map(id => [id,api.topics[id]]), "All topics", group?.kind === "topic");
-    const collection = selectField("collection","Collection", collectionIds.map(id => [id,api.collections[id]]), "All collections", group?.kind === "collection");
+    const topic = selectField("topic", group ? "Also filed under" : "Topic",
+      topicIds.filter(id => !group || id !== groupId).map(id => [id,api.topics[id]]),
+      group ? "All releases in this topic" : "All topics", group && initial.topic === groupId ? "" : initial.topic);
     const type = selectField("type","Resource type", kind === "all" || kind === "reports" || kind === "group"
       ? [...new Set(items.map(it => it.type))].map(id => [id,labels[id]]) : [], "All types");
     const series = selectField("series","Series", (kind === "all" || kind === "factsheets" || kind === "group") && items.some(it => it.series)
@@ -127,11 +126,21 @@
     }
     const status = el("p", undefined, "release-count"); status.setAttribute("role","status");
     root.append(controls, status, results);
+    // Old links could combine ?topic=x&collection=y. Keep both constraints, without
+    // reviving a second taxonomy. Let the reader explicitly remove that extra filter.
+    if (alsoTopic) {
+      const note = el("div", undefined, "library-notice");
+      note.append(el("p", "This link also filters by: " + (api.topics[alsoTopic] || "unavailable topic") + "."));
+      const remove = el("button", "Remove additional filter", "button button-secondary"); remove.type = "button";
+      remove.onclick = () => { alsoTopic = ""; note.remove(); render(true); search.focus(); };
+      note.id = "additional-topic-filter"; note.append(remove); controls.after(note);
+    }
     function render(updateURL = false) {
       const q = search.value.trim().toLowerCase(), tokens = q.split(/\s+/).filter(Boolean);
       if (updateURL) {
         const u = new URL(location.href);
-        for (const [key,value] of [["q",q],["topic",topic.value],["collection",collection.value],["type",type.value],["series",series.value]])
+        u.searchParams.delete("collection");
+        for (const [key,value] of [["q",q],["topic",topic.value],["alsoTopic",alsoTopic],["type",type.value],["series",series.value]])
           if (value) u.searchParams.set(key, value); else u.searchParams.delete(key);
         if (u.hash.startsWith("#release-")) u.hash = "";
         history.replaceState(null,"",u);
@@ -145,8 +154,8 @@
         document.getElementById("browse-title").textContent = subject || "Browse by topic";
         document.title = (subject ? subject + " · " : "") + "Research Library | Acropolis Analytics Research Institute";
       }
-      const found = items.filter(it => (!topic.value || it.topics?.includes(topic.value)) &&
-        (!collection.value || it.collections?.includes(collection.value)) &&
+      const found = items.filter(it => (!topic.value || api.itemTopics(it).includes(topic.value)) &&
+        (!alsoTopic || api.itemTopics(it).includes(alsoTopic)) &&
         (!type.value || it.type === type.value) && (!series.value || it.series === series.value) &&
         tokens.every(token => api.searchText(it).includes(token)));
       status.textContent = found.length + (found.length === 1 ? " release" : " releases");
@@ -154,12 +163,15 @@
       if (!found.length) {
         const msg = state("No matching releases","Try another title, author or lesson number.");
         const reset = el("button","Clear filters","button button-secondary"); reset.type = "button";
-        reset.onclick = () => { for (const control of [search, topic, collection, type, series]) control.value = ""; render(true); search.focus(); };
+        reset.onclick = () => {
+          for (const control of [search, topic, type, series]) control.value = "";
+          alsoTopic = ""; document.getElementById("additional-topic-filter")?.remove(); render(true); search.focus();
+        };
         msg.append(reset); results.append(msg);
       }
     }
     search.addEventListener("input", () => render(true));
-    [topic,collection,type,series].forEach(control => control.addEventListener("change", () => render(true)));
+    [topic,type,series].forEach(control => control.addEventListener("change", () => render(true)));
     render();
     if (location.hash.startsWith("#release-")) document.getElementById(location.hash.slice(1))?.scrollIntoView();
   } catch {

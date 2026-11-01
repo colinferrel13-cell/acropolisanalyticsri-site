@@ -3,11 +3,11 @@ const {test} = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const {validate, groups, topics, collections, searchText, topicURL, groupURL} = require('../assets/library-schema.js');
+const {validate, groups, topics, itemTopics, topicFilters, searchText, topicURL, groupURL} = require('../assets/library-schema.js');
 const home = path.join(__dirname,'..');
 // These slugs are printed on paper. Keep these destinations even if groups are added or renamed.
 const printed = ['cardiovascular-disease','metabolic-health','respiratory-health','cancer','brain-nerves-senses',
-  'mental-health','infectious-disease','digestive-liver-oral','bones-joints-immune','reproductive-early-life','injuries-exposures','psa','agriculture'];
+  'mental-health','infectious-disease','digestive-liver-oral','bones-joints-immune','reproductive-early-life','injuries-exposures','psa','agriculture','reproductive-health-stis'];
 
 test('each permanent URL remains in the directory and has its own landing and catalog scope', () => {
   const hub = fs.readFileSync(path.join(home,'topics/index.html'),'utf8');
@@ -19,7 +19,8 @@ test('each permanent URL remains in the directory and has its own landing and ca
     const page = fs.readFileSync(path.join(home,'topics',slug,'index.html'),'utf8');
     assert.ok(page.includes('href="'+url+'"') && page.includes('data-group="'+slug+'"'),slug);
     assert.ok(page.includes('<h1>'+g.label.replaceAll('&','&amp;')+'</h1>'),slug+' landing title');
-    assert.equal((g.kind==='topic'?topics:collections)[slug],g.label);
+    assert.equal(g.kind,'topic',slug);
+    assert.equal(topics[slug],g.label);
   }
   assert.equal(topicURL('population-health'),'/outputs.html?topic=population-health');
 });
@@ -39,6 +40,9 @@ test('earlier reader-facing labels remain searchable after a topic is renamed', 
     assert.ok(searchText({topics:[slug]}).includes(label),slug);
     assert.equal(topicURL(slug),'/topics/'+slug+'/');
   }
+  assert.ok(searchText({topics:['reproductive-early-life']}).includes('reproductive, maternal & early-life health'));
+  assert.equal(topics['reproductive-early-life'],'Maternal & Child Health');
+  assert.equal(topics['reproductive-health-stis'],'Reproductive Health & STIs');
   assert.ok(searchText({collections:['agriculture']}).includes('agriculture'));
 });
 
@@ -60,13 +64,24 @@ test('public web pages and assets do not distribute the private QR artwork or ki
   }
 });
 
-test('program collections are independent of type, topic, and educational series', () => {
+test('PSAs and agriculture are ordinary primary or additional topics for any resource type', () => {
   const entry={id:'example',title:'Sample',summary:'Test only.',authors:'Example',type:'publication',
-    url:'https://example.org/paper',files:[],date:'2026-01-01',collections:['psa','agriculture']};
+    url:'https://example.org/paper',files:[],date:'2026-01-01',topics:['psa','agriculture']};
   const check=item=>validate({version:1,items:[item]});
   assert.deepEqual(check(entry),[]);
-  assert.deepEqual(check({...entry,topics:['injuries-exposures','respiratory-health']}),[]);
-  for(const id of entry.collections) assert.ok(searchText(entry).includes(collections[id].toLowerCase()));
-  for(const invalid of [{collections:['psa','psa']},{collections:['cancer']},{topics:['psa']},{collections:'psa'}])
+  assert.deepEqual(check({...entry,topics:['injuries-exposures','respiratory-health','psa','agriculture']}),[]);
+  for(const id of entry.topics) assert.ok(searchText(entry).includes(topics[id].toLowerCase()));
+  for(const invalid of [{collections:['psa','psa']},{collections:['cancer']},{topics:['psa','psa']},{collections:'psa'}])
     assert.notDeepEqual(check({...entry,...invalid}),[]);
+});
+
+test('old collection records/read links still work without duplicate tags or lost secondary conditions', () => {
+  const item={topics:['respiratory-health','psa'],collections:['psa','agriculture']};
+  assert.deepEqual(itemTopics(item),['respiratory-health','psa','agriculture']);
+  assert.deepEqual(itemTopics({collections:['agriculture']}),['agriculture']);
+  assert.ok(searchText(item).includes('public service announcements'));
+  assert.deepEqual(topicFilters(new URLSearchParams('collection=psa')), {topic:'psa',alsoTopic:''});
+  assert.deepEqual(topicFilters(new URLSearchParams('topic=agriculture&collection=psa')), {topic:'agriculture',alsoTopic:'psa'});
+  assert.deepEqual(topicFilters(new URLSearchParams('topic=psa&collection=psa')), {topic:'psa',alsoTopic:''});
+  assert.deepEqual(topicFilters(new URLSearchParams('topic=agriculture&alsoTopic=psa')), {topic:'agriculture',alsoTopic:'psa'});
 });

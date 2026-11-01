@@ -12,8 +12,8 @@ const esc = text => String(text).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&l
 const groupPath = slug => '/topics/' + slug + '/';
 const entries = Object.entries(groups);
 if (!entries.length || entries.some(([slug,group]) =>
-  !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || !group.label || !group.description || !['topic','collection'].includes(group.kind)))
-  throw Error('Invalid topic or collection register.');
+  !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || !group.label || !group.description))
+  throw Error('Invalid health topic register.');
 
 function shellPart(tag) {
   const snippet = shell.match(new RegExp('<' + tag + '\\b[\\s\\S]*?</' + tag + '>'))?.[0];
@@ -48,8 +48,8 @@ function wrap(slug, name, summary, main) {
   <meta property="og:image:alt" content="Acropolis Analytics Research Institute, Science, Medicine and Humanity">
   <meta name="twitter:card" content="summary_large_image">
   <script src="/site.js?v=20260731-1" defer></script>${slug ? `
-  <script src="/assets/library-schema.js?v=topic-labels-2" defer></script>
-  <script src="/assets/library.js?v=topic-groups-1" defer></script>` : ''}
+  <script src="/assets/library-schema.js?v=unified-topics-1" defer></script>
+  <script src="/assets/library.js?v=unified-topics-1" defer></script>` : ''}
 </head>
 <body data-ornament-one="column-cracked" data-ornament-two="shield-column">
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -67,8 +67,8 @@ ${main}
 function crumbs(here, isHub) {
   return `<nav class="library-breadcrumb" aria-label="Breadcrumb"><a href="/outputs.html">Research library</a><span aria-hidden="true">/</span>${isHub ? '' : '<a href="/topics/">Topic directory</a><span aria-hidden="true">/</span>'}<span aria-current="page">${esc(here)}</span></nav>`;
 }
-function directory(kind) {
-  return entries.filter(([,g]) => g.kind === kind)
+function directory() {
+  return [...entries]
     .sort(([,a],[,b]) => a.label.localeCompare(b.label,'en'))
     .map(([slug,g]) => `          <li class="topic-entry">
             <h3><a href="${groupPath(slug)}">${esc(g.label)}</a></h3>
@@ -76,43 +76,36 @@ function directory(kind) {
           </li>`).join('\n');
 }
 function hub() {
-  const summary='Browse Acropolis factsheets, reports, and publications by health topic, or explore collections that bring together work across subjects.';
-  return wrap(null, 'Health topics & collections', summary, `      <section class="page-hero page-hero--outputs reading-hero">
+  const summary='Browse all Acropolis health topics in one alphabetical directory. Find factsheets, reports, and publications by subject.';
+  return wrap(null, 'Health Topics', summary, `      <section class="page-hero page-hero--outputs reading-hero">
         <div class="container">
-          ${crumbs('Topic directory',true)}
+          ${crumbs('Health Topics',true)}
           <span class="eyebrow">Research library</span>
-          <h1>Health topics &amp; collections</h1>
-          <p class="lede">Explore a health topic or browse a collection that crosses several subjects.</p>
-          <nav class="library-nav actions" aria-label="Directory sections"><a href="#conditions">Health topics</a><a href="#collections">Collections</a><a href="/outputs.html#browse">Search the library</a></nav>
+          <h1>Health Topics</h1>
+          <p class="lede">Find factsheets, reports, and publications on the subject that matters to you.</p>
+          <nav class="library-nav actions" aria-label="Directory sections"><a href="#health-topics">Browse topics A–Z</a><a href="/outputs.html#browse">Search the library</a></nav>
         </div>
       </section>
-      <section class="section section-compact" id="conditions" aria-labelledby="conditions-title">
-        <div class="container">
-          <div class="section-heading">
-            <div><span class="eyebrow">Browse by subject</span><h2 id="conditions-title">Health topics</h2></div>
-            <p>Choose a topic to see its published resources. Some topics do not yet have any releases.</p>
+      <section class="section section-compact" id="health-topics" aria-labelledby="directory-title">
+        <div class="container" id="conditions">
+          <div class="section-heading" id="collections">
+            <div><span class="eyebrow">Browse by subject</span><h2 id="directory-title">Topics A–Z</h2></div>
+            <p>Choose a topic to see its published resources. A release may appear under more than one topic. Some topics do not yet have any releases.</p>
           </div>
-          <ul class="topic-directory-list">${'\n' + directory('topic')}
-          </ul>
-        </div>
-      </section>
-      <section class="section section-muted section-compact" id="collections" aria-labelledby="collections-title">
-        <div class="container">
-          <div class="section-heading">
-            <div><span class="eyebrow">Across subjects</span><h2 id="collections-title">Collections</h2></div>
-            <p>Browse public announcements or explore research on agriculture and food systems. Material in these collections can also appear under a health topic.</p>
-          </div>
-          <ul class="topic-directory-list">${'\n' + directory('collection')}
+          <ul class="topic-directory-list">${'\n' + directory()}
           </ul>
         </div>
       </section>`);
 }
 function landing(slug,g) {
-  const kind=g.kind==='topic' ? 'Health topic' : 'Collection';
+  const adjacent = slug === 'reproductive-health-stis' ? 'reproductive-early-life' :
+    slug === 'reproductive-early-life' ? 'reproductive-health-stis' : null;
+  const related = adjacent ? '<p>For related research, see <a href="' + groupPath(adjacent) +
+    '">' + esc(groups[adjacent].label) + '</a>. A release about congenital syphilis, for example, may appear under both topics.</p>' : '';
   return wrap(slug,g.label,g.description,`      <section class="page-hero page-hero--outputs reading-hero">
         <div class="container">
           ${crumbs(g.label,false)}
-          <span class="eyebrow">${kind}</span>
+          <span class="eyebrow">Health topic</span>
           <h1>${esc(g.label)}</h1>
           <p class="lede">${esc(g.description)}</p>
         </div>
@@ -124,7 +117,7 @@ function landing(slug,g) {
             <h2 id="releases-title">Factsheets, reports &amp; publications</h2>
           </div>
           <div data-library-list="group" data-group="${slug}"><p class="catalog-loading" role="status" hidden>Loading releases…</p></div>
-          <noscript><p>Enable JavaScript to load the current release list, or <a href="/contact.html">contact the institute</a> for an accessible copy.</p></noscript>
+          <noscript><p>Enable JavaScript to load the current release list, or <a href="/contact.html">contact the institute</a> for an accessible copy.</p></noscript>${related ? '\n          '+related : ''}
           <nav class="topic-next" aria-label="Explore the library"><a href="/topics/">Browse all topics</a><a href="/outputs.html#browse">Search all releases</a></nav>
         </div>
       </section>`);
