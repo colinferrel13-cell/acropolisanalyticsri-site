@@ -76,7 +76,7 @@
   }
 
   let lastGroupKeys = "";
-  function updateGroupCodes() {
+  function updateGroupPages() {
     const ids = [...new Set([value("entry-topic"), ...checked("entry-extra-topics"), ...checked("entry-collections")])]
       .filter(id => Object.hasOwn(schema.groups, id));
     if (lastGroupKeys === ids.join(",")) return;
@@ -86,19 +86,13 @@
       group.textContent=schema.groups[id].label; group.href=schema.groupURL(id);
       group.target="_blank"; group.rel="noopener"; group.setAttribute("aria-label", group.textContent+" (opens in a new tab)");
       row.append(group);
-      for (const ext of ["svg","png"]) {
-        const save=document.createElement("a"); save.textContent=ext.toUpperCase();
-        save.href="/assets/qr/"+id+"."+ext; save.download=id+"."+ext;
-        save.setAttribute("aria-label","Download "+schema.groups[id].label+" QR code ("+ext.toUpperCase()+")");
-        row.append(" · ",save);
-      }
       return row;
     });
-    el("group-code-links").replaceChildren(...rows); el("selected-group-codes").hidden=!rows.length;
+    el("group-page-links").replaceChildren(...rows); el("selected-group-pages").hidden=!rows.length;
   }
   function updateFields() {
     el("entry-topic").required = !checked("entry-collections").length || checked("entry-extra-topics").length > 0;
-    updateGroupCodes();
+    updateGroupPages();
     const factsheet = value("entry-type") === "factsheet";
     const inSeries = factsheet && el("entry-series").checked;
     el("series-options").hidden = !factsheet;

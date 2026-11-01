@@ -14,7 +14,7 @@ Institute, LLC. It is a dependency-free static site hosted through GitHub Pages.
 - `services.html` — applied analytics capabilities and engagement process
 - `outputs.html` — topic-first research library and cross-format search; `data.html` preserves the legacy data link
 - `release.html?id=ID` — permanent, shareable HTML record for a work (including its PDF editions or publisher link)
-- `topics/` — permanent pages for 11 health groups and two collections (PSAs and Agriculture); includes print-ready QR downloads and a ZIP containing every code
+- `topics/` — permanent public landing pages for 11 health topics and two collections. Print artwork is maintained separately in the institute’s style guides and is not served from this repository.
 - `factsheets.html` — searchable public factsheet releases
 - `epidemiology-explained.html` — numbered lessons in a collection within Factsheets
 - `reports.html` — full reports, publications and authorized external links

@@ -15,7 +15,5 @@ jobs:
           node-version: '22'
       - name: Check publication files, survey landings and regression cases
         run: node --test
-      - name: Check permanent pages and downloadable QR kit
-        run: |
-          node tools/build-topic-pages.cjs --check
-          python3 tools/package-topic-qr.py --check
+      - name: Check permanent topic pages
+        run: node tools/build-topic-pages.cjs --check
