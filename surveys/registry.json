@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "studies": [
+    {
+      "id": "adrd-caregiver",
+      "status": "development",
+      "title": "ADRD Caregiver Experience Survey",
+      "summary": "A planned repeat survey about caregiving responsibilities, health, access to services, and unmet support needs.",
+      "audience": "Adults providing unpaid care to someone living with Alzheimer's disease or a related dementia."
+    }
+  ]
+}

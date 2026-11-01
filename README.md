@@ -11,8 +11,12 @@ Institute, LLC. It is a dependency-free static site hosted through GitHub Pages.
 - `participate.html` — public research participation hub and recruitment status
 - `surveys/` — stable participant-facing project pages and survey workflow notes
 - `services.html` — applied analytics capabilities and engagement process
-- `outputs.html` — combined data, reports, publications, and methods library
-- `data.html` and `reports.html` — compatibility redirects to `outputs.html`
+- `outputs.html` — research library hub; `data.html` keeps the legacy data link working
+- `factsheets.html` — searchable public factsheet releases
+- `epidemiology-explained.html` — numbered lessons in a collection within Factsheets
+- `reports.html` — full reports, publications and authorized external links
+- `manage-publications.html` — local release preparation; publication requires repository write access
+- `library/` — public release catalog and approved PDFs only
 - `contact.html` — email-based inquiry route
 - `privacy.html` — website privacy notice
 - `404.html` — custom GitHub Pages error page
@@ -61,15 +65,14 @@ python -m http.server 8000
 Then open `http://localhost:8000/`.
 
 Opening the files directly from disk works for most content checks, but a local
-server more closely matches GitHub Pages and is recommended before publishing.
+server is required for the JSON-driven library and survey pages.
 
 ## Add a research project
 
 1. Open `projects.html`.
 2. Copy an existing project or workstream `<article class="card">`.
 3. Update the heading, description, tags, and status.
-4. If the project has a dedicated public release, add a corresponding entry to
-   `outputs.html`.
+4. If the project has a dedicated public release, use [the publishing guide](PUBLISHING.md) to add a catalog record and link to its stable release anchor.
 5. Add the new page to `sitemap.xml` if it receives its own HTML file.
 
 Use status language conservatively. Gold labels mean planned, in development, or
@@ -78,36 +81,7 @@ release; neutral labels should be used for paused or closed work.
 
 ## Add a public participation project
 
-Keep `projects.html` collaborator-facing and use `participate.html` for
-participant-facing recruitment status. Each public study should receive a stable
-directory such as:
-
-```text
-surveys/
-  study-slug/
-    index.html
-```
-
-To add a project:
-
-1. Copy the structure of `surveys/adrd-caregiver/index.html` into a new,
-   descriptive study directory.
-2. Add a status card to `participate.html`.
-3. State whether recruitment is in development, open, paused, or closed. Track
-   reviewed outputs separately so an available report is not mistaken for open
-   recruitment. Never imply that a study is accepting responses until its
-   collection system is active and tested.
-4. Include eligibility, expected time, consent and privacy information, contact
-   details, data handling, retention, repeat-participation controls, and public
-   reporting plans before activation.
-5. Add the stable public URL to `sitemap.xml`.
-6. When approved findings are released, link them from the project page and from
-   `outputs.html`.
-
-See `surveys/README.md` for lifecycle and repository-boundary guidance. Never
-commit raw survey responses, repeat-participation verification records,
-volunteer contact data, credentials, service tokens, or backend secrets to this
-public repository.
+Add a stable study landing page and a record in `surveys/registry.json`. Follow the [survey workflow and activation checklist](surveys/README.md). The directory groups studies by status; listing a planned study does not open recruitment. Do not store responses, participant verification records, volunteer contacts or backend secrets in this repository.
 
 ## Add a data release
 
@@ -137,20 +111,9 @@ Add a release card to `outputs.html` with:
 Never commit protected health information, personally identifiable information,
 restricted records, credentials, or partner-confidential data to this repository.
 
-## Add a report or publication
+## Publish factsheets, reports and publications
 
-Add a new item to `outputs.html` with:
-
-- full citation
-- document type and status
-- project and intended audience
-- author or institute role
-- download or persistent external link
-- reuse or distribution conditions
-
-Store institute-owned public documents under a descriptive directory such as
-`downloads/reports/2026/`. Link to a journal, DOI, repository, or publisher when
-that location is the authoritative source.
+Follow the [publishing instructions](PUBLISHING.md) for the maintainer page, PDF upload and GitHub review. A lesson is entered once and appears in both Factsheets and Epidemiology Explained. The public `library/` directory is not a draft storage area (even on a review branch). Do not add templates, authoring catalogs, or unreleased files. Use `node tools/check-library.js` to validate the library and `node --test` for regression checks.
 
 ## Contact workflow
 

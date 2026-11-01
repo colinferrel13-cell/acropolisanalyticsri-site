@@ -1,0 +1,17 @@
+name: Check public catalogs
+on: [pull_request, push]
+permissions:
+  contents: read
+jobs:
+  release-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check publication files, survey landings and regression cases
+        run: node --test tools/check-library.test.js tests/survey-directory.test.cjs
