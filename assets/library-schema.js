@@ -8,19 +8,19 @@
   // never repurpose a printed URL, even when a group has no released material.
   const group = (label, description, kind = "topic") => ({label, description, kind});
   const groups = {
-    "cardiovascular-disease": group("Heart, blood & circulation", "Cardiovascular disease and blood disorders, including coronary artery disease, stroke, high blood pressure, anemia, and sickle cell disease."),
-    "metabolic-health": group("Diabetes, metabolism & kidney health", "Diabetes, obesity, cholesterol disorders, and kidney disease, including research on how these conditions overlap."),
-    "respiratory-health": group("Lungs & breathing", "Asthma, chronic obstructive pulmonary disease (COPD), occupational lung disease, and other respiratory conditions."),
+    "cardiovascular-disease": group("Cardiovascular & Blood Health", "Cardiovascular disease and blood disorders, including coronary artery disease, stroke, high blood pressure, anemia, and sickle cell disease."),
+    "metabolic-health": group("Diabetes, Metabolism & Kidney Disease", "Diabetes, obesity, cholesterol disorders, and kidney disease, including research on how these conditions overlap."),
+    "respiratory-health": group("Respiratory Health", "Asthma, chronic obstructive pulmonary disease (COPD), occupational lung disease, and other respiratory conditions."),
     "cancer": group("Cancer", "Cancer by site or type, along with research on screening, prevention, outcomes, and access to care."),
-    "brain-nerves-senses": group("Brain, nerves & senses", "Dementia, neurologic and neurodevelopmental conditions, and conditions affecting hearing or vision."),
-    "mental-health": group("Mental health & substance use", "Depression, anxiety, mental health conditions, alcohol and drug use disorders, and overdose."),
-    "infectious-disease": group("Infections & outbreaks", "Communicable diseases, outbreaks, and post-infectious conditions. Research may concern respiratory, foodborne, vector-borne, or sexually transmitted infections."),
-    "digestive-liver-oral": group("Digestive, liver & oral health", "Digestive conditions, liver and gallbladder disease, pancreatitis, and conditions affecting teeth and gums."),
-    "bones-joints-immune": group("Bones, joints & immune conditions", "Musculoskeletal and autoimmune conditions, including arthritis, osteoporosis, spinal disorders, and lupus."),
-    "reproductive-early-life": group("Reproductive, pregnancy & early-life health", "Reproductive health, pregnancy-related conditions, preterm birth, low birth weight, and congenital conditions."),
-    "injuries-exposures": group("Injuries, violence & harmful exposures", "Falls, traffic injuries, violence, poisoning, and occupational or environmental exposures."),
-    "psa": group("Public service announcements (PSAs)", "Public-facing announcements and educational materials about health and safety. A PSA can address any condition or stand on its own.", "collection"),
-    "agriculture": group("Agriculture", "Agricultural research and public health, including farmworker health, occupational exposures, food safety, and the relationships among people, animals, and their environment.", "collection")
+    "brain-nerves-senses": group("Neurologic & Sensory Health", "Dementia, neurologic and neurodevelopmental conditions, and conditions affecting hearing or vision."),
+    "mental-health": group("Mental Health & Substance Use", "Depression, anxiety, mental health conditions, alcohol and drug use disorders, and overdose."),
+    "infectious-disease": group("Infectious Diseases & Outbreaks", "Communicable diseases, outbreaks, and post-infectious conditions. Research may concern respiratory, foodborne, vector-borne, or sexually transmitted infections."),
+    "digestive-liver-oral": group("Digestive, Liver & Oral Health", "Digestive conditions, liver and gallbladder disease, pancreatitis, and conditions affecting teeth and gums."),
+    "bones-joints-immune": group("Musculoskeletal & Immune Health", "Musculoskeletal and autoimmune conditions, including arthritis, osteoporosis, spinal disorders, and lupus."),
+    "reproductive-early-life": group("Reproductive, Maternal & Early-Life Health", "Reproductive health, pregnancy-related conditions, preterm birth, low birth weight, and congenital conditions."),
+    "injuries-exposures": group("Injury, Violence & Environmental Exposures", "Falls, traffic injuries, violence, poisoning, and occupational or environmental exposures."),
+    "psa": group("Public Service Announcements (PSAs)", "Public-facing announcements and educational materials about health and safety. A PSA can address any condition or stand on its own.", "collection"),
+    "agriculture": group("Agriculture & Food Systems", "Agricultural research and public health, including farmworker health, occupational exposures, food safety, and the relationships among people, animals, and their environment.", "collection")
   };
   const groupEntries = Object.entries(groups);
   const collections = Object.fromEntries(groupEntries.filter(([,g]) => g.kind === "collection").map(([id,g]) => [id,g.label]));
@@ -34,17 +34,17 @@
     "epidemiologic-methods": ["Epidemiologic methods", "epidemiology", "study design", "statistics", "measurement"]
   };
   const aliases = {
-    "cardiovascular-disease":["cardiovascular disease","heart disease","heart health","cvd"],
-    "metabolic-health":["metabolic health","metabolic disorders","renal"],
-    "respiratory-health":["respiratory health","lung health","respiratory disease"],
-    "brain-nerves-senses":["neurology","neurologic","sensory"],
-    "infectious-disease":["infectious disease","communicable disease"],
+    "cardiovascular-disease":["heart, blood & circulation","cardiovascular disease","heart disease","heart health","cvd"],
+    "metabolic-health":["diabetes, metabolism & kidney health","metabolic health","metabolic disorders","renal"],
+    "respiratory-health":["lungs & breathing","lung health","respiratory disease"],
+    "brain-nerves-senses":["brain, nerves & senses","neurology","neurologic","sensory"],
+    "infectious-disease":["infections & outbreaks","infectious disease","communicable disease"],
     cancer:["oncology"],
     "mental-health":["behavioral health"],
     "digestive-liver-oral":["gastrointestinal","hepatic","dental"],
-    "bones-joints-immune":["musculoskeletal","autoimmune"],
-    "reproductive-early-life":["maternal","perinatal","neonatal"],
-    "injuries-exposures":["injury","environmental health","occupational health"]
+    "bones-joints-immune":["bones, joints & immune conditions","musculoskeletal","autoimmune"],
+    "reproductive-early-life":["reproductive, pregnancy & early-life health","maternal","perinatal","neonatal"],
+    "injuries-exposures":["injuries, violence & harmful exposures","injury","environmental health","occupational health"]
   };
   for (const [id, terms] of Object.entries(aliases)) subjects[id].push(...terms);
   const topics = Object.fromEntries(Object.entries(subjects).map(([id, names]) => [id, names[0]]));

@@ -48,7 +48,7 @@ function wrap(slug, name, summary, main) {
   <meta property="og:image:alt" content="Acropolis Analytics Research Institute, Science, Medicine and Humanity">
   <meta name="twitter:card" content="summary_large_image">
   <script src="/site.js?v=20260731-1" defer></script>${slug ? `
-  <script src="/assets/library-schema.js?v=topic-groups-1" defer></script>
+  <script src="/assets/library-schema.js?v=topic-labels-2" defer></script>
   <script src="/assets/library.js?v=topic-groups-1" defer></script>` : ''}
 </head>
 <body data-ornament-one="column-cracked" data-ornament-two="shield-column">
@@ -100,7 +100,7 @@ function hub() {
         <div class="container">
           <div class="section-heading">
             <div><span class="eyebrow">Across subjects</span><h2 id="collections-title">Collections</h2></div>
-            <p>Browse public announcements or explore research on agriculture and health. Material in these collections can also appear under a health topic.</p>
+            <p>Browse public announcements or explore research on agriculture and food systems. Material in these collections can also appear under a health topic.</p>
           </div>
           <ul class="topic-directory-list">${'\n' + directory('collection')}
           </ul>

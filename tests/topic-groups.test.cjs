@@ -18,9 +18,28 @@ test('each permanent URL remains in the directory and has its own landing and ca
     assert.match(hub,new RegExp('href="'+route+'"'));
     const page = fs.readFileSync(path.join(home,'topics',slug,'index.html'),'utf8');
     assert.ok(page.includes('href="'+url+'"') && page.includes('data-group="'+slug+'"'),slug);
+    assert.ok(page.includes('<h1>'+g.label.replaceAll('&','&amp;')+'</h1>'),slug+' landing title');
     assert.equal((g.kind==='topic'?topics:collections)[slug],g.label);
   }
   assert.equal(topicURL('population-health'),'/outputs.html?topic=population-health');
+});
+
+test('earlier reader-facing labels remain searchable after a topic is renamed', () => {
+  const earlier = {
+    'cardiovascular-disease':'heart, blood & circulation',
+    'metabolic-health':'diabetes, metabolism & kidney health',
+    'respiratory-health':'lungs & breathing',
+    'brain-nerves-senses':'brain, nerves & senses',
+    'infectious-disease':'infections & outbreaks',
+    'bones-joints-immune':'bones, joints & immune conditions',
+    'reproductive-early-life':'reproductive, pregnancy & early-life health',
+    'injuries-exposures':'injuries, violence & harmful exposures'
+  };
+  for (const [slug,label] of Object.entries(earlier)) {
+    assert.ok(searchText({topics:[slug]}).includes(label),slug);
+    assert.equal(topicURL(slug),'/topics/'+slug+'/');
+  }
+  assert.ok(searchText({collections:['agriculture']}).includes('agriculture'));
 });
 
 test('public web pages and assets do not distribute the private QR artwork or kit', () => {
