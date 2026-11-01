@@ -38,7 +38,7 @@ function wrap(slug, name, summary, main) {
   <link rel="stylesheet" href="/style.css?v=20260731-3">
   <link rel="stylesheet" href="/assets/library.css">
   <link rel="stylesheet" href="/assets/read.css?v=1">
-  <link rel="stylesheet" href="/assets/topics.css?v=reader-1">
+  <link rel="stylesheet" href="/assets/topics.css?v=${slug ? 'reader-1' : 'simple-directory-1'}">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Acropolis Analytics Research Institute">
   <meta property="og:title" content="${title}">
@@ -70,32 +70,23 @@ function crumbs(here, isHub) {
 function directory() {
   return [...entries]
     .sort(([,a],[,b]) => a.label.localeCompare(b.label,'en'))
-    .map(([slug,g]) => `          <li class="topic-entry">
-            <h3><a href="${groupPath(slug)}">${esc(g.label)}</a></h3>
-            <p>${esc(g.description)}</p>
-          </li>`).join('\n');
+    .map(([slug,g]) => `          <li class="topic-entry"><a href="${groupPath(slug)}">${esc(g.label)}<span aria-hidden="true">→</span></a></li>`).join('\n');
 }
 function hub() {
   const summary='Browse all Acropolis health topics in one alphabetical directory. Find factsheets, reports, and publications by subject.';
   return wrap(null, 'Health Topics', summary, `      <section class="page-hero page-hero--outputs reading-hero">
         <div class="container">
-          ${crumbs('Health Topics',true)}
-          <span class="eyebrow">Research library</span>
-          <h1>Health Topics</h1>
-          <p class="lede">Find factsheets, reports, and publications on the subject that matters to you.</p>
-          <nav class="library-nav actions" aria-label="Directory sections"><a href="#health-topics">Browse topics A–Z</a><a href="/outputs.html#browse">Search the library</a></nav>
+          <h1 id="directory-title">Health Topics</h1>
+          <p class="lede">Choose a topic to find its factsheets, reports, and publications.</p>
+          <a class="button button-secondary" href="/outputs.html#browse">Search the Library</a>
         </div>
       </section>
-      <section class="section section-compact" id="health-topics" aria-labelledby="directory-title">
+      <div class="section section-compact" id="health-topics">
         <div class="container" id="conditions">
-          <div class="section-heading" id="collections">
-            <div><span class="eyebrow">Browse by subject</span><h2 id="directory-title">Topics A–Z</h2></div>
-            <p>Choose a topic to see its published resources. A release may appear under more than one topic. Some topics do not yet have any releases.</p>
-          </div>
-          <ul class="topic-directory-list">${'\n' + directory()}
+          <ul class="topic-directory-list" id="collections" aria-labelledby="directory-title">${'\n' + directory()}
           </ul>
         </div>
-      </section>`);
+      </div>`);
 }
 function landing(slug,g) {
   const adjacent = slug === 'reproductive-health-stis' ? 'reproductive-early-life' :

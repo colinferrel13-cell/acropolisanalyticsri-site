@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="/style.css?v=20260731-3">
   <link rel="stylesheet" href="/assets/library.css">
   <link rel="stylesheet" href="/assets/read.css?v=1">
-  <link rel="stylesheet" href="/assets/topics.css?v=reader-1">
+  <link rel="stylesheet" href="/assets/topics.css?v=simple-directory-1">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Acropolis Analytics Research Institute">
   <meta property="og:title" content="Health Topics | Acropolis Analytics Research Institute">
@@ -53,79 +53,31 @@
     <main id="main-content" tabindex="-1">
       <section class="page-hero page-hero--outputs reading-hero">
         <div class="container">
-          <nav class="library-breadcrumb" aria-label="Breadcrumb"><a href="/outputs.html">Research library</a><span aria-hidden="true">/</span><span aria-current="page">Health Topics</span></nav>
-          <span class="eyebrow">Research library</span>
-          <h1>Health Topics</h1>
-          <p class="lede">Find factsheets, reports, and publications on the subject that matters to you.</p>
-          <nav class="library-nav actions" aria-label="Directory sections"><a href="#health-topics">Browse topics A–Z</a><a href="/outputs.html#browse">Search the library</a></nav>
+          <h1 id="directory-title">Health Topics</h1>
+          <p class="lede">Choose a topic to find its factsheets, reports, and publications.</p>
+          <a class="button button-secondary" href="/outputs.html#browse">Search the Library</a>
         </div>
       </section>
-      <section class="section section-compact" id="health-topics" aria-labelledby="directory-title">
+      <div class="section section-compact" id="health-topics">
         <div class="container" id="conditions">
-          <div class="section-heading" id="collections">
-            <div><span class="eyebrow">Browse by subject</span><h2 id="directory-title">Topics A–Z</h2></div>
-            <p>Choose a topic to see its published resources. A release may appear under more than one topic. Some topics do not yet have any releases.</p>
-          </div>
-          <ul class="topic-directory-list">
-          <li class="topic-entry">
-            <h3><a href="/topics/agriculture/">Agriculture &amp; Food Systems</a></h3>
-            <p>Agricultural research and public health, including farmworker health, occupational exposures, food safety, and the relationships among people, animals, and their environment.</p>
-          </li>
-          <li class="topic-entry">
-            <h3><a href="/topics/cancer/">Cancer</a></h3>
-            <p>Cancer by site or type, along with research on screening, prevention, outcomes, and access to care.</p>
-          </li>
-          <li class="topic-entry">
-            <h3><a href="/topics/cardiovascular-disease/">Cardiovascular &amp; Blood Health</a></h3>
-            <p>Cardiovascular disease and blood disorders, including coronary artery disease, stroke, high blood pressure, anemia, and sickle cell disease.</p>
-          </li>
-          <li class="topic-entry">
-            <h3><a href="/topics/metabolic-health/">Diabetes, Metabolism &amp; Kidney Disease</a></h3>
-            <p>Diabetes, obesity, cholesterol disorders, and kidney disease, including research on how these conditions overlap.</p>
-          </li>
-          <li class="topic-entry">
-            <h3><a href="/topics/digestive-liver-oral/">Digestive, Liver &amp; Oral Health</a></h3>
-            <p>Digestive conditions, liver and gallbladder disease, pancreatitis, and conditions affecting teeth and gums.</p>
-          </li>
-          <li class="topic-entry">
-            <h3><a href="/topics/infectious-disease/">Infectious Diseases &amp; Outbreaks</a></h3>
-            <p>Communicable diseases, outbreaks, and post-infectious conditions. Research may concern respiratory, foodborne, vector-borne, or sexually transmitted infections.</p>
-          </li>
-          <li class="topic-entry">
-            <h3><a href="/topics/injuries-exposures/">Injury, Violence &amp; Environmental Exposures</a></h3>
-            <p>Falls, traffic injuries, violence, poisoning, and occupational or environmental exposures.</p>
-          </li>
-          <li class="topic-entry">
-            <h3><a href="/topics/reproductive-early-life/">Maternal &amp; Child Health</a></h3>
-            <p>Health during pregnancy, after birth, and through childhood. Topics include gestational diabetes, pregnancy-related hypertension, preterm birth, low birth weight, and congenital conditions, including congenital syphilis.</p>
-          </li>
-          <li class="topic-entry">
-            <h3><a href="/topics/mental-health/">Mental Health &amp; Substance Use</a></h3>
-            <p>Depression, anxiety, mental health conditions, alcohol and drug use disorders, and overdose.</p>
-          </li>
-          <li class="topic-entry">
-            <h3><a href="/topics/bones-joints-immune/">Musculoskeletal &amp; Immune Health</a></h3>
-            <p>Musculoskeletal and autoimmune conditions, including arthritis, osteoporosis, spinal disorders, and lupus.</p>
-          </li>
-          <li class="topic-entry">
-            <h3><a href="/topics/brain-nerves-senses/">Neurologic &amp; Sensory Health</a></h3>
-            <p>Dementia, neurologic and neurodevelopmental conditions, and conditions affecting hearing or vision.</p>
-          </li>
-          <li class="topic-entry">
-            <h3><a href="/topics/psa/">Public Service Announcements (PSAs)</a></h3>
-            <p>Public-facing announcements and educational materials about health and safety. A PSA can address any condition or stand on its own.</p>
-          </li>
-          <li class="topic-entry">
-            <h3><a href="/topics/reproductive-health-stis/">Reproductive Health &amp; STIs</a></h3>
-            <p>Conditions affecting the reproductive organs outside of pregnancy and childhood, such as endometriosis, as well as sexually transmitted infections (STIs), including chlamydia, gonorrhea, syphilis, and HIV. A condition does not have to be infectious to belong here.</p>
-          </li>
-          <li class="topic-entry">
-            <h3><a href="/topics/respiratory-health/">Respiratory Health</a></h3>
-            <p>Asthma, chronic obstructive pulmonary disease (COPD), occupational lung disease, and other respiratory conditions.</p>
-          </li>
+          <ul class="topic-directory-list" id="collections" aria-labelledby="directory-title">
+          <li class="topic-entry"><a href="/topics/agriculture/">Agriculture &amp; Food Systems<span aria-hidden="true">→</span></a></li>
+          <li class="topic-entry"><a href="/topics/cancer/">Cancer<span aria-hidden="true">→</span></a></li>
+          <li class="topic-entry"><a href="/topics/cardiovascular-disease/">Cardiovascular &amp; Blood Health<span aria-hidden="true">→</span></a></li>
+          <li class="topic-entry"><a href="/topics/metabolic-health/">Diabetes, Metabolism &amp; Kidney Disease<span aria-hidden="true">→</span></a></li>
+          <li class="topic-entry"><a href="/topics/digestive-liver-oral/">Digestive, Liver &amp; Oral Health<span aria-hidden="true">→</span></a></li>
+          <li class="topic-entry"><a href="/topics/infectious-disease/">Infectious Diseases &amp; Outbreaks<span aria-hidden="true">→</span></a></li>
+          <li class="topic-entry"><a href="/topics/injuries-exposures/">Injury, Violence &amp; Environmental Exposures<span aria-hidden="true">→</span></a></li>
+          <li class="topic-entry"><a href="/topics/reproductive-early-life/">Maternal &amp; Child Health<span aria-hidden="true">→</span></a></li>
+          <li class="topic-entry"><a href="/topics/mental-health/">Mental Health &amp; Substance Use<span aria-hidden="true">→</span></a></li>
+          <li class="topic-entry"><a href="/topics/bones-joints-immune/">Musculoskeletal &amp; Immune Health<span aria-hidden="true">→</span></a></li>
+          <li class="topic-entry"><a href="/topics/brain-nerves-senses/">Neurologic &amp; Sensory Health<span aria-hidden="true">→</span></a></li>
+          <li class="topic-entry"><a href="/topics/psa/">Public Service Announcements (PSAs)<span aria-hidden="true">→</span></a></li>
+          <li class="topic-entry"><a href="/topics/reproductive-health-stis/">Reproductive Health &amp; STIs<span aria-hidden="true">→</span></a></li>
+          <li class="topic-entry"><a href="/topics/respiratory-health/">Respiratory Health<span aria-hidden="true">→</span></a></li>
           </ul>
         </div>
-      </section>
+      </div>
     </main>
     <footer class="site-footer">
       <div class="container footer-main">

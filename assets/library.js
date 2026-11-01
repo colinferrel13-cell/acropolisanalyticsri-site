@@ -151,7 +151,7 @@
       });
       if (kind === "all") {
         const subject = topicIds.includes(topic.value) ? api.topics[topic.value] : "";
-        document.getElementById("browse-title").textContent = subject || "Browse by topic";
+        document.getElementById("browse-title").textContent = subject || "Search the Library";
         document.title = (subject ? subject + " · " : "") + "Research Library | Acropolis Analytics Research Institute";
       }
       const found = items.filter(it => (!topic.value || api.itemTopics(it).includes(topic.value)) &&

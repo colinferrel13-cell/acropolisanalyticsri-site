@@ -9,6 +9,23 @@ const home = path.join(__dirname,'..');
 const printed = ['cardiovascular-disease','metabolic-health','respiratory-health','cancer','brain-nerves-senses',
   'mental-health','infectious-disease','digestive-liver-oral','bones-joints-immune','reproductive-early-life','injuries-exposures','psa','agriculture','reproductive-health-stis'];
 
+test('Health Topics lists the subjects directly and links to the separate library search', () => {
+  const main=fs.readFileSync(path.join(home,'topics/index.html'),'utf8').match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)[1];
+  const headings=[...main.matchAll(/<h1\b([^>]*)>([\s\S]*?)<\/h1>/gi)];
+  assert.equal(headings.length,1);
+  assert.equal(headings[0][2].trim(),'Health Topics');
+  assert.doesNotMatch(headings[0][1],/\bhidden\b|\bsr-only\b/i);
+  assert.doesNotMatch(main,/\bTopics\s+A\s*[-–—]\s*Z\b|href=["']#health-topics["']/i);
+
+  const lists=[...main.matchAll(/<ul\b[^>]*class="[^"]*\btopic-directory-list\b[^"]*"[^>]*>([\s\S]*?)<\/ul>/gi)];
+  assert.equal(lists.length,1);
+  const links=[...lists[0][1].matchAll(/<a\b[^>]*href="(\/topics\/[^"]+\/)"/gi)].map(m=>m[1]);
+  assert.deepEqual(links.sort(),Object.keys(groups).map(groupURL).sort());
+  assert.match(main,/<a\b[^>]*href="\/outputs\.html#browse"[^>]*>\s*Search the Library\s*<\/a>/);
+  const search=fs.readFileSync(path.join(home,'outputs.html'),'utf8');
+  assert.match(search,/<section\b[^>]*id="browse"[^>]*>[\s\S]*?data-library-list="all"/i);
+});
+
 test('each permanent URL remains in the directory and has its own landing and catalog scope', () => {
   const hub = fs.readFileSync(path.join(home,'topics/index.html'),'utf8');
   for(const slug of printed) assert.ok(Object.hasOwn(groups,slug),slug+' must remain a destination');
