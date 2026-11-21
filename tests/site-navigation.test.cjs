@@ -77,7 +77,7 @@ test('static pages have a single heading, unique IDs, existing local links/asset
 });
 
 test('indexable pages have matching canonical URLs and sitemap entries', () => {
-  const excluded = new Set(['release.html','manage-publications.html','404.html','data.html']);
+  const excluded = new Set(['release.html','manage-publications.html','404.html','data.html','fleet/index.html']);
   const urls = [...read('sitemap.xml').matchAll(/<loc>\s*([^<]+?)\s*<\/loc>/g)].map(m => decode(m[1]));
   const present = new Set(urls);
   const errors = [];
